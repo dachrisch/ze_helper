@@ -25,15 +25,21 @@ class WorkTimePage:
 
 	def enter_complete_month_rowe(self):
 		for day in self.enumerate_workdays(self.year, self.month):
-			self.enter_rowe('%02d.%02d.%04d' % (day, self.month, self.year))
+			entry = '%02d.%02d.%04d' % (day, self.month, self.year)
+			try:
+				self.enter_rowe(entry)
+			except Exception:
+				print >> sys.stderr, 'skipping entry %s' % entry
+
 	def enter_rowe(self, day):
-		self.enter(day, '9', '17', 'ROWE')
+		self.enter(day, '9', '12', 'Arbeitszeit')
+		self.enter(day, '13', '18', 'Arbeitszeit')
 	def enter(self, date, start, end, comment):
 		self.browser.select_form(nr = 1)
 		self.browser['tag'] = date
 		self.browser['start'] = start
 		self.browser['ende'] = end
-		self._select_control_by_label('Allgemein (Team 101)')
+		self._select_control_by_label('Allgemein (Gruppe Freie Radikale)')
 		self.browser['kommentar'] = comment
 		print 'saving %(tag)s %(start)s - %(ende)s: %(kommentar)s...' % self.browser
 		self.browser.submit()
@@ -45,7 +51,7 @@ class WorkTimePage:
 			raise Exception('error while saving!')
 
 	def _select_control_by_label(self, label):
-		self.browser.find_control('taetigkeit').get(label = 'Allgemein (Team 101)').selected = True
+		self.browser.find_control('taetigkeit').get(label = label).selected = True
 
 class ZE:
 	def __init__(self):
@@ -86,8 +92,8 @@ class ZE:
 def main():
 	username = 'cd'
 	password = getpass.getpass('password for [%s]: ' % username)
-	worktime = ZE().login(username, password).worktime_for(2013, 05)
-	worktime.enter_complete_month_rowe()
+	ze = ZE().login(username, password)
+	ze.worktime_for(2014, 06).enter_complete_month_rowe()
 
 if __name__ == '__main__':
 	main()
