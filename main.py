@@ -28,20 +28,20 @@ class WorkTimePage:
 			entry = '%02d.%02d.%04d' % (day, self.month, self.year)
 			try:
 				self.enter_rowe(entry)
-			except Exception:
-				print >> sys.stderr, 'skipping entry %s' % entry
+			except Exception, e:
+				print >> sys.stderr, 'skipping entry %s: %s' % (entry, e)
 
 	def enter_rowe(self, day):
 		self.enter(day, '9', '12', 'Arbeitszeit')
 		self.enter(day, '13', '18', 'Arbeitszeit')
-	def enter(self, date, start, end, comment):
+	def enter(self, date, start, end, comment, label = 'Allgemein (aufMUC-Zelle)'):
 		self.browser.select_form(nr = 1)
 		self.browser['tag'] = date
 		self.browser['start'] = start
 		self.browser['ende'] = end
-		self._select_control_by_label('Allgemein (Gruppe Freie Radikale)')
+		self._select_control_by_label(label)
 		self.browser['kommentar'] = comment
-		print 'saving %(tag)s %(start)s - %(ende)s: %(kommentar)s...' % self.browser
+		print 'saving %s:' % label, '%(tag)s %(start)s - %(ende)s: %(kommentar)s...' % self.browser
 		self.browser.submit()
 		response = self.browser.response().read()
 		if response.find('errorlist') != -1:
@@ -89,11 +89,24 @@ class ZE:
 		return WorkTimePage(self.browser, year, month)
 
 
-def main():
+def main(year, month):
 	username = 'cd'
 	password = getpass.getpass('password for [%s]: ' % username)
 	ze = ZE().login(username, password)
-	ze.worktime_for(2014, 06).enter_complete_month_rowe()
+	ze.worktime_for(year, month).enter_complete_month_rowe()
 
 if __name__ == '__main__':
-	main()
+	import sys
+	program = sys.argv[0]
+	if len(sys.argv) != 3:
+		print 'usage: %s [year] [month]' % program
+		sys.exit(-1)
+	(year, month) = map(int, sys.argv[1:])
+	if not ((month < 13) and (month > 0)):
+		print 'invalid month: %s (1..12)' % month
+		sys.exit(1)
+	if not ((year < 2100) and (year > 2000)):
+		print 'invalid year: %s (2000..2100)' % year
+		sys.exit(2)
+
+	main(year, month)
