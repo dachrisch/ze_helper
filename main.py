@@ -89,8 +89,7 @@ class ZE:
 		return WorkTimePage(self.browser, year, month)
 
 
-def main(year, month):
-	username = 'cd'
+def main(username, year, month):
 	password = getpass.getpass('password for [%s]: ' % username)
 	ze = ZE().login(username, password)
 	ze.worktime_for(year, month).enter_complete_month_rowe()
@@ -98,10 +97,11 @@ def main(year, month):
 if __name__ == '__main__':
 	import sys
 	program = sys.argv[0]
-	if len(sys.argv) != 3:
-		print 'usage: %s [year] [month]' % program
+	if len(sys.argv) != 2:
+		print 'usage: %s user@[year][month]' % program
 		sys.exit(-1)
-	(year, month) = map(int, sys.argv[1:])
+	username, yearmonth = sys.argv[1].split('@')
+	(year, month) = map(int, (yearmonth[:4], yearmonth[4:6]))
 	if not ((month < 13) and (month > 0)):
 		print 'invalid month: %s (1..12)' % month
 		sys.exit(1)
@@ -109,4 +109,4 @@ if __name__ == '__main__':
 		print 'invalid year: %s (2000..2100)' % year
 		sys.exit(2)
 
-	main(year, month)
+	main(username, year, month)
