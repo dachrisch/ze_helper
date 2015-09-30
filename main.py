@@ -18,13 +18,14 @@ class WorkTimePage:
 		self.month = month
 
 	@staticmethod
-	def enumerate_workdays(year, month):
+	def enumerate_workdays(year, month, from_day = 1, to_day = 31):
 		return tuple(map(lambda day_and_weekday: day_and_weekday[0], 
-						filter(lambda day_and_weekday: day_and_weekday[0] > 0 and day_and_weekday[1] not in (5, 6), 
+						filter(lambda day_and_weekday: day_and_weekday[0] > 0 and day_and_weekday[1] not in (5, 6) 
+							and (day_and_weekday[0] >= from_day and day_and_weekday[0] <= to_day ), 
 						calendar.Calendar().itermonthdays2(year, month))))
 
-	def enter_complete_month_rowe(self):
-		for day in self.enumerate_workdays(self.year, self.month):
+	def enter_month_rowe(self, from_day, to_day):
+		for day in self.enumerate_workdays(self.year, self.month, from_day, to_day):
 			entry = '%02d.%02d.%04d' % (day, self.month, self.year)
 			try:
 				self.enter_rowe(entry)
@@ -89,24 +90,56 @@ class ZE:
 		return WorkTimePage(self.browser, year, month)
 
 
-def main(username, year, month):
+def main(arguments):
+	username = arguments['username']
+	year = arguments['year']
+	month = arguments['month']
+	from_day = arguments['from_day']
+	to_day = arguments['to_day']
+
 	password = getpass.getpass('password for [%s]: ' % username)
 	ze = ZE().login(username, password)
-	ze.worktime_for(year, month).enter_complete_month_rowe()
+	ze.worktime_for(year, month).enter_month_rowe(from_day, to_day)
+
+def split_arguments(arguments):
+	username, yearmonth = arguments.split('@')
+	from_day = 1
+	to_day = 31
+	if '-' in yearmonth:
+		yearmonth, days = yearmonth.split('-')
+		from_day, to_day = map(int, days.split(':'))
+	year, month = map(int, (yearmonth[:4], yearmonth[4:6]))
+	return {'year' : year,
+			'month' : month,
+			'username' : username,
+			'from_day' : from_day,
+			'to_day' : to_day}
 
 if __name__ == '__main__':
 	import sys
 	program = sys.argv[0]
 	if len(sys.argv) != 2:
-		print 'usage: %s user@[year][month]' % program
+		print 'usage: %s user@{year}{month}[-[from_day]:[to_day]]' % program
 		sys.exit(-1)
-	username, yearmonth = sys.argv[1].split('@')
-	(year, month) = map(int, (yearmonth[:4], yearmonth[4:6]))
+	arguments = split_arguments(sys.argv[1])
+	year = arguments['year']
+	month = arguments['month']
+	from_day = arguments['from_day']
+	to_day = arguments['to_day']
 	if not ((month < 13) and (month > 0)):
 		print 'invalid month: %s (1..12)' % month
 		sys.exit(1)
 	if not ((year < 2100) and (year > 2000)):
 		print 'invalid year: %s (2000..2100)' % year
 		sys.exit(2)
+	if not ((from_day < 32) and (from_day > 0)):
+		print 'invalid from_day: %s (1..31)' % from_day
+		sys.exit(1)
+	if not ((to_day < 32) and (to_day > 0)):
+		print 'invalid from_day: %s (1..31)' % to_day
+		sys.exit(1)
+	if not (from_day <= to_day):
+		print 'from_day (%s) must be before to_day (%s)' % (from_day, to_day)
+		sys.exit(1)
 
-	main(username, year, month)
+	main(arguments)
