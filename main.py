@@ -47,12 +47,21 @@ class WorkTimePage:
         self.browser['kommentar'] = comment
         print('saving %s:' % label, '%(tag)s %(start)s - %(ende)s: %(kommentar)s...' % self.browser)
         self.browser.submit()
+        self._validate_response()
+
+    def _validate_response(self):
         response = self.browser.response().read()
         if response.find('errorlist') != -1:
             for line in response.split('\n'):
                 if 'errorlist' in line:
-                    print >> sys.stderr, line.strip()
+                    print(line.strip(), file=sys.stderr)
             raise Exception('error while saving!')
+
+    def close_month(self):
+        self.browser.select_form(action='/akzeptieren/')
+        print('closing month %s/%s...' % (self.month, self.year))
+        self.browser.submit()
+        self._validate_response()
 
     def _select_control_by_label(self, label):
         self.browser.find_control('taetigkeit').get(label=label).selected = True
@@ -105,7 +114,8 @@ def main(arguments):
 
     password = getpass.getpass('password for [%s]: ' % username)
     ze = ZE().login(username, password)
-    ze.worktime_for(year, month).enter_month_rowe(from_day, to_day)
+    #ze.worktime_for(year, month).enter_month_rowe(from_day, to_day)
+    ze.worktime_for(year, month).close_month()
 
 
 def split_arguments(arguments):
