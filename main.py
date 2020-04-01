@@ -8,7 +8,9 @@ Created on Dec 6, 2012
 '''
 import calendar
 import getpass
-from urllib.request import urlopen
+import logging
+import re
+from logging import getLogger, basicConfig
 
 
 class WorkTimePage:
@@ -31,12 +33,13 @@ class WorkTimePage:
             entry = '%02d.%02d.%04d' % (day, self.month, self.year)
             try:
                 self.enter_rowe(entry)
-            except Exception as e:
-                print >> sys.stderr, 'skipping entry %s: %s' % (entry, e)
+            except Exception:
+                getLogger(self.__class__.__name__).exception('skipping entry %s', entry, exc_info=True)
+                raise
 
     def enter_rowe(self, day):
-        self.enter(day, '9', '12', 'Arbeitszeit')
-        self.enter(day, '13', '18', 'Arbeitszeit')
+        self.enter(day, '10', '14', '---', 'Kurzarbeit (Intern)')
+        self.enter(day, '14', '18', 'Vertrieb', 'laut Beschreibung (Intern)')
 
     def enter(self, date, start, end, comment, label='Allgemein (aufMUC-Zelle)'):
         self.browser.select_form(nr=1)
@@ -45,21 +48,22 @@ class WorkTimePage:
         self.browser['ende'] = end
         self._select_control_by_label(label)
         self.browser['kommentar'] = comment
-        print('saving %s:' % label, '%(tag)s %(start)s - %(ende)s: %(kommentar)s...' % self.browser)
+
+        getLogger(self.__class__.__name__).info(f'saving {label}: {date} {start} - {end}: {comment}...')
         self.browser.submit()
         self._validate_response()
 
     def _validate_response(self):
         response = self.browser.response().read()
-        if response.find('errorlist') != -1:
-            for line in response.split('\n'):
-                if 'errorlist' in line:
-                    print(line.strip(), file=sys.stderr)
+        if response.find(b'errorlist') != -1:
+            for line in response.split(b'\n'):
+                if b'errorlist' in line:
+                    getLogger(self.__class__.__name__).error(line.strip())
             raise Exception('error while saving!')
 
     def close_month(self):
         self.browser.select_form(action='/akzeptieren/')
-        print('closing month %s/%s...' % (self.month, self.year))
+        getLogger(self.__class__.__name__).info('closing month %s/%s...' % (self.month, self.year))
         self.browser.submit()
         self._validate_response()
 
@@ -114,8 +118,8 @@ def main(arguments):
 
     password = getpass.getpass('password for [%s]: ' % username)
     ze = ZE().login(username, password)
-    #ze.worktime_for(year, month).enter_month_rowe(from_day, to_day)
-    ze.worktime_for(year, month).close_month()
+    ze.worktime_for(year, month).enter_month_rowe(from_day, to_day)
+    # ze.worktime_for(year, month).close_month()
 
 
 def split_arguments(arguments):
@@ -139,19 +143,19 @@ def validate_arguments(arguments):
     from_day = arguments['from_day']
     to_day = arguments['to_day']
     if not ((month < 13) and (month > 0)):
-        print('invalid month: %s (1..12)' % month)
+        getLogger(__name__).info('invalid month: %s (1..12)' % month)
         sys.exit(1)
     if not ((year < 2100) and (year > 2000)):
-        print('invalid year: %s (2000..2100)' % year)
+        getLogger(__name__).info('invalid year: %s (2000..2100)' % year)
         sys.exit(2)
     if not ((from_day < 32) and (from_day > 0)):
-        print('invalid from_day: %s (1..31)' % from_day)
+        getLogger(__name__).info('invalid from_day: %s (1..31)' % from_day)
         sys.exit(1)
     if not ((to_day < 32) and (to_day > 0)):
-        print('invalid from_day: %s (1..31)' % to_day)
+        getLogger(__name__).info('invalid from_day: %s (1..31)' % to_day)
         sys.exit(1)
     if not (from_day <= to_day):
-        print('from_day (%s) must be before to_day (%s)' % (from_day, to_day))
+        getLogger(__name__).info('from_day (%s) must be before to_day (%s)' % (from_day, to_day))
         sys.exit(1)
 
 
@@ -170,9 +174,11 @@ def disable_ssl_check():
 if __name__ == '__main__':
     import sys
 
+    basicConfig(level=logging.DEBUG)
+
     program = sys.argv[0]
     if len(sys.argv) != 2:
-        print('usage: %s user@{year}{month}[-[from_day]:[to_day]]' % program)
+        getLogger(__name__).info('usage: %s user@{year}{month}[-[from_day]:[to_day]]' % program)
         sys.exit(-1)
     arguments = split_arguments(sys.argv[1])
     validate_arguments(arguments)
