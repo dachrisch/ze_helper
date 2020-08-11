@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 Created on Dec 6, 2012
 
 @author: cda
-'''
+"""
 import getpass
 import logging
 from logging import getLogger, basicConfig
@@ -13,32 +13,29 @@ from logging import getLogger, basicConfig
 from service.ze import ZE
 
 
-def main(arguments):
-    username = arguments['username']
-    year = arguments['year']
-    month = arguments['month']
+def main(args):
+    username = args['username']
+    year = args['year']
+    month = args['month']
 
     password = getpass.getpass('password for [%s]: ' % username)
     ze = ZE().login(username, password)
-    ze.worktime_for(year, month).enter_from_gcal()
+    worktime_page = ze.worktime_for(year, month)
+    worktime_page.delete_entries()
+    worktime_page.enter_from_gcal()
 
 
-def split_arguments(arguments):
-    username, yearmonth = arguments.split('@')
-    from_day = 1
-    to_day = 31
-    if '-' in yearmonth:
-        yearmonth, days = yearmonth.split('-')
-        from_day, to_day = map(int, days.split(':'))
+def split_arguments(args):
+    username, yearmonth = args.split('@')
     year, month = map(int, (yearmonth[:4], yearmonth[4:6]))
     return {'year': year,
             'month': month,
             'username': username}
 
 
-def validate_arguments(arguments):
-    year = arguments['year']
-    month = arguments['month']
+def validate_arguments(args):
+    year = args['year']
+    month = args['month']
     if not ((month < 13) and (month > 0)):
         getLogger(__name__).info('invalid month: %s (1..12)' % month)
         sys.exit(1)

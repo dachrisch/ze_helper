@@ -8,7 +8,10 @@ class DayEntry(object):
         date = fromisoformat.strftime('%d.%m.%Y')
         start = fromisoformat.strftime('%H:%M')
         end = datetime.fromisoformat(event['end']['dateTime']).strftime('%H:%M')
-        return DayEntry(date, start, end, event['summary'], 'laut Beschreibung (Intern)')
+        label = 'laut Beschreibung (Intern)'
+        if event['summary'] == 'Kurzarbeit':
+            label = 'Kurzarbeit (Intern)'
+        return DayEntry(date, start, end, event['summary'], label)
 
     def __init__(self, date: str, start: str, end: str, comment: str, label: str):
         self.label = label

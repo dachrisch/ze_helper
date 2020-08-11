@@ -2,6 +2,8 @@ import calendar
 from datetime import datetime
 from logging import getLogger
 
+from mechanize import FormNotFoundError
+
 from entity.day import DayEntry
 from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
 
@@ -31,6 +33,22 @@ class WorkTimePage:
             f'saving {event.label}: {event.date} {event.start} - {event.end}: {event.comment}...')
         self.browser.submit()
         self._validate_response()
+
+    def delete_entries(self):
+        def is_delete_form(form):
+            return 'action' in form.attrs and '/loeschen/' in form.attrs['action']
+
+        try:
+            while True:
+                self.browser.select_form(predicate=is_delete_form)
+
+                getLogger(self.__class__.__name__).info(
+                    f'deleting {self.browser.form.controls[0]}...')
+
+                self.browser.submit()
+        except FormNotFoundError:
+            # everything deleted
+            pass
 
     def _validate_response(self):
         response = self.browser.response().read()

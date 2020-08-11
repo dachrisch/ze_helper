@@ -16,7 +16,7 @@ class GoogleCalendarServiceBuilder(object):
             path.join(path.join(path.expanduser('~'), '.credentials'), 'suedsterne-1328.json'),
             scopes=SCOPES).with_subject('cd@it-agile.de')
 
-        return build('calendar', 'v3', credentials=credentials)
+        return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
 
 
 class GoogleCalendarService(object):

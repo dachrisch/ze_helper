@@ -1225,5 +1225,25 @@
     "reminders": {
       "useDefault": "True"
     }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3193104594328000\"",
+    "id": "0p06cl9r6mmmmdhmvkuv18dlph_20200828T080000Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MHAwNmNsOXI2bW1tbWRobXZrdXYxOGRscGhfMjAyMDA4MjhUMDgwMDAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-08-31T12:00:08.000Z",
+    "updated": "2020-08-31T16:00:57.164Z",
+    "summary": "Kurzarbeit",
+    "organizer": {
+      "email": "it-agile.de_febbt6lks966642l82ti8j4qg0@group.calendar.google.com",
+      "displayName": "Südsterne"
+    },
+    "start": {
+      "dateTime": "2020-08-31T10:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-31T16:00:00+02:00"
+    }
   }
 ]
