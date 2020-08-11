@@ -1,0 +1,1229 @@
+[
+  {
+    "kind": "calendar#event",
+    "etag": "\"3190824874518000\"",
+    "id": "c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzFjcThrbXV2aXNnbGVwZjM3NGhrYzFkZmdfMjAyMDA4MDNUMDc0NTAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-22T10:07:17.000Z",
+    "updated": "2020-07-22T10:07:17.259Z",
+    "summary": "\"Online-Meeting-Moderation\"-Aufbau vom 03. - 07. August 2020",
+    "description": "Christian Dähn is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09\n\nMeeting ID: 818 4229 7956\nPasscode: 616424\nOne tap mobile\n+493056795800,,81842297956#,,,,,,0#,,616424# Germany\n+496938079883,,81842297956#,,,,,,0#,,616424# Germany\n\nDial by your location\n        +49 30 5679 5800 Germany\n        +49 69 3807 9883 Germany\n        +49 695 050 2596 Germany\n        +49 69 7104 9922 Germany\nMeeting ID: 818 4229 7956\nPasscode: 616424\nFind your local number: https://us02web.zoom.us/u/kduHpO7Wef\n\n",
+    "location": "https://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-03T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-03T11:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "recurringEventId": "c1cq8kmuvisglepf374hkc1dfg",
+    "originalStartTime": {
+      "dateTime": "2020-08-03T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "c1cq8kmuvisglepf374hkc1dfg@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3192383313064000\"",
+    "id": "ccsjacb160s30b9k6cr6cb9k6krj6bb1ckp34b9p6th66e9p60ojgcr4ck",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=Y2NzamFjYjE2MHMzMGI5azZjcjZjYjlrNmtyajZiYjFja3AzNGI5cDZ0aDY2ZTlwNjBvamdjcjRjayBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-23T11:47:22.000Z",
+    "updated": "2020-07-31T10:34:16.532Z",
+    "summary": "Büroumzug",
+    "description": "Bürostuhl\nSchränke\nKühlschrank",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-03T12:00:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-03T18:00:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "transparency": "transparent",
+    "iCalUID": "ccsjacb160s30b9k6cr6cb9k6krj6bb1ckp34b9p6th66e9p60ojgcr4ck@google.com",
+    "sequence": 2,
+    "attendees": [
+      {
+        "email": "peter.roessler@it-agile.de",
+        "displayName": "Peter",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "organizer": "True",
+        "self": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "accepted"
+      }
+    ],
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3190824874518000\"",
+    "id": "c1cq8kmuvisglepf374hkc1dfg_20200804T074500Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzFjcThrbXV2aXNnbGVwZjM3NGhrYzFkZmdfMjAyMDA4MDRUMDc0NTAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-22T10:07:17.000Z",
+    "updated": "2020-07-22T10:07:17.259Z",
+    "summary": "\"Online-Meeting-Moderation\"-Aufbau vom 03. - 07. August 2020",
+    "description": "Christian Dähn is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09\n\nMeeting ID: 818 4229 7956\nPasscode: 616424\nOne tap mobile\n+493056795800,,81842297956#,,,,,,0#,,616424# Germany\n+496938079883,,81842297956#,,,,,,0#,,616424# Germany\n\nDial by your location\n        +49 30 5679 5800 Germany\n        +49 69 3807 9883 Germany\n        +49 695 050 2596 Germany\n        +49 69 7104 9922 Germany\nMeeting ID: 818 4229 7956\nPasscode: 616424\nFind your local number: https://us02web.zoom.us/u/kduHpO7Wef\n\n",
+    "location": "https://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-04T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-04T11:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "recurringEventId": "c1cq8kmuvisglepf374hkc1dfg",
+    "originalStartTime": {
+      "dateTime": "2020-08-04T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "c1cq8kmuvisglepf374hkc1dfg@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3193093200634000\"",
+    "id": "nqftlg9audo2d9b0pekovfk5c8",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bnFmdGxnOWF1ZG8yZDliMHBla292Zms1YzggY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-07-29T18:36:33.000Z",
+    "updated": "2020-08-04T13:10:00.317Z",
+    "summary": "it-agile",
+    "creator": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "organizer": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "start": {
+      "dateTime": "2020-08-04T15:30:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-04T17:00:00+02:00"
+    },
+    "iCalUID": "nqftlg9audo2d9b0pekovfk5c8@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "sebastian.keller@it-agile.de",
+        "displayName": "Sebastian Keller",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "peter.roessler@it-agile.de",
+        "displayName": "Peter",
+        "responseStatus": "tentative"
+      }
+    ],
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3190824874518000\"",
+    "id": "c1cq8kmuvisglepf374hkc1dfg_20200805T074500Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzFjcThrbXV2aXNnbGVwZjM3NGhrYzFkZmdfMjAyMDA4MDVUMDc0NTAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-22T10:07:17.000Z",
+    "updated": "2020-07-22T10:07:17.259Z",
+    "summary": "\"Online-Meeting-Moderation\"-Aufbau vom 03. - 07. August 2020",
+    "description": "Christian Dähn is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09\n\nMeeting ID: 818 4229 7956\nPasscode: 616424\nOne tap mobile\n+493056795800,,81842297956#,,,,,,0#,,616424# Germany\n+496938079883,,81842297956#,,,,,,0#,,616424# Germany\n\nDial by your location\n        +49 30 5679 5800 Germany\n        +49 69 3807 9883 Germany\n        +49 695 050 2596 Germany\n        +49 69 7104 9922 Germany\nMeeting ID: 818 4229 7956\nPasscode: 616424\nFind your local number: https://us02web.zoom.us/u/kduHpO7Wef\n\n",
+    "location": "https://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-05T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-05T11:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "recurringEventId": "c1cq8kmuvisglepf374hkc1dfg",
+    "originalStartTime": {
+      "dateTime": "2020-08-05T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "c1cq8kmuvisglepf374hkc1dfg@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3190824874518000\"",
+    "id": "c1cq8kmuvisglepf374hkc1dfg_20200806T074500Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzFjcThrbXV2aXNnbGVwZjM3NGhrYzFkZmdfMjAyMDA4MDZUMDc0NTAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-22T10:07:17.000Z",
+    "updated": "2020-07-22T10:07:17.259Z",
+    "summary": "\"Online-Meeting-Moderation\"-Aufbau vom 03. - 07. August 2020",
+    "description": "Christian Dähn is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09\n\nMeeting ID: 818 4229 7956\nPasscode: 616424\nOne tap mobile\n+493056795800,,81842297956#,,,,,,0#,,616424# Germany\n+496938079883,,81842297956#,,,,,,0#,,616424# Germany\n\nDial by your location\n        +49 30 5679 5800 Germany\n        +49 69 3807 9883 Germany\n        +49 695 050 2596 Germany\n        +49 69 7104 9922 Germany\nMeeting ID: 818 4229 7956\nPasscode: 616424\nFind your local number: https://us02web.zoom.us/u/kduHpO7Wef\n\n",
+    "location": "https://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-06T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-06T11:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "recurringEventId": "c1cq8kmuvisglepf374hkc1dfg",
+    "originalStartTime": {
+      "dateTime": "2020-08-06T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "c1cq8kmuvisglepf374hkc1dfg@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3192878013216000\"",
+    "id": "1mutf6v6ff7au8o4nn9fbnln88",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MW11dGY2djZmZjdhdThvNG5uOWZibmxuODggY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-07-29T18:38:27.000Z",
+    "updated": "2020-08-03T07:16:46.608Z",
+    "summary": "BW-Blocker",
+    "creator": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "organizer": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "start": {
+      "dateTime": "2020-08-06T13:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-06T16:00:00+02:00"
+    },
+    "iCalUID": "1mutf6v6ff7au8o4nn9fbnln88@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "sebastian.keller@it-agile.de",
+        "displayName": "Sebastian Keller",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      }
+    ],
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3190824874518000\"",
+    "id": "c1cq8kmuvisglepf374hkc1dfg_20200807T074500Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzFjcThrbXV2aXNnbGVwZjM3NGhrYzFkZmdfMjAyMDA4MDdUMDc0NTAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-07-22T10:07:17.000Z",
+    "updated": "2020-07-22T10:07:17.259Z",
+    "summary": "\"Online-Meeting-Moderation\"-Aufbau vom 03. - 07. August 2020",
+    "description": "Christian Dähn is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09\n\nMeeting ID: 818 4229 7956\nPasscode: 616424\nOne tap mobile\n+493056795800,,81842297956#,,,,,,0#,,616424# Germany\n+496938079883,,81842297956#,,,,,,0#,,616424# Germany\n\nDial by your location\n        +49 30 5679 5800 Germany\n        +49 69 3807 9883 Germany\n        +49 695 050 2596 Germany\n        +49 69 7104 9922 Germany\nMeeting ID: 818 4229 7956\nPasscode: 616424\nFind your local number: https://us02web.zoom.us/u/kduHpO7Wef\n\n",
+    "location": "https://us02web.zoom.us/j/81842297956?pwd=a1Y1N0d1REdXS21HeWJrbWtIQk9PUT09",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-07T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-07T11:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "recurringEventId": "c1cq8kmuvisglepf374hkc1dfg",
+    "originalStartTime": {
+      "dateTime": "2020-08-07T09:45:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "c1cq8kmuvisglepf374hkc1dfg@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3193420249318000\"",
+    "id": "2g2rapfor6su49gkbk7agquspc",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MmcycmFwZm9yNnN1NDlna2JrN2FncXVzcGMgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-06T09:50:28.000Z",
+    "updated": "2020-08-06T10:35:24.659Z",
+    "summary": "Chris <> Sandra",
+    "creator": {
+      "email": "sandra.sieroux@it-agile.de",
+      "displayName": "Sandra Sieroux"
+    },
+    "organizer": {
+      "email": "sandra.sieroux@it-agile.de",
+      "displayName": "Sandra Sieroux"
+    },
+    "start": {
+      "dateTime": "2020-08-10T16:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-10T16:30:00+02:00"
+    },
+    "iCalUID": "2g2rapfor6su49gkbk7agquspc@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "sandra.sieroux@it-agile.de",
+        "displayName": "Sandra Sieroux",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      }
+    ],
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194281759046000\"",
+    "id": "4g8ogoe72sqknuvurts9lj29kn",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NGc4b2dvZTcyc3FrbnV2dXJ0czlsajI5a24gY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-11T10:14:39.000Z",
+    "updated": "2020-08-11T10:14:39.523Z",
+    "summary": "Orga / ZE",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-11T12:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-11T12:50:00+02:00"
+    },
+    "iCalUID": "4g8ogoe72sqknuvurts9lj29kn@google.com",
+    "sequence": 0,
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3193080422600000\"",
+    "id": "k7hko91ok060n8st7utaq85pr4",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=azdoa285MW9rMDYwbjhzdDd1dGFxODVwcjQgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-07-31T13:33:45.000Z",
+    "updated": "2020-08-04T11:23:31.300Z",
+    "summary": "Details besprechen (Günther Schwamborn @ tis GmbH > Webinar designen und durchführen)",
+    "description": "Contact: Günther Schwamborn\nPhone: 0171-3333044\nOrganization: tis GmbH\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-11T15:00:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-11T16:00:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "k7hko91ok060n8st7utaq85pr4@google.com",
+    "sequence": 1,
+    "extendedProperties": {
+      "private": {
+        "summaryOrig": "Details besprechen (Günther Schwamborn @ tis GmbH > Webinar designen und durchführen)"
+      }
+    },
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194189504938000\"",
+    "id": "k4r81omhphq7uop2bm9996139s",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=azRyODFvbWhwaHE3dW9wMmJtOTk5NjEzOXMgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-10T18:08:15.000Z",
+    "updated": "2020-08-10T21:25:52.469Z",
+    "summary": "BW",
+    "creator": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "organizer": {
+      "email": "sebastian.keller@it-agile.de",
+      "displayName": "Sebastian Keller"
+    },
+    "start": {
+      "dateTime": "2020-08-11T22:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-11T23:00:00+02:00"
+    },
+    "visibility": "private",
+    "iCalUID": "k4r81omhphq7uop2bm9996139s@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "sebastian.keller@it-agile.de",
+        "displayName": "Sebastian Keller",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "needsAction"
+      }
+    ],
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194279990134000\"",
+    "id": "3a1ufvb08dn2o8695tos6oj89b",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=M2ExdWZ2YjA4ZG4ybzg2OTV0b3M2b2o4OWIgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-11T09:53:17.000Z",
+    "updated": "2020-08-11T09:59:55.067Z",
+    "summary": "Website Relaunch Review",
+    "description": "Diese Woche ausnahmsweise vor dem Krisenstab, da ich um 16:30 weg muss.\n\nDas Zoom Meeting werde ich aufnehmen und in der Dropbox ablegen, Link folgt.",
+    "creator": {
+      "email": "chris.steindel@it-agile.de"
+    },
+    "organizer": {
+      "email": "chris.steindel@it-agile.de"
+    },
+    "start": {
+      "dateTime": "2020-08-13T15:30:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-13T16:00:00+02:00"
+    },
+    "iCalUID": "3a1ufvb08dn2o8695tos6oj89b@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "chris.steindel@it-agile.de",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "mitarbeiter@it-agile.de",
+        "displayName": "mitarbeiter",
+        "responseStatus": "needsAction"
+      }
+    ],
+    "extendedProperties": {
+      "shared": {
+        "meetingParams": "{\"topic\":\"Website Relaunch Review\",\"type\":2,\"start_time\":\"2020-08-13T15:30:00+02:00\",\"duration\":30}"
+      }
+    },
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/89909493601?pwd=N1JiS2IwZGhhU3JlNG1EZ2VvdjZGdz09",
+          "label": "us02web.zoom.us/j/89909493601?pwd=N1JiS2IwZGhhU3JlNG1EZ2VvdjZGdz09",
+          "meetingCode": "89909493601",
+          "password": "772425"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+496971049922,,89909493601#",
+          "label": "+49 69 71049922"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3D0N1UdAdIRkua4VHVcEVbdA%253D%253D%26signature%3Daf8986f585f4d3f74f152c68caf00fbed4365b539df4a74c2bcf2e8dc8f06e6d&sa=D&source=calendar&usg=AOvVaw2sL2Kaw6gdZ_8nHRzwPsPg"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "89909493601",
+      "signature": "ADR/mfM4QRKWd2a1u9vpTEmGaOC/",
+      "notes": "Passcode: 772425",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "89909493601",
+            "meetingCreatedBy": "chris.steindel@it-agile.de",
+            "meetingUuid": "0N1UdAdIRkua4VHVcEVbdA==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194267738708000\"",
+    "id": "1psl5337b30s9h7ui0urj7tqff",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MXBzbDUzMzdiMzBzOWg3dWkwdXJqN3RxZmYgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-04T15:04:25.000Z",
+    "updated": "2020-08-11T08:17:49.354Z",
+    "summary": "Der Krisenstab informiert",
+    "description": "\nLiebe alle,\n\n\"der Krisenstab informiert\" fällt am 6. August aus & wird stattdessen in der kommenden Woche, am 13. August stattfinden. Je nach Themen- / Dringlichkeitsstand bleibt der nachfolgende Termin wie aktuell avisiert am 20. August auch bestehen.\n\nEin passender Zoom-Link wird dieser EInladung noch zugefügt :)\n\nSollte es diese Woche dringliche Themen geben - bitte kontaktiert je nachdem die Krisenstab-Buddies, den Vertrieb ... die passende Person.\n\nHERZLICH GEDANKT & schöne Grüße,\nMyriam\n──────────\n\nSandra Sieroux lädt Sie zu einem geplanten Zoom-Meeting ein.\n\nZoom-Meeting beitreten\nhttps://us02web.zoom.us/j/88029887186?pwd=KzZXR3didjZ3eXloNXdsZ2ZUWXZZZz09\n\nMeeting-ID: 880 2988 7186\nKenncode: 810721\nSchnelleinwahl mobil\n+16699006833,,88029887186#,,#,810721# Vereinigte Staaten von Amerika (San Jose)\n+19292056099,,88029887186#,,#,810721# Vereinigte Staaten von Amerika (New York)\n\nEinwahl nach aktuellem Standort\n        +1 669 900 6833 Vereinigte Staaten von Amerika (San Jose)\n        +1 929 205 6099 Vereinigte Staaten von Amerika (New York)\n        +1 253 215 8782 Vereinigte Staaten von Amerika (Tacoma)\n        +1 301 715 8592 Vereinigte Staaten von Amerika (Germantown)\n        +1 312 626 6799 Vereinigte Staaten von Amerika (Chicago)\n        +1 346 248 7799 Vereinigte Staaten von Amerika (Houston)\nMeeting-ID: 880 2988 7186\nKenncode: 810721\nOrtseinwahl suchen: https://us02web.zoom.us/u/kKSq99NE\n\n\n──────────",
+    "creator": {
+      "email": "myriam.troester@it-agile.de"
+    },
+    "organizer": {
+      "email": "myriam.troester@it-agile.de"
+    },
+    "start": {
+      "dateTime": "2020-08-13T16:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-13T16:50:00+02:00"
+    },
+    "iCalUID": "1psl5337b30s9h7ui0urj7tqff@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "myriam.troester@it-agile.de",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "mitarbeiter@it-agile.de",
+        "displayName": "mitarbeiter",
+        "responseStatus": "needsAction"
+      }
+    ],
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/86133274780?pwd=Qk9tSzJ6TGFyalNOSm9vRmJBLytIUT09",
+          "label": "us02web.zoom.us/j/86133274780?pwd=Qk9tSzJ6TGFyalNOSm9vRmJBLytIUT09",
+          "meetingCode": "86133274780",
+          "password": "675065"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+493056795800,,86133274780#",
+          "label": "+49 30 56795800"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3DwB63c7t1Sbegmk6dXb489Q%253D%253D%26signature%3Deb516bddfd1c54571d8b87bd9974823ff922464a4ce0546bdbcacbd0671b3585&sa=D&source=calendar&usg=AOvVaw0E5_G62yW8gmd-Octy_Kq-"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "86133274780",
+      "signature": "ADR/mfM+r4EPK+rjP0agOkFCYmf8",
+      "notes": "Passcode: 675065",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "86133274780",
+            "meetingCreatedBy": "stefan.roock@it-agile.de",
+            "meetingUuid": "wB63c7t1Sbegmk6dXb489Q==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194079777612000\"",
+    "id": "0p06cl9r6mmmmdhmvkuv18dlph_20200814T080000Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MHAwNmNsOXI2bW1tbWRobXZrdXYxOGRscGhfMjAyMDA4MTRUMDgwMDAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-08-04T14:16:08.000Z",
+    "updated": "2020-08-10T06:11:28.806Z",
+    "summary": "The Gathering",
+    "description": "Regelmäßiger Termin um Themen voran zu bringen:<br>Erstes Fokusthema ist:<br><ul><li>wie bringen wir unseren Vertrieb zum Laufen</li></ul>",
+    "creator": {
+      "email": "christoph.kaempfe@it-agile.de",
+      "displayName": "Christoph Kämpfe"
+    },
+    "organizer": {
+      "email": "it-agile.de_febbt6lks966642l82ti8j4qg0@group.calendar.google.com",
+      "displayName": "Südsterne"
+    },
+    "start": {
+      "dateTime": "2020-08-14T10:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-14T16:00:00+02:00"
+    },
+    "recurringEventId": "0p06cl9r6mmmmdhmvkuv18dlph",
+    "originalStartTime": {
+      "dateTime": "2020-08-14T10:00:00+02:00"
+    },
+    "iCalUID": "0p06cl9r6mmmmdhmvkuv18dlph@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "peter.roessler@it-agile.de",
+        "displayName": "Peter",
+        "responseStatus": "tentative"
+      },
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "sebastian.keller@it-agile.de",
+        "displayName": "Sebastian Keller",
+        "responseStatus": "declined"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      }
+    ],
+    "extendedProperties": {
+      "shared": {
+        "meetingParams": "{\"topic\":\"The Gathering\",\"type\":3}"
+      }
+    },
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/83396962278?pwd=eXpuVzk3V2RjTjR1SEwxQjJxTnI2dz09",
+          "label": "us02web.zoom.us/j/83396962278?pwd=eXpuVzk3V2RjTjR1SEwxQjJxTnI2dz09",
+          "meetingCode": "83396962278",
+          "password": "950897"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+496950502596,,83396962278#",
+          "label": "+49 69 50502596"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3DIzKK%252FDugSEuYvtu1HX6mtg%253D%253D%26signature%3D04b3b5482f358e700afdc039cd0df47b292d280da153e2ee0b755b7cf54b9465&sa=D&source=calendar&usg=AOvVaw0wWWCrLJRF5eSMydc_ZNVf"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "83396962278",
+      "signature": "ADR/mfOJBmnfLm5hc6QGXKI67pVm",
+      "notes": "Passcode: 950897",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "83396962278",
+            "meetingCreatedBy": "christoph.kaempfe@it-agile.de",
+            "meetingUuid": "IzKK/DugSEuYvtu1HX6mtg==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194114488244000\"",
+    "id": "0hcjrilulk7h61sq8js5ok92kr",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MGhjanJpbHVsazdoNjFzcThqczVvazkya3IgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-04T12:05:44.000Z",
+    "updated": "2020-08-10T11:00:44.122Z",
+    "summary": "it-agile & Limehome",
+    "description": "Hallo Zusammen, \n\nich hoffe der Termin passt soweit.\nZiel des Ganzen wäre eine detailliertere Auftragsklärung und Zieldefinierung zu einer potentiellen Coaching Unterstützung.\nZudem lernt ihr Chris kennen und wir euch ein bisschen besser.\n\n@Nils lade doch noch die relevanten Kollegen mit ein, sodass wir ein bunteres Bild der Lage bekommen.\n\nLiebe Grüße\nBenjamin",
+    "creator": {
+      "email": "benjamin.igna@it-agile.de"
+    },
+    "organizer": {
+      "email": "benjamin.igna@it-agile.de"
+    },
+    "start": {
+      "dateTime": "2020-08-19T10:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-19T11:30:00+02:00"
+    },
+    "transparency": "transparent",
+    "iCalUID": "0hcjrilulk7h61sq8js5ok92kr@google.com",
+    "sequence": 1,
+    "attendees": [
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "benjamin.igna@it-agile.de",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "nils.ziehn@limehome.com",
+        "responseStatus": "needsAction"
+      }
+    ],
+    "extendedProperties": {
+      "shared": {
+        "meetingParams": "{\"topic\":\"it-agile & Limehome\",\"type\":2,\"start_time\":\"2020-08-19T10:00:00+02:00\",\"duration\":90}"
+      }
+    },
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/83261403475?pwd=c2xMcXR1QUxITnFBS0dGb1Vid1BIQT09",
+          "label": "us02web.zoom.us/j/83261403475?pwd=c2xMcXR1QUxITnFBS0dGb1Vid1BIQT09",
+          "meetingCode": "83261403475",
+          "password": "524439"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+496938079883,,83261403475#",
+          "label": "+49 69 38079883"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3DXLoqhoyYQi2HyeI6WX1ARw%253D%253D%26signature%3D1079edaf8285546daa6bd435626f0da4da21fc433cf6fac15f4b59848542bcd1&sa=D&source=calendar&usg=AOvVaw0fy63uvli16OOFG-mKD0Jv"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "83261403475",
+      "signature": "ADR/mfOCbn/DgGUvi0aaWU2rWt2W",
+      "notes": "Passcode: 524439",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "83261403475",
+            "meetingCreatedBy": "benjamin.igna@it-agile.de",
+            "meetingUuid": "XLoqhoyYQi2HyeI6WX1ARw==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3191541997990000\"",
+    "id": "7jq3jnqdorkkcqssap6f4mg78v",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=N2pxM2pucWRvcmtrY3Fzc2FwNmY0bWc3OHYgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-07-17T13:30:04.000Z",
+    "updated": "2020-07-26T13:43:18.995Z",
+    "summary": "Remote Unterstützung: Online Meeting Moderation",
+    "description": "<br>Hallo Frau Mahler,<br><br>hier also der Link zu der Videokonferenz: <a href=\"https://us02web.zoom.us/j/88625624898?pwd=K3dmdHA3K1p0eU96NjZ1WTUweVZSQT09\">https://us02web.zoom.us/j/88625624898?pwd=K3dmdHA3K1p0eU96NjZ1WTUweVZSQT09</a>.<br><br>Sie können gerne ihren Kollegen dazu einladen, falls er in dieser Woche wieder da ist. <br><br>Viele Grüße<br>Rebecca Schmithüsen",
+    "creator": {
+      "email": "rebecca.schmithuesen@it-agile.de"
+    },
+    "organizer": {
+      "email": "rebecca.schmithuesen@it-agile.de"
+    },
+    "start": {
+      "dateTime": "2020-08-20T10:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-20T11:00:00+02:00"
+    },
+    "iCalUID": "7jq3jnqdorkkcqssap6f4mg78v@google.com",
+    "sequence": 1,
+    "attendees": [
+      {
+        "email": "rebecca.schmithuesen@it-agile.de",
+        "organizer": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "victoria.mahler@lineas.de",
+        "responseStatus": "accepted"
+      },
+      {
+        "email": "ralf.mueller@lineas.de",
+        "displayName": "Müller, Ralf",
+        "responseStatus": "accepted"
+      }
+    ],
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194079929640000\"",
+    "id": "428gm3mphecr06qr5r7uvd5r2e_20200820T140000Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NDI4Z20zbXBoZWNyMDZxcjVyN3V2ZDVyMmVfMjAyMDA4MjBUMTQwMDAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-05-24T08:07:18.000Z",
+    "updated": "2020-08-10T06:12:44.820Z",
+    "summary": "Der Krisenstab informiert",
+    "creator": {
+      "email": "henning.wolf@it-agile.de",
+      "displayName": "Henning Wolf"
+    },
+    "organizer": {
+      "email": "it-agile.de_i855utsha0u1r0m8e8gq7bik6o@group.calendar.google.com",
+      "displayName": "it-agile-Termine"
+    },
+    "start": {
+      "dateTime": "2020-08-20T16:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-20T16:50:00+02:00"
+    },
+    "recurringEventId": "428gm3mphecr06qr5r7uvd5r2e_R20200709T140000",
+    "originalStartTime": {
+      "dateTime": "2020-08-20T16:00:00+02:00"
+    },
+    "iCalUID": "428gm3mphecr06qr5r7uvd5r2e_R20200709T140000@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "mitarbeiter@it-agile.de",
+        "displayName": "mitarbeiter",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "needsAction"
+      }
+    ],
+    "extendedProperties": {
+      "shared": {
+        "meetingParams": "{\"topic\":\"Der Krisenstab informiert\",\"type\":3}"
+      }
+    },
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/85224352476?pwd=aXl0VDE5YmlOdTUzaWtsTWJ2dGdmZz09",
+          "label": "us02web.zoom.us/j/85224352476?pwd=aXl0VDE5YmlOdTUzaWtsTWJ2dGdmZz09",
+          "meetingCode": "85224352476",
+          "password": "494970"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+493056795800,,85224352476#",
+          "label": "+49 30 56795800"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3De3cxtpiMQaGX8ouZ9olodA%253D%253D%26signature%3D2f25afa57f861a0e6a1f6ea6caf5979708d65a7c591b0bb4fefe8450907d7c75&sa=D&usg=AOvVaw2qIsCcvRtx3PnWN5otkMvX"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "85224352476",
+      "signature": "ADR/mfPD+Ulovl65NxObsqHeSPQ4",
+      "notes": "Password: 494970",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "85224352476",
+            "meetingCreatedBy": "henning.wolf@it-agile.de",
+            "meetingUuid": "e3cxtpiMQaGX8ouZ9olodA==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3191541939120000\"",
+    "id": "1ftc0ek28tqu6t92qo5umqtofp",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MWZ0YzBlazI4dHF1NnQ5MnFvNXVtcXRvZnAgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-07-07T16:28:35.000Z",
+    "updated": "2020-07-26T13:42:49.560Z",
+    "summary": "Urlaub Chris",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "it-agile.de_mtq1584rndi7n2gpg70kqan9e4@group.calendar.google.com",
+      "displayName": "Südsterne Abwesenheiten"
+    },
+    "start": {
+      "date": "2020-08-22"
+    },
+    "end": {
+      "date": "2020-09-07"
+    },
+    "transparency": "transparent",
+    "iCalUID": "1ftc0ek28tqu6t92qo5umqtofp@google.com",
+    "sequence": 1,
+    "attendees": [
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      }
+    ],
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "False"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3194131838718000\"",
+    "id": "jd6fh1cigkooij8c5puguid6bk",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=amQ2ZmgxY2lna29vaWo4YzVwdWd1aWQ2YmsgY2hyaXN0aWFuLmRhZWhuQGl0LWFnaWxlLmRl",
+    "created": "2020-08-10T13:25:19.000Z",
+    "updated": "2020-08-10T13:25:19.359Z",
+    "summary": "Nachhaken nach Ferien (Thomas Winkelmann @ Zeppelin GmbH > Coaching Produktentwicklung)",
+    "description": "Contact: Thomas Winkelmann\nPhone: +49 17645531893\nOrganization: Zeppelin GmbH\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n",
+    "location": "Graf-Zeppelin-Platz 1, 85748 Garching bei München, Germany",
+    "creator": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "organizer": {
+      "email": "christian.daehn@it-agile.de",
+      "displayName": "Christian Dähn",
+      "self": "True"
+    },
+    "start": {
+      "dateTime": "2020-08-24T15:00:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "end": {
+      "dateTime": "2020-08-24T15:30:00+02:00",
+      "timeZone": "Europe/Berlin"
+    },
+    "iCalUID": "jd6fh1cigkooij8c5puguid6bk@google.com",
+    "sequence": 0,
+    "extendedProperties": {
+      "private": {
+        "summaryOrig": "Nachhaken nach Ferien (Thomas Winkelmann @ Zeppelin GmbH > Coaching Produktentwicklung)"
+      }
+    },
+    "reminders": {
+      "useDefault": "True"
+    }
+  },
+  {
+    "kind": "calendar#event",
+    "etag": "\"3193104594328000\"",
+    "id": "0p06cl9r6mmmmdhmvkuv18dlph_20200828T080000Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MHAwNmNsOXI2bW1tbWRobXZrdXYxOGRscGhfMjAyMDA4MjhUMDgwMDAwWiBjaHJpc3RpYW4uZGFlaG5AaXQtYWdpbGUuZGU",
+    "created": "2020-08-04T14:16:08.000Z",
+    "updated": "2020-08-04T14:44:57.164Z",
+    "summary": "The Gathering",
+    "description": "Regelmäßiger Termin um Themen voran zu bringen:<br>Erstes Fokusthema ist:<br><ul><li>wie bringen wir unseren Vertrieb zum Laufen</li></ul>",
+    "creator": {
+      "email": "christoph.kaempfe@it-agile.de",
+      "displayName": "Christoph Kämpfe"
+    },
+    "organizer": {
+      "email": "it-agile.de_febbt6lks966642l82ti8j4qg0@group.calendar.google.com",
+      "displayName": "Südsterne"
+    },
+    "start": {
+      "dateTime": "2020-08-28T10:00:00+02:00"
+    },
+    "end": {
+      "dateTime": "2020-08-28T16:00:00+02:00"
+    },
+    "recurringEventId": "0p06cl9r6mmmmdhmvkuv18dlph",
+    "originalStartTime": {
+      "dateTime": "2020-08-28T10:00:00+02:00"
+    },
+    "iCalUID": "0p06cl9r6mmmmdhmvkuv18dlph@google.com",
+    "sequence": 0,
+    "attendees": [
+      {
+        "email": "peter.roessler@it-agile.de",
+        "displayName": "Peter",
+        "responseStatus": "tentative"
+      },
+      {
+        "email": "christoph.kaempfe@it-agile.de",
+        "displayName": "Christoph Kämpfe",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "sebastian.keller@it-agile.de",
+        "displayName": "Sebastian Keller",
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": "christian.daehn@it-agile.de",
+        "displayName": "Christian Dähn",
+        "self": "True",
+        "responseStatus": "accepted"
+      }
+    ],
+    "extendedProperties": {
+      "shared": {
+        "meetingParams": "{\"topic\":\"The Gathering\",\"type\":3}"
+      }
+    },
+    "conferenceData": {
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://us02web.zoom.us/j/83396962278?pwd=eXpuVzk3V2RjTjR1SEwxQjJxTnI2dz09",
+          "label": "us02web.zoom.us/j/83396962278?pwd=eXpuVzk3V2RjTjR1SEwxQjJxTnI2dz09",
+          "meetingCode": "83396962278",
+          "password": "950897"
+        },
+        {
+          "regionCode": "DE",
+          "entryPointType": "phone",
+          "uri": "tel:+496950502596,,83396962278#",
+          "label": "+49 69 50502596"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://www.google.com/url?q=https://applications.zoom.us/addon/invitation/detail?meetingUuid%3DIzKK%252FDugSEuYvtu1HX6mtg%253D%253D%26signature%3D04b3b5482f358e700afdc039cd0df47b292d280da153e2ee0b755b7cf54b9465&sa=D&source=calendar&usg=AOvVaw0wWWCrLJRF5eSMydc_ZNVf"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "addOn"
+        },
+        "name": "Zoom Meeting",
+        "iconUri": "https://lh3.googleusercontent.com/ugWKRyPiOCwjn5jfaoVgC-O80F3nhKH1dKMGsibXvGV1tc6pGXLOJk9WO7dwhw8-Xl9IwkKZEFDbeMDgnx-kf8YGJZ9uhrJMK9KP8-ISybmbgg1LK121obq2o5ML0YugbWh-JevWMu4FxxTKzM2r68bfDG_NY-BNnHSG7NcOKxo-RE7dfObk3VkycbRZk_GUK_1UUI0KitNg7HBfyqFyxIPOmds0l-h2Q1atWtDWLi29n_2-s5uw_kV4l2KeeaSGws_x8h0zsYWLDP5wdKWwYMYiQD2AFM32SHJ4wLAcAKnwoZxUSyT_lWFTP0PHJ6PwETDGNZjmwh3hD6Drn7Z3mnX662S6tkoPD92LtMDA0eNLr6lg-ypI2fhaSGKOeWFwA5eFjds7YcH-axp6cleuiEp05iyPO8uqtRDRMEqQhPaiRTcw7pY5UAVbz2yXbMLVofojrGTOhdvlYvIdDgBOSUkqCshBDV4A2TJyDXxFjpSYaRvwwWIT0JgrIxLpBhnyd3_w6m5My5QtgBJEt_S2Dq4bXwCAA7VcRiD61WmDyHfU3dBiWQUNjcH39IKT9V1fbUcUkfDPM_AGjp7pwgG3w9yDemGi1OGlRXS4pU7UwF24c2dozrmaK17iPaExn0cmIgtBnFUXReY48NI8h2MNd_QysNMWYNYbufoPD7trSu6nS39wlUDQer2V"
+      },
+      "conferenceId": "83396962278",
+      "signature": "ADR/mfOJBmnfLm5hc6QGXKI67pVm",
+      "notes": "Passcode: 950897",
+      "parameters": {
+        "addOnParameters": {
+          "parameters": {
+            "scriptId": "1O_9DeEljSH2vrECr8XeFYYRxFFiowFKOivqSDz316BlBcDXrF00BXrkO",
+            "realMeetingId": "83396962278",
+            "meetingCreatedBy": "christoph.kaempfe@it-agile.de",
+            "meetingUuid": "IzKK/DugSEuYvtu1HX6mtg==",
+            "meetingType": "2"
+          }
+        }
+      }
+    },
+    "guestsCanModify": "True",
+    "reminders": {
+      "useDefault": "True"
+    }
+  }
+]
