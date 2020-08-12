@@ -11,6 +11,8 @@ class DayEntry(object):
         label = 'laut Beschreibung (Intern)'
         if event['summary'] == 'Kurzarbeit':
             label = 'Kurzarbeit (Intern)'
+        elif event['summary'].startswith('[Kunde]'):
+            label = 'Laut Beschreibung & fakturierbar (Extern)'
         return DayEntry(date, start, end, event['summary'], label)
 
     def __init__(self, date: str, start: str, end: str, comment: str, label: str):

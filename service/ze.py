@@ -16,6 +16,7 @@ class WorkTimePage:
         self.month = month
 
     def enter_from_gcal(self):
+        getLogger(self.__class__.__name__).info('creating day entries from gcal...')
         first_day = datetime(self.year, self.month, 1)
         last_day = datetime(self.year, self.month, calendar.monthrange(self.year, self.month)[1])
         for event in GoogleCalendarService(GoogleCalendarServiceBuilder()).events_in_range(first_day, last_day):
@@ -35,6 +36,7 @@ class WorkTimePage:
         self._validate_response()
 
     def delete_entries(self):
+        getLogger(self.__class__.__name__).info('cleaning up existing entries...')
         def is_delete_form(form):
             return 'action' in form.attrs and '/loeschen/' in form.attrs['action']
 

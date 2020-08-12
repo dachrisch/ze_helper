@@ -44,8 +44,16 @@ class CalendarServiceTest(unittest.TestCase):
         self.assertEqual('03.08.2020', events[0].date)
         self.assertEqual('09:45', events[0].start)
         self.assertEqual('11:45', events[0].end)
-        self.assertEqual('"Online-Meeting-Moderation"-Aufbau vom 03. - 07. August 2020', events[0].comment)
-        self.assertEqual('laut Beschreibung (Intern)', events[0].label)
+        self.assertEqual('[Kunde] "Online-Meeting-Moderation"-Aufbau vom 03. - 07. August 2020', events[0].comment)
+        self.assertEqual('Laut Beschreibung & fakturierbar (Extern)', events[0].label)
+
+        self.assertIsInstance(events[1], DayEntry)
+
+        self.assertEqual('03.08.2020', events[1].date)
+        self.assertEqual('12:00', events[1].start)
+        self.assertEqual('18:00', events[1].end)
+        self.assertEqual('Büroumzug', events[1].comment)
+        self.assertEqual('laut Beschreibung (Intern)', events[1].label)
 
     def test_kurzarbeit_label(self):
         calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilderMock())
