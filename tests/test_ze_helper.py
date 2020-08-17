@@ -102,6 +102,12 @@ class ZeHelperTest(unittest.TestCase):
         mechanize.Browser = BrowserMock
         GoogleCalendarServiceBuilder.build = lambda x: CalendarServiceMock()
         ze = ZE()
+        ze.browser.submit_values[22] = {'start': '10:00', 'ende': '12:00', 'tag': '29.08.2020',
+                                        'kommentar': 'Overlapping-Kurzarbeit'}
+        ze.browser.submit_values[23] = {'start': '12:00', 'ende': '14:00', 'tag': '29.08.2020',
+                                        'kommentar': 'Overlapping-Work'}
+        ze.browser.submit_values.append({'start': '14:00', 'ende': '16:00', 'tag': '29.08.2020',
+                                         'kommentar': 'Overlapping-Kurzarbeit'})
         ze.login('cd', 'test').worktime_for(2020, 8).enter_from_gcal()
 
 
