@@ -29,7 +29,7 @@ class WorkTimePage:
         self.browser['start'] = event.start
         self.browser['ende'] = event.end
         self._select_control_by_label(event.label)
-        self.browser['kommentar'] = event.comment
+        self.browser['kommentar'] = event.comment[:100]
 
         getLogger(self.__class__.__name__).info(
             f'saving {event.label}: {event.date} {event.start} - {event.end}: {event.comment}...')
