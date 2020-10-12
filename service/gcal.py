@@ -27,10 +27,10 @@ class GoogleCalendarService(object):
         if to_date.hour == 0:
             to_date = to_date.replace(hour=23, minute=59, second=59)
         events = self._fetch_events_from_service(from_date, to_date)
-        events = self._filter_vacation(events)
-        events = self._split_overlapping(events)
+        day_entries = self._to_day_entries(events)
+        day_entries = self._split_overlapping(day_entries)
 
-        return events
+        return day_entries
 
     def _split_overlapping(self, events):
         date_counter = {}
@@ -45,10 +45,13 @@ class GoogleCalendarService(object):
 
         return flattened_events
 
-    def _filter_vacation(self, events):
-        return list(map(lambda event: DayEntry.from_gcal(event),
-                        filter(lambda event: 'displayName' not in event['organizer'] or event['organizer'][
-                            'displayName'] != 'Südsterne Abwesenheiten', events)))
+    def _to_day_entries(self, events):
+        day_entries = []
+        for event in events:
+            if 'displayName' not in event['organizer'] or event['organizer'][
+                'displayName'] != 'Südsterne Abwesenheiten':
+                day_entries.append(DayEntry.from_gcal(event))
+        return day_entries
 
     def _fetch_events_from_service(self, from_date, to_date):
         events = self.service.events().list(calendarId='primary', timeMin=from_date.isoformat() + 'Z',
@@ -59,13 +62,25 @@ class GoogleCalendarService(object):
     def _flatten(self, events: [DayEntry]):
         flattened_events = events
         if len(events) > 2:
-            flattened_events = self._flatten(events[:2])
-            flattened_events.extend(self._flatten(events[2:]))
+            splitteted_events = self._flatten(events[:2])
+            index = len(splitteted_events) - 1
+            splitteted_events.extend(events[2:])
+            flattened_events = splitteted_events[:index]
+            flattened_events.extend(self._flatten(splitteted_events[index:]))
         elif len(events) == 2:
-            if events[0].end > events[1].start:
+            if events[0].start == events[1].start:
+                before = DayEntry(events[1].date, events[1].start, min(events[0].end, events[1].end), events[1].comment,
+                                  events[1].label)
+                after = DayEntry(events[0].date, min(events[0].end, events[1].end), max(events[0].end, events[1].end),
+                                 events[0].comment, events[0].label)
+
+                flattened_events = [before, after]
+
+            elif events[0].end > events[1].start:
                 before = DayEntry(events[0].date, events[0].start, events[1].start, events[0].comment, events[0].label)
                 middle = events[1]
                 after = DayEntry(events[0].date, events[1].end, events[0].end, events[0].comment, events[0].label)
+
                 flattened_events = [before, middle, after]
 
         return flattened_events

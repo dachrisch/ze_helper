@@ -100,7 +100,10 @@ class ZeHelperTest(unittest.TestCase):
                 return b''
 
         mechanize.Browser = BrowserMock
-        GoogleCalendarServiceBuilder.build = lambda x: CalendarServiceMock()
+        with resources.open_text('tests', 'calendar_fixture.json5') as events:
+            json_load = json.load(events)
+            mock = CalendarServiceMock(json_load)
+        GoogleCalendarServiceBuilder.build = lambda x: mock
         ze = ZE()
         ze.browser.submit_values[22] = {'start': '10:00', 'ende': '12:00', 'tag': '29.08.2020',
                                         'kommentar': 'Overlapping-Kurzarbeit'}
