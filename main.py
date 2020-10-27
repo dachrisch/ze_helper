@@ -18,6 +18,7 @@ def main(args):
     year = args['year']
     month = args['month']
 
+    getLogger(__name__).info('creating ZE entries in %02d.%04d' % (month, year))
     password = getpass.getpass('password for [%s]: ' % username)
     ze = ZE().login(username, password)
     worktime_page = ze.worktime_for(year, month)
@@ -37,10 +38,10 @@ def validate_arguments(args):
     year = args['year']
     month = args['month']
     if not ((month < 13) and (month > 0)):
-        getLogger(__name__).info('invalid month: %s (1..12)' % month)
+        getLogger(__name__).error('invalid month: %s (1..12)' % month)
         sys.exit(1)
     if not ((year < 2100) and (year > 2000)):
-        getLogger(__name__).info('invalid year: %s (2000..2100)' % year)
+        getLogger(__name__).error('invalid year: %s (2000..2100)' % year)
         sys.exit(2)
 
 
