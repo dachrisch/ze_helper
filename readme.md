@@ -1,5 +1,5 @@
 # Helper for ZE entries
-Uses [Google Calender](https://calendar.google.com/) entries to make [ze entries](https://ze.it-agile.de/)
+Uses [Google Calendar](https://calendar.google.com/) entries to make [ze entries](https://ze.it-agile.de/)
 
 ## Features
 all entries will become 
