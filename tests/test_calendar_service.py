@@ -40,7 +40,7 @@ class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
 
 
 class CalendarServiceTest(unittest.TestCase):
-    def test_customer_event(self):
+    def test_customer_training_event(self):
         mock = GoogleCalendarServiceBuilderMock()
         mock.append("""{
     "kind": "calendar#event",
@@ -63,7 +63,32 @@ class CalendarServiceTest(unittest.TestCase):
         self.assertIsInstance(events[0], DayEntry)
         self._assert_event(events[0], '03.08.2020', '09:45', '11:45',
                            '"Online-Meeting-Moderation"-Aufbau vom 03. - 07. August 2020',
-                           'Laut Beschreibung & fakturierbar (Extern)')
+                           'Durchführung (Workshops/Schulungen Pauschalpreis)')
+
+    def test_customer_training_prep_event(self):
+        mock = GoogleCalendarServiceBuilderMock()
+        mock.append("""{
+        "kind": "calendar#event",
+        "summary": "Orga / Kunde",
+        "colorId": "6",
+        "start": {
+          "dateTime": "2020-08-03T08:00:00+02:00"
+        },
+        "end": {
+          "dateTime": "2020-08-03T09:00:00+02:00"
+        },
+        "organizer": {
+          "displayName": "Christian Dähn"
+        }
+      }
+    """)
+        calendar_service = GoogleCalendarService(mock)
+        events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
+
+        self.assertIsInstance(events[0], DayEntry)
+        self._assert_event(events[0], '03.08.2020', '08:00', '09:00',
+                           'Orga / Kunde',
+                           'Vor-/Nachbereitung (Workshops/Schulungen Pauschalpreis)')
 
     def test_illness(self):
         mock = GoogleCalendarServiceBuilderMock()

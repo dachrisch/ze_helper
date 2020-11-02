@@ -4,9 +4,9 @@ from datetime import datetime
 
 class DayEntry(object):
     log = logging.getLogger(__name__)
+
     @classmethod
     def from_gcal(cls, event: dict):
-        DayEntry.log.debug(event)
         fromisoformat = datetime.fromisoformat(event['start']['dateTime'])
         date = fromisoformat.strftime('%d.%m.%Y')
         start = fromisoformat.strftime('%H:%M')
@@ -14,8 +14,11 @@ class DayEntry(object):
         label = 'laut Beschreibung (Intern)'
         if event['summary'] == 'Kurzarbeit':
             label = 'Kurzarbeit (Intern)'
-        elif 'colorId' in event and event['colorId'] == '4':
-            label = 'Laut Beschreibung & fakturierbar (Extern)'
+        elif 'colorId' in event:
+            if event['colorId'] == '4':
+                label = 'Durchführung (Workshops/Schulungen Pauschalpreis)'
+            elif event['colorId'] == '6':
+                label = 'Vor-/Nachbereitung (Workshops/Schulungen Pauschalpreis)'
         elif event['summary'] == 'Krank':
             label = 'Krankheit (aufMUC-Zelle)'
         return DayEntry(date, start, end, event['summary'], label)
@@ -26,3 +29,6 @@ class DayEntry(object):
         self.end = end
         self.start = start
         self.date = date
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.date}[{self.start}]-[{self.end}], {self.label}, {self.comment})'
