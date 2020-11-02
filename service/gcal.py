@@ -29,7 +29,7 @@ class GoogleCalendarService(object):
         events = self._fetch_events_from_service(from_date, to_date)
         day_entries = self._to_day_entries(events)
         day_entries = self._split_overlapping(day_entries)
-
+        day_entries = self._filter_breaks(day_entries)
         return day_entries
 
     def _split_overlapping(self, events):
@@ -84,3 +84,6 @@ class GoogleCalendarService(object):
                 flattened_events = [before, middle, after]
 
         return flattened_events
+
+    def _filter_breaks(self, day_entries: [DayEntry]):
+        return list(filter(lambda entry: not entry.comment == 'Pause', day_entries))

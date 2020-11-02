@@ -60,7 +60,7 @@ def disable_ssl_check():
 if __name__ == '__main__':
     import sys
 
-    basicConfig(level=logging.DEBUG)
+    basicConfig(level=logging.INFO)
 
     program = sys.argv[0]
     if len(sys.argv) != 2:

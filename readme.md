@@ -17,3 +17,7 @@ entries, except, when having the following attributes
 
 * Event colorId == '6' (Tangerine)
 > 'Vor-/Nachbereitung (Workshops/Schulungen Pauschalpreis)'
+
+* Event summary == 'Pause' 
+
+    events are considered for splitting overlapping work, but are later filtered out
