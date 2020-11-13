@@ -377,6 +377,44 @@ class CalendarServiceTest(unittest.TestCase):
         self._assert_event(events[0], '29.08.2020', '10:00', '12:00', 'Orga', 'laut Beschreibung (Intern)')
         self._assert_event(events[1], '29.08.2020', '14:00', '16:00', 'Orga', 'laut Beschreibung (Intern)')
 
+    def test_ignore_zero_length_items_after_split(self):
+        mock = GoogleCalendarServiceBuilderMock()
+        mock.append("""{
+                    "kind": "calendar#event",
+                    "summary": "Orga",
+                    "start": {
+                      "dateTime": "2020-08-29T10:00:00+02:00"
+                    },
+                    "end": {
+                      "dateTime": "2020-08-29T16:00:00+02:00"
+                    },
+                    "organizer": {
+                      "displayName": "Christian Dähn"
+                    }
+                  }
+                """)
+        mock.append("""{
+                            "kind": "calendar#event",
+                            "summary": "Orga-2",
+                            "start": {
+                              "dateTime": "2020-08-29T14:00:00+02:00"
+                            },
+                            "end": {
+                              "dateTime": "2020-08-29T16:00:00+02:00"
+                            },
+                            "organizer": {
+                              "displayName": "Christian Dähn"
+                            }
+                          }
+                        """)
+        calendar_service = GoogleCalendarService(mock)
+        events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
+
+        self.assertEqual(2, len(events))
+
+        self._assert_event(events[0], '29.08.2020', '10:00', '14:00', 'Orga', 'laut Beschreibung (Intern)')
+        self._assert_event(events[1], '29.08.2020', '14:00', '16:00', 'Orga-2', 'laut Beschreibung (Intern)')
+
     def _assert_event(self, event: DayEntry, date, start, end, summary, label):
         self.assertEqual(date, event.date)
         self.assertEqual(start, event.start)

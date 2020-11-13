@@ -19,6 +19,8 @@ class DayEntry(object):
                 label = 'Durchführung (Workshops/Schulungen Pauschalpreis)'
             elif event['colorId'] == '6':
                 label = 'Vor-/Nachbereitung (Workshops/Schulungen Pauschalpreis)'
+            elif event['colorId'] == '3':
+                label = 'Laut Beschreibung & fakturierbar (Extern)'
         elif event['summary'] == 'Krank':
             label = 'Krankheit (aufMUC-Zelle)'
         return DayEntry(date, start, end, event['summary'], label)
