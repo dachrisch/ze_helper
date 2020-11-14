@@ -32,5 +32,9 @@ class DayEntry(object):
         self.start = start
         self.date = date
 
+    @property
+    def timediff(self):
+        return datetime.strptime(self.end, '%H:%M') - datetime.strptime(self.start, '%H:%M')
+
     def __repr__(self):
         return f'{self.__class__.__name__}({self.date}[{self.start}]-[{self.end}], {self.label}, {self.comment})'

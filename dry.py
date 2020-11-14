@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from functools import reduce
 from logging import getLogger, basicConfig
 
-from entity.day import DayEntry
 from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
 
 
@@ -19,11 +18,8 @@ def main(yearmonth: str):
     for event in events:
         getLogger(__name__).info(event)
 
-    def timediff(event: DayEntry):
-        return datetime.strptime(event.end, '%H:%M') - datetime.strptime(event.start, '%H:%M')
-
     for label in set(map(lambda event: event.label, events)):
-        time_in_label = reduce(lambda x, y: x + timediff(y), filter(lambda event: event.label == label, events),
+        time_in_label = reduce(lambda x, y: x + y.timediff, filter(lambda event: event.label == label, events),
                                timedelta())
         getLogger(__name__).info(f'{label}: {time_in_label.total_seconds() / 60 / 60:.2f}')
 
