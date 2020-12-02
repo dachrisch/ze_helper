@@ -1,45 +1,21 @@
-import json
 import unittest
 from datetime import datetime
 
 from entity.day import DayEntry
-from service.gcal import GoogleCalendarService, GoogleCalendarServiceBuilder
+from service.gcal import GoogleCalendarService
+from tests.calendar_mock import GoogleCalendarServiceBuilderMock
 
 
-class CalendarServiceMock(object):
-    def __init__(self, calendar_events):
-        self.calendar_events = calendar_events
-
-    def events(self):
-        return self
-
-    def list(self, calendarId, timeMin, timeMax, singleEvents, orderBy):
-        self.timeMin = datetime.fromisoformat(timeMin[0:-1]).timestamp()
-        self.timeMax = datetime.fromisoformat(timeMax[0:-1]).timestamp()
-        return self
-
-    def execute(self):
-        return self
-
-    def get(self, a, b):
-        return filter(lambda event: 'dateTime' in event['start'] and self.timeMin <= datetime.fromisoformat(
-            event['start']['dateTime']).timestamp() and datetime.fromisoformat(
-            event['end']['dateTime']).timestamp() <= self.timeMax,
-                      self.calendar_events)
+class AssertEventTestCase(unittest.TestCase):
+    def _assert_event(self, event: DayEntry, date, start, end, summary, label):
+        self.assertEqual(date, event.date)
+        self.assertEqual(start, event.start)
+        self.assertEqual(end, event.end)
+        self.assertEqual(summary, event.comment)
+        self.assertEqual(label, event.label)
 
 
-class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
-    def __init__(self):
-        self.calendar_events = []
-
-    def build(self):
-        return CalendarServiceMock(self.calendar_events)
-
-    def append(self, event_json):
-        self.calendar_events.append(json.loads(event_json))
-
-
-class CalendarServiceTest(unittest.TestCase):
+class CalendarServiceClassificationTest(AssertEventTestCase):
     def test_customer_training_event(self):
         mock = GoogleCalendarServiceBuilderMock()
         mock.append("""{
@@ -194,6 +170,8 @@ class CalendarServiceTest(unittest.TestCase):
 
         self._assert_event(events[0], '31.08.2020', '10:00', '16:00', 'Kurzarbeit', 'Kurzarbeit (Intern)')
 
+
+class CalendarServiceSplittingTest(AssertEventTestCase):
     def test_overlapping_is_split(self):
         mock = GoogleCalendarServiceBuilderMock()
         mock.append("""{
@@ -453,12 +431,84 @@ class CalendarServiceTest(unittest.TestCase):
         self._assert_event(events[0], '29.08.2020', '10:00', '17:00', 'Orga', 'laut Beschreibung (Intern)')
         self._assert_event(events[1], '29.08.2020', '17:00', '19:00', 'Orga-2', 'laut Beschreibung (Intern)')
 
-    def _assert_event(self, event: DayEntry, date, start, end, summary, label):
-        self.assertEqual(date, event.date)
-        self.assertEqual(start, event.start)
-        self.assertEqual(end, event.end)
-        self.assertEqual(summary, event.comment)
-        self.assertEqual(label, event.label)
+    @unittest.skip
+    def test_ignore_middle_after_split(self):
+        mock = GoogleCalendarServiceBuilderMock()
+        mock.append("""{
+                        "kind": "calendar#event",
+                        "summary": "Orga",
+                        "start": {
+                          "dateTime": "2020-08-29T10:00:00+02:00"
+                        },
+                        "end": {
+                          "dateTime": "2020-08-29T18:00:00+02:00"
+                        },
+                        "organizer": {
+                          "displayName": "Christian Dähn"
+                        }
+                      }
+                    """)
+        mock.append("""{
+                                "kind": "calendar#event",
+                                "summary": "Orga-2",
+                                "start": {
+                                  "dateTime": "2020-08-29T16:00:00+02:00"
+                                },
+                                "end": {
+                                  "dateTime": "2020-08-29T17:00:00+02:00"
+                                },
+                                "organizer": {
+                                  "displayName": "Christian Dähn"
+                                }
+                              }
+                            """)
+        mock.append("""{
+                                "kind": "calendar#event",
+                                "summary": "Orga-3",
+                                "start": {
+                                  "dateTime": "2020-08-29T16:30:00+02:00"
+                                },
+                                "end": {
+                                  "dateTime": "2020-08-29T18:00:00+02:00"
+                                },
+                                "organizer": {
+                                  "displayName": "Christian Dähn"
+                                }
+                              }
+                            """)
+        calendar_service = GoogleCalendarService(mock)
+        events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
+
+        self.assertEqual(3, len(events))
+
+        self._assert_event(events[0], '29.08.2020', '10:00', '16:00', 'Orga', 'laut Beschreibung (Intern)')
+        self._assert_event(events[1], '29.08.2020', '16:00', '17:00', 'Orga-2', 'laut Beschreibung (Intern)')
+        self._assert_event(events[1], '29.08.2020', '17:00', '18:00', 'Orga-3', 'laut Beschreibung (Intern)')
+
+
+class CalendarServiceIgnoreTest(unittest.TestCase):
+
+    def test_ignore_vacations(self):
+        mock = GoogleCalendarServiceBuilderMock()
+        mock.append("""{
+                    "kind": "calendar#event",
+                    "summary": "Urlaub",
+                    "start": {
+                      "date": "2020-12-16"
+                    },
+                    "end": {
+                      "date": "2020-12-16"
+                    },
+                    "organizer": {
+                      "displayName": "Christian Dähn"
+                    }
+                  }
+                """)
+
+        calendar_service = GoogleCalendarService(mock)
+        events = calendar_service.events_in_range(datetime(2020, 12, 1), datetime(2020, 12, 31))
+
+        self.assertListEqual([], events)
 
 
 if __name__ == '__main__':
