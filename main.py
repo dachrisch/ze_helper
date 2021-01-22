@@ -10,7 +10,7 @@ import getpass
 import logging
 from logging import getLogger, basicConfig
 
-from service.ze import ZE
+from service.ze import ZeEntryService
 
 
 def main(args):
@@ -20,10 +20,9 @@ def main(args):
 
     getLogger(__name__).info('creating ZE entries in %02d.%04d' % (month, year))
     password = getpass.getpass('password for [%s]: ' % username)
-    ze = ZE().login(username, password)
-    worktime_page = ze.worktime_for(year, month)
-    worktime_page.delete_entries()
-    worktime_page.enter_from_gcal()
+    ze = ZeEntryService().login(username, password)
+    ze.delete_entries(year, month)
+    ze.enter_from_gcal(year, month)
 
 
 def split_arguments(args):

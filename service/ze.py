@@ -8,20 +8,14 @@ from entity.day import DayEntry
 from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
 
 
+class ZeDayMapper(object):
+    pass
+
+
 class WorkTimePage:
-    def __init__(self, browser, year, month):
+    def __init__(self, browser):
         self.browser = browser
         assert 'Zeiterfassung - Arbeitszeiten' == self.browser.title(), self.browser.title()
-        self.year = year
-        self.month = month
-        self.google_calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilder())
-
-    def enter_from_gcal(self):
-        getLogger(self.__class__.__name__).info('creating day entries from gcal...')
-        first_day = datetime(self.year, self.month, 1)
-        last_day = datetime(self.year, self.month, calendar.monthrange(self.year, self.month)[1])
-        for event in self.google_calendar_service.events_in_range(first_day, last_day):
-            self.enter(event)
 
     def enter(self, event: DayEntry):
         self.browser.select_form(nr=1)
@@ -66,7 +60,7 @@ class WorkTimePage:
         self.browser.find_control('taetigkeit').get(label=label).selected = True
 
 
-class ZE:
+class ZeEntryService:
     def __init__(self):
         import mechanize
         from http import cookiejar
@@ -83,6 +77,8 @@ class ZE:
         self.base_url = 'https://ze.it-agile.de'
         self.browser.open(self.base_url)
         assert 'Zeiterfassung - Login' == self.browser.title()
+        self.day_mapper = ZeDayMapper()
+        self.google_calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilder())
 
     def login(self, username, password):
         self.username = username
@@ -93,7 +89,7 @@ class ZE:
         self.browser.submit()
         return self
 
-    def worktime_for(self, year, month):
+    def _worktime_for(self, year, month):
         url = '%(base)s/%(year)s/%(month)s/%(username)s' % {
             'base': self.base_url,
             'year': year,
@@ -101,4 +97,16 @@ class ZE:
             'username': self.username
         }
         self.browser.open(url)
-        return WorkTimePage(self.browser, year, month)
+        return WorkTimePage(self.browser)
+
+    def enter_from_gcal(self, year, month):
+        getLogger(self.__class__.__name__).info('creating day entries from gcal...')
+        first_day = datetime(year, month, 1)
+        last_day = datetime(year, month, calendar.monthrange(year, month)[1])
+
+        worktime_page = self._worktime_for(year, month)
+        for event in self.google_calendar_service.events_in_range(first_day, last_day):
+            worktime_page.enter(event)
+
+    def delete_entries(self, year, month):
+        self._worktime_for(year, month).delete_entries()
