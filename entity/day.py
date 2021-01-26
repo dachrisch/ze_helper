@@ -1,8 +1,10 @@
 import logging
+from abc import ABC, abstractmethod
+from copy import deepcopy
 from datetime import datetime
 
 
-class DayEntry(object):
+class DayEntry(ABC):
     log = logging.getLogger(__name__)
 
     @classmethod
@@ -30,12 +32,16 @@ class DayEntry(object):
                 entry = InternalDayEntry(date, start, end, event['summary'])
         return entry
 
+    @abstractmethod
     def __init__(self, date: str, start: str, end: str, comment: str, label: str):
         self.label = label
         self.comment = comment
         self.end = end
         self.start = start
         self.date = date
+
+    def clone(self):
+        return deepcopy(self)
 
     @property
     def timediff(self):

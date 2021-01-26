@@ -25,17 +25,20 @@ def flatten(events: [DayEntry]):
         flattened_events.extend(flatten(splitted_events[index:]))
     elif len(events) == 2:
         if is_same_start(*events):
-            before = DayEntry(events[1].date, events[1].start, min(events[0].end, events[1].end), events[1].comment,
-                              events[1].label)
-            after = DayEntry(events[0].date, min(events[0].end, events[1].end), max(events[0].end, events[1].end),
-                             events[0].comment, events[0].label)
+            before = events[1].clone()
+            before.end = min(events[0].end, events[1].end)
+            after = events[0].clone()
+            after.start = min(events[0].end, events[1].end)
+            after.end = max(events[0].end, events[1].end)
 
             flattened_events = [before, after]
 
         elif is_in_between(*events):
-            before = DayEntry(events[0].date, events[0].start, events[1].start, events[0].comment, events[0].label)
+            before = events[0].clone()
+            before.end = events[1].start
             middle = events[1]
-            after = DayEntry(events[0].date, events[1].end, events[0].end, events[0].comment, events[0].label)
+            after = events[0].clone()
+            after.start = events[1].end
 
             if after.timediff.total_seconds() <= 0:
                 flattened_events = [before, middle]
