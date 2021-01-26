@@ -8,8 +8,18 @@ from entity.day import DayEntry
 from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
 
 
+class ZeDayEntry(object):
+    def __init__(self, day_entry: DayEntry):
+        self.date = day_entry.date
+        self.start = day_entry.start
+        self.end = day_entry.end
+        self.comment = day_entry.comment
+        self.label = day_entry.label
+
+
 class ZeDayMapper(object):
-    pass
+    def to_ze_day(self, day_entry: DayEntry):
+        return ZeDayEntry(day_entry)
 
 
 class WorkTimePage:
@@ -17,7 +27,7 @@ class WorkTimePage:
         self.browser = browser
         assert 'Zeiterfassung - Arbeitszeiten' == self.browser.title(), self.browser.title()
 
-    def enter(self, event: DayEntry):
+    def enter(self, event: ZeDayEntry):
         self.browser.select_form(nr=1)
         self.browser['tag'] = event.date
         self.browser['start'] = event.start
@@ -106,7 +116,7 @@ class ZeEntryService:
 
         worktime_page = self._worktime_for(year, month)
         for event in self.google_calendar_service.events_in_range(first_day, last_day):
-            worktime_page.enter(event)
+            worktime_page.enter(self.day_mapper.to_ze_day(event))
 
     def delete_entries(self, year, month):
         self._worktime_for(year, month).delete_entries()
