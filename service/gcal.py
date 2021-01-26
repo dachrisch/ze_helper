@@ -5,8 +5,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 from entity.day import DayEntry
-from service.filter import filter_vacations, filter_breaks
-from service.splitting import split_overlapping
+from entity.filter import filter_vacations, filter_breaks
+from entity.splitting import split_overlapping
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
