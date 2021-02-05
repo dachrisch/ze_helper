@@ -31,6 +31,9 @@ class ClockodoDay(object):
         self.end_date_str = end_date.strftime('%Y-%m-%d %H:%M:%S')
         self.start_date_str = start_date.strftime('%Y-%m-%d %H:%M:%S')
 
+    def __str__(self):
+        return f"({self.customer_id})[from={self.start_date_str}, to={self.end_date_str}, comment={self.comment}]"
+
 
 class ClockodoService(object):
     base_url = 'https://my.clockodo.com/api'
@@ -48,6 +51,10 @@ class ClockodoService(object):
         return user_id
 
 
+class MappingError(ValueError):
+    pass
+
+
 class ClockodoResolutionService(ClockodoService):
     def __init__(self, email: str, api_key: str):
         super().__init__(email, api_key)
@@ -56,12 +63,19 @@ class ClockodoResolutionService(ClockodoService):
         resolved_customer = next(
             filter(lambda customer: customer['name'] == customer_name, self._retrieve('customers')),
             None)
+        if not resolved_customer:
+            raise MappingError(f'no mapping found for customer [{customer_name}]')
         customer_id = resolved_customer['id']
+        billable = 1 if resolved_customer['billable_default'] else 0
         project_id = next(filter(lambda project: project['name'] == project_name, resolved_customer['projects']),
-                          None)['id']
+                          {'id': 0})['id']
+        if not project_id:
+            raise MappingError(f'no mapping found for project [{project_name}]')
         service_id = next(filter(lambda service: service['name'] == service_name, self._retrieve('services')),
-                          None)['id']
-        return ClockodoIdMapping(customer_id, project_id, service_id)
+                          {'id': 0})['id']
+        if not service_id:
+            raise MappingError(f'no mapping found for service [{service_name}]')
+        return ClockodoIdMapping(customer_id, project_id, service_id, billable)
 
     @lru_cache(128)
     def _retrieve(self, endpoint):
@@ -73,7 +87,7 @@ class ClockodoDayMapper(object):
     def __init__(self, resolution_service: ClockodoResolutionService):
         self.resolution_service = resolution_service
 
-    def to_clockodo_day(self, event: DayEntry):
+    def to_clockodo_day(self, event: DayEntry) -> ClockodoDay:
         date = datetime.strptime(event.date, '%d.%m.%Y')
         start_time = datetime.strptime(event.start, '%H:%M')
         end_time = datetime.strptime(event.end, '%H:%M')
@@ -82,11 +96,11 @@ class ClockodoDayMapper(object):
         mapping = None
         if isinstance(event, WorkshopDayEntry):
             mapping = self.resolution_service.resolve_for('Bayer AG',
-                                                          'Bayer AG - PM-Trainings 9-13 Bst.-Nr.: 2950100643',
+                                                          'PM-Trainings 9-13 Bst.-Nr.: 2950100643',
                                                           'Inhouse Schulung')
         elif isinstance(event, WorkshopPrepDayEntry):
             mapping = self.resolution_service.resolve_for('Bayer AG',
-                                                          'Bayer AG - PM-Trainings 9-13 Bst.-Nr.: 2950100643',
+                                                          'PM-Trainings 9-13 Bst.-Nr.: 2950100643',
                                                           'Inhouse Schulung Vor-/ Nachbereitung')
         elif isinstance(event, InternalDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Vertrieb', 'Interne Arbeitszeit')
@@ -142,6 +156,7 @@ class ClockodoEntryService(ClockodoService):
 
     def _enter(self, event: DayEntry):
         day_entry = self.day_entry_mapper.to_clockodo_day(event)
+        getLogger(self.__class__.__name__).info(f'inserting entry [{day_entry}]...')
         response = requests.post(self.base_url + '/entries', auth=self._get_auth(),
                                  params={'customers_id': day_entry.customer_id,
                                          'projects_id': day_entry.project_id,
@@ -152,19 +167,38 @@ class ClockodoEntryService(ClockodoService):
                                          'text': day_entry.comment})
 
         getLogger(self.__class__.__name__).debug(response.json())
-        getLogger(self.__class__.__name__).info(
-            f'inserting entry [{self.day_entry_mapper.json_to_logging(response.json()["entry"])}]...')
+        if 'error' in response.json():
+            getLogger(self.__class__.__name__).error(f'error inserting {day_entry}: {response.json()["error"]}')
 
 
-def main():
-    basicConfig(level=logging.INFO)
+def clockodo_entries_for(year: int, month: int):
     config_parser = ConfigParser()
     config_parser.read('credentials.properties')
     email = config_parser['credentials']['email']
     api_key = config_parser['credentials']['api_key']
     entry_service = ClockodoEntryService(email, api_key)
-    entry_service.delete_entries(2021, 2)
-    entry_service.enter_events_from_gcal(2021, 2)
+    entry_service.delete_entries(year, month)
+    entry_service.enter_events_from_gcal(year, month)
 
 
-main()
+def main(arguments):
+    basicConfig(level=logging.INFO)
+    program = arguments[0]
+    if len(arguments) != 2:
+        getLogger(__name__).info(f'usage: {program} {{year}}{{month}}')
+        sys.exit(-1)
+    yearmonth = arguments[1]
+    year, month = map(int, (yearmonth[:4], yearmonth[4:6]))
+    if not ((month < 13) and (month > 0)):
+        getLogger(__name__).error('invalid month: %s (1..12)' % month)
+        sys.exit(1)
+    if not ((year < 2100) and (year > 2000)):
+        getLogger(__name__).error('invalid year: %s (2000..2100)' % year)
+        sys.exit(2)
+    clockodo_entries_for(year, month)
+
+
+if __name__ == '__main__':
+    import sys
+
+    main(sys.argv)

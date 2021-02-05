@@ -12,9 +12,8 @@ from importlib import resources
 
 import mechanize
 
-from main import split_arguments
 from service.gcal import GoogleCalendarServiceBuilder
-from service.ze import ZeEntryService
+from service.ze import ZeEntryService, split_arguments
 from tests.browser_mock import BrowserMock
 from tests.calendar_mock import CalendarServiceMock
 
