@@ -11,19 +11,18 @@ from entity.splitting import split_overlapping
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 
-class GoogleCalendarServiceBuilder(object):
-    @classmethod
-    def build(cls):
+class GoogleCalendarService(object):
+    def __init__(self):
         credentials = service_account.Credentials.from_service_account_file(
             path.join(path.join(path.expanduser('~'), '.credentials'), 'suedsterne-1328.json'),
             scopes=SCOPES).with_subject('cd@it-agile.de')
 
-        return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
+        self.service = build('calendar', 'v3', credentials=credentials, cache_discovery=False)
 
 
-class GoogleCalendarService(object):
-    def __init__(self, service_builder: GoogleCalendarServiceBuilder):
-        self.service = service_builder.build()
+class GoogleCalendarServiceWrapper(object):
+    def __init__(self, service: GoogleCalendarService):
+        self.service = service
 
     def events_in_range(self, from_date: datetime, to_date: datetime) -> [DayEntry]:
         if to_date.hour == 0:

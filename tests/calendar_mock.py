@@ -1,7 +1,5 @@
-import json
 from datetime import datetime
 
-from service.gcal import GoogleCalendarServiceBuilder
 
 
 class CalendarServiceMock(object):
@@ -33,13 +31,3 @@ class CalendarServiceMock(object):
             event['start']['date']).timestamp() and datetime.fromisoformat(
             event['end']['date']).timestamp() <= self.timeMax
 
-
-class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
-    def __init__(self):
-        self.calendar_events = []
-
-    def build(self):
-        return CalendarServiceMock(self.calendar_events)
-
-    def append(self, event_json):
-        self.calendar_events.append(json.loads(event_json))

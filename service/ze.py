@@ -7,7 +7,7 @@ from logging import getLogger, basicConfig
 from mechanize import FormNotFoundError
 
 from entity.day import DayEntry
-from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
+from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarServiceWrapper
 
 
 class ZeDayEntry(object):
@@ -90,7 +90,7 @@ class ZeEntryService:
         self.browser.open(self.base_url)
         assert 'Zeiterfassung - Login' == self.browser.title()
         self.day_mapper = ZeDayMapper()
-        self.google_calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilder())
+        self.google_calendar_service = GoogleCalendarServiceWrapper(GoogleCalendarServiceBuilder())
 
     def login(self, username, password):
         self.username = username

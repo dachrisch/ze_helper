@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 
 from entity.day import DayEntry
-from service.gcal import GoogleCalendarService
+from service.gcal import GoogleCalendarServiceWrapper
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
 
 
@@ -33,7 +33,7 @@ class CalendarServiceClassificationTest(AssertEventTestCase):
     }
   }
 """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertIsInstance(events[0], DayEntry)
@@ -58,7 +58,7 @@ class CalendarServiceClassificationTest(AssertEventTestCase):
         }
       }
     """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertIsInstance(events[0], DayEntry)
@@ -110,7 +110,7 @@ class CalendarServiceClassificationTest(AssertEventTestCase):
             }
           }
         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(3, len(events))
@@ -141,7 +141,7 @@ class CalendarServiceClassificationTest(AssertEventTestCase):
     }
   }
 """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertIsInstance(events[0], DayEntry)
@@ -163,7 +163,7 @@ class CalendarServiceClassificationTest(AssertEventTestCase):
             }
           }
         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertIsInstance(events[0], DayEntry)
@@ -202,7 +202,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(3, len(events))
@@ -255,7 +255,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(3, len(events))
@@ -307,7 +307,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(5, len(events))
@@ -347,7 +347,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(2, len(events))
@@ -385,7 +385,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(2, len(events))
@@ -423,7 +423,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                             }
                           }
                         """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(2, len(events))
@@ -476,7 +476,7 @@ class CalendarServiceSplittingTest(AssertEventTestCase):
                                 }
                               }
                             """)
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 8, 1), datetime(2020, 8, 31))
 
         self.assertEqual(3, len(events))
@@ -505,7 +505,7 @@ class CalendarServiceIgnoreTest(unittest.TestCase):
                   }
                 """)
 
-        calendar_service = GoogleCalendarService(mock)
+        calendar_service = GoogleCalendarServiceWrapper(mock)
         events = calendar_service.events_in_range(datetime(2020, 12, 1), datetime(2020, 12, 31))
 
         self.assertListEqual([], events)

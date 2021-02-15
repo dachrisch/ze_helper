@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 from functools import reduce
 from logging import getLogger, basicConfig
 
-from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarService
+from service.gcal import GoogleCalendarServiceBuilder, GoogleCalendarServiceWrapper
 
 
 def main(yearmonth: str):
     year, month = map(int, (yearmonth[:4], yearmonth[4:6]))
-    service = GoogleCalendarService(GoogleCalendarServiceBuilder())
+    service = GoogleCalendarServiceWrapper(GoogleCalendarServiceBuilder())
     first_day = datetime(year, month, 1)
     last_day = datetime(year, month, calendar.monthrange(year, month)[1])
     events = service.events_in_range(first_day, last_day)
