@@ -25,7 +25,7 @@ def main(yearmonth: str):
 
 
 if __name__ == '__main__':
-    basicConfig(level=logging.DEBUG)
+    basicConfig(level=logging.INFO)
     if len(sys.argv) != 2:
         getLogger(__name__).error('usage: %s {year}{month}' % sys.argv[0])
         sys.exit(-1)

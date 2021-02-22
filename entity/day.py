@@ -26,6 +26,10 @@ class DayEntry(ABC):
                     entry = WorkshopPrepDayEntry(date, start, end, event['summary'])
                 elif event['colorId'] == '3':
                     entry = CustomerDayEntry(date, start, end, event['summary'])
+                elif event['colorId'] == '1':
+                    entry = NonBillableCustomerDayEntry(date, start, end, event['summary'])
+                else:
+                    raise Exception(f"unknown color id [{event['colorId']}]")
             elif event['summary'] == 'Krank':
                 entry = IllnessDayEntry(date, start, end)
             else:
@@ -74,6 +78,11 @@ class WorkshopPrepDayEntry(DayEntry):
 class CustomerDayEntry(DayEntry):
     def __init__(self, date: str, start: str, end: str, comment: str):
         super().__init__(date, start, end, comment, 'Laut Beschreibung & fakturierbar (Extern)')
+
+
+class NonBillableCustomerDayEntry(DayEntry):
+    def __init__(self, date: str, start: str, end: str, comment: str):
+        super().__init__(date, start, end, comment, 'Laut Beschreibung & nicht-fakturierbar (Extern)')
 
 
 class IllnessDayEntry(DayEntry):
