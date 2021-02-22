@@ -9,7 +9,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from entity.day import DayEntry, WorkshopDayEntry, WorkshopPrepDayEntry, InternalDayEntry, CustomerDayEntry, \
-    ShorttimeDayEntry
+    ShorttimeDayEntry, NonBillableCustomerDayEntry
 from service.gcal import GoogleCalendarService, GoogleCalendarServiceBuilder
 
 
@@ -106,6 +106,9 @@ class ClockodoDayMapper(object):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Vertrieb', 'Interne Arbeitszeit')
         elif isinstance(event, CustomerDayEntry):
             mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721', 'Coaching')
+        elif isinstance(event, NonBillableCustomerDayEntry):
+            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721', 'Coaching')
+            mapping.billable=0
         elif isinstance(event, ShorttimeDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Kurzarbeit', 'Interne Arbeitszeit')
         else:
