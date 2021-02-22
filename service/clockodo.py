@@ -96,16 +96,16 @@ class ClockodoDayMapper(object):
         mapping = None
         if isinstance(event, WorkshopDayEntry):
             mapping = self.resolution_service.resolve_for('Bayer AG',
-                                                          'PM-Trainings 9-13 Bst.-Nr.: 2950100643',
+                                                          'PM-Trainings 9-14 Bst.-Nr.: 2950103926',
                                                           'Inhouse Schulung')
         elif isinstance(event, WorkshopPrepDayEntry):
             mapping = self.resolution_service.resolve_for('Bayer AG',
-                                                          'PM-Trainings 9-13 Bst.-Nr.: 2950100643',
+                                                          'PM-Trainings 9-14 Bst.-Nr.: 2950103926',
                                                           'Inhouse Schulung Vor-/ Nachbereitung')
         elif isinstance(event, InternalDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Vertrieb', 'Interne Arbeitszeit')
         elif isinstance(event, CustomerDayEntry):
-            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches', 'Coaching')
+            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721', 'Coaching')
         elif isinstance(event, ShorttimeDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Kurzarbeit', 'Interne Arbeitszeit')
         else:
