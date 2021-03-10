@@ -20,13 +20,13 @@ class DayEntry(ABC):
             if event['summary'] == 'Kurzarbeit':
                 entry = ShorttimeDayEntry(date, start, end)
             elif 'colorId' in event:
-                if event['colorId'] == '4':
-                    entry = WorkshopDayEntry(date, start, end, event['summary'])
-                elif event['colorId'] == '6':
+                if event['colorId'] == '4' or event['colorId'] == '2':  # 4 - Flamingo, 2 - Sage
+                    entry = WorkshopDayEntry(date, start, end, event['summary'], event['colorId'])
+                elif event['colorId'] == '6':  # Tangerine
                     entry = WorkshopPrepDayEntry(date, start, end, event['summary'])
-                elif event['colorId'] == '3':
+                elif event['colorId'] == '3':  # Grape
                     entry = CustomerDayEntry(date, start, end, event['summary'])
-                elif event['colorId'] == '1':
+                elif event['colorId'] == '1':  # Lavender
                     entry = NonBillableCustomerDayEntry(date, start, end, event['summary'])
                 else:
                     raise Exception(f"unknown color id [{event['colorId']}]")
@@ -66,8 +66,9 @@ class ShorttimeDayEntry(DayEntry):
 
 
 class WorkshopDayEntry(DayEntry):
-    def __init__(self, date: str, start: str, end: str, comment: str):
+    def __init__(self, date: str, start: str, end: str, comment: str, color_id=0):
         super().__init__(date, start, end, comment, 'Durchführung (Workshops/Schulungen Pauschalpreis)')
+        self.color_id = color_id
 
 
 class WorkshopPrepDayEntry(DayEntry):

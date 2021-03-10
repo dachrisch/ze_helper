@@ -95,20 +95,27 @@ class ClockodoDayMapper(object):
         end_date = datetime(date.year, date.month, date.day, end_time.hour, end_time.minute, 0)
         mapping = None
         if isinstance(event, WorkshopDayEntry):
-            mapping = self.resolution_service.resolve_for('MAC IT-Solutions GmbH',
-                                                          'Grundlagenschulung 20210111_bi01',
-                                                          'Inhouse Schulung')
+            if event.color_id == '4':
+                mapping = self.resolution_service.resolve_for('HDI',
+                                                              'Design Sprint',
+                                                              'Workshop-Durchführung')
+            elif event.color_id == '2':
+                mapping = self.resolution_service.resolve_for('Siemens Energy Global GmbH & Co. KG',
+                                                              'Scrum Inspektion März 2021 Bestellnummer 482Q/9770053445',
+                                                              'Workshop-Durchführung')
         elif isinstance(event, WorkshopPrepDayEntry):
-            mapping = self.resolution_service.resolve_for('MAC IT-Solutions GmbH',
-                                                          'Grundlagenschulung 20210111_bi01',
-                                                          'Inhouse Schulung Vor-/ Nachbereitung')
+            mapping = self.resolution_service.resolve_for('Siemens Energy Global GmbH & Co. KG',
+                                                          'Scrum Inspektion März 2021 Bestellnummer 482Q/9770053445',
+                                                          'Workshop Vor-/Nachbereitung')
         elif isinstance(event, InternalDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Vertrieb', 'Interne Arbeitszeit')
         elif isinstance(event, CustomerDayEntry):
-            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721', 'Coaching')
+            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721',
+                                                          'Coaching')
         elif isinstance(event, NonBillableCustomerDayEntry):
-            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721', 'Coaching')
-            mapping.billable=0
+            mapping = self.resolution_service.resolve_for('AOK Systems GmbH', 'Coach the Coaches PO 10528/10721',
+                                                          'Coaching')
+            mapping.billable = 0
         elif isinstance(event, ShorttimeDayEntry):
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Kurzarbeit', 'Interne Arbeitszeit')
         else:
