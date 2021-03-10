@@ -12,7 +12,7 @@ class DayEntry(ABC):
         entry = None
         if 'date' in event['start'] and event['summary'] == 'Urlaub':
             entry = VacationDayEntry(event['start']['date'])
-        else:
+        elif 'dateTime' in event['start']:
             fromisoformat = datetime.fromisoformat(event['start']['dateTime'])
             date = fromisoformat.strftime('%d.%m.%Y')
             start = fromisoformat.strftime('%H:%M')
@@ -34,6 +34,8 @@ class DayEntry(ABC):
                 entry = IllnessDayEntry(date, start, end)
             else:
                 entry = InternalDayEntry(date, start, end, event['summary'])
+        else:
+            raise Exception(f"can't handle 'all day' events: {event}")
         return entry
 
     @abstractmethod
