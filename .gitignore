@@ -1,4 +1,4 @@
 *.pyc
 /.env/
 /.idea/
-/service/credentials.properties
+/clockodo/credentials.properties

@@ -1,12 +1,13 @@
+from calendar import monthrange
 from datetime import datetime
 from os import path
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-from entity.day import DayEntry
-from entity.filter import filter_vacations, filter_breaks
-from entity.splitting import split_overlapping
+from gcal.entity import DayEntry
+from gcal.mapper import GoogleCalendarMapper
+from gcal.processor import WholeMonthProcessor
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
@@ -25,21 +26,22 @@ class GoogleCalendarService(object):
     def __init__(self, service_builder: GoogleCalendarServiceBuilder):
         self.service = service_builder.build()
 
-    def events_in_range(self, from_date: datetime, to_date: datetime) -> [DayEntry]:
-        if to_date.hour == 0:
-            to_date = to_date.replace(hour=23, minute=59, second=59)
-        events = self._fetch_events_from_service(from_date, to_date)
-        day_entries = self._to_day_entries(events)
-        day_entries = filter_vacations(day_entries)
-        day_entries = split_overlapping(day_entries)
-        day_entries = filter_breaks(day_entries)
-        return day_entries
-
-    def _to_day_entries(self, events):
-        return list(map(lambda event: DayEntry.from_gcal(event), events))
-
-    def _fetch_events_from_service(self, from_date, to_date):
+    def fetch_events_from_service(self, from_date: datetime, to_date: datetime) -> dict:
         events = self.service.events().list(calendarId='primary', timeMin=from_date.isoformat() + 'Z',
                                             timeMax=to_date.isoformat() + 'Z', singleEvents=True,
                                             orderBy='startTime').execute().get('items', [])
         return events
+
+
+class GoogleDayEntryService(object):
+    def __init__(self, google_service: GoogleCalendarService, mapper: GoogleCalendarMapper,
+                 processor: WholeMonthProcessor):
+        self.mapper = mapper
+        self.processor = processor
+        self.google_service = google_service
+
+    def day_entries_in_month(self, year: int, month: int) -> [DayEntry]:
+        first_day = datetime(year, month, 1)
+        last_day = datetime(year, month, monthrange(year, month)[1], 23, 59, 59)
+        return self.processor.process(
+            self.mapper.to_day_entries(self.google_service.fetch_events_from_service(first_day, last_day)))
