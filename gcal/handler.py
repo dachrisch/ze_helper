@@ -3,11 +3,19 @@ from datetime import datetime, date, time
 
 import pytz
 
-from gcal.entity import CalendarEvent
+from gcal.entity import CalendarEvent, MappingInfo
 
 
 class GCalHandlingException(Exception):
     pass
+
+
+class MappingInfoEventHandlerMixin(object):
+    def has_mapping_info(self, json_entry: dict) -> bool:
+        return 'clockodo_id' in json_entry.get('extendedProperties', {}).get('private', {})
+
+    def extract_mapping_info(self, json_entry: dict) -> MappingInfo:
+        return MappingInfo(json_entry['id'], json_entry['extendedProperties']['private']['clockodo_id'])
 
 
 class CalendarEventHandler(ABC):
@@ -27,7 +35,7 @@ class FailingCalendarEventHandler(CalendarEventHandler):
         return True
 
 
-class HourlyCalendarEventHandler(CalendarEventHandler):
+class HourlyCalendarEventHandler(CalendarEventHandler, MappingInfoEventHandlerMixin):
     def accept(self, json_entry: dict) -> bool:
         return 'dateTime' in json_entry.get('start') and 'dateTime' in json_entry.get(
             'end') and json_entry.get('summary')
@@ -39,6 +47,8 @@ class HourlyCalendarEventHandler(CalendarEventHandler):
         entry.summary = json_entry['summary']
         entry.color_id = int(json_entry.get('colorId', 0))
         entry.description = json_entry.get('description', '')
+        if self.has_mapping_info(json_entry):
+            entry.update_mapping_info(self.extract_mapping_info(json_entry))
         return entry
 
 
