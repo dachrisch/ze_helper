@@ -10,8 +10,8 @@ NO_MAPPING = PersistenceMapping(-1)
 
 
 class PersistenceMappingMixin(object):
-    def __init__(self):
-        self.persistence_mapping = NO_MAPPING
+    def __init__(self,persistence_mapping=NO_MAPPING):
+        self.persistence_mapping = persistence_mapping
 
     def has_persistence_mapping(self):
         return self.persistence_mapping is not NO_MAPPING

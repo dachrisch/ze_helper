@@ -24,8 +24,7 @@ class MiddleEntryOverlappingSplitter(OverlappingSplitter):
     def split(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
         (outside_1, middle) = deepcopy(calendar_events)
 
-        outside_2 = CalendarEvent(middle.end, outside_1.end, outside_1.summary, outside_1.description,
-                                  outside_1.color_id)
+        outside_2 = outside_1.replace(start=middle.end)
         outside_1.end = middle.start
         return outside_1, middle, outside_2
 

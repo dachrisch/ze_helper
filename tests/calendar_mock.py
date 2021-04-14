@@ -39,12 +39,12 @@ class CalendarServiceGetMock:
 
 
 class CalendarServiceUpdateMock:
-    def __init__(self, eventId, body):
+    def __init__(self, event:dict, body:dict):
         self.body = body
-        self.eventId = eventId
+        self.event = event
 
     def execute(self):
-        pass
+        self.event.update(self.body)
 
 
 class CalendarServiceMock(object):
@@ -58,11 +58,12 @@ class CalendarServiceMock(object):
         return CalendarServiceListMock(self.calendar_events, datetime.fromisoformat(timeMin[0:-1]).timestamp(),
                                        datetime.fromisoformat(timeMax[0:-1]).timestamp())
 
-    def get(self, calendarId, eventId):
-        return CalendarServiceGetMock(next(filter(lambda event: event['id'] == eventId, self.calendar_events), {}))
 
-    def update(self, calendarId, eventId, body):
-        return CalendarServiceUpdateMock(eventId, body)
+    def _event_by_id(self, eventId):
+        return next(filter(lambda event: event['id'] == eventId, self.calendar_events), {})
+
+    def patch(self, calendarId, eventId, body):
+        return CalendarServiceUpdateMock(self._event_by_id(eventId), body)
 
 
 class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):

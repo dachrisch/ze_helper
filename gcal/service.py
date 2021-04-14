@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
+from logging import getLogger
 from os import path
 
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -35,9 +36,10 @@ class GoogleCalendarService(object):
         return events
 
     def update_private_properties(self, update_entity: PersistenceMapping, private_properties: PrivateProperties):
-        event = self.service.events().get(calendarId='primary', eventId=update_entity.source_id).execute()
-        event['extendedProperties'] = private_properties.to_json()
-        self.service.events().update(calendarId='primary', eventId=update_entity.source_id, body=event).execute()
+        getLogger(self.__class__.__name__).debug(
+            f'updating private properties of event[{update_entity}] with [{private_properties}]')
+        properties = {'extendedProperties': private_properties.to_json()}
+        self.service.events().patch(calendarId='primary', eventId=update_entity.source_id, body=properties).execute()
 
 
 class GoogleCalendarEventProcessor(object):

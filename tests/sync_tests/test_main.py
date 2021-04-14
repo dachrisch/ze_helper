@@ -20,6 +20,7 @@ class FailingOptionsParser(OptionParser):
         super().__init__()
         self.args_ = args_
         self.add_option('-d', dest='dry_run', action='store_true')
+        self.add_option('--debug', dest='debug', action='store_true')
 
     def _get_args(self, args):
         return self.args_
@@ -58,7 +59,7 @@ class TestMainParse(TestCase):
         self._assert_optparse_fail('202113', 'invalid month')
 
     def test_parse_valid_year_month(self):
-        year, month, dry_run = parse_arguments(FailingOptionsParser(['202008']))
+        year, month, dry_run, debug = parse_arguments(FailingOptionsParser(['202008']))
         self.assertEqual(2020, year)
         self.assertEqual(8, month)
         self.assertFalse(dry_run)

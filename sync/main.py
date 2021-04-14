@@ -25,8 +25,12 @@ def build_service(email: str, api_key: str) -> CalendarSyncService:
 
 
 def main(arguments_parser: OptionParser):
-    basicConfig(level=logging.INFO)
-    year, month, dry_run = parse_arguments(arguments_parser)
+
+    year, month, dry_run,debug = parse_arguments(arguments_parser)
+    if debug:
+        basicConfig(level=logging.DEBUG)
+    else:
+        basicConfig(level=logging.INFO)
     email, api_key = get_credentials()
     entry_service = build_service(email, api_key)
 
@@ -59,12 +63,15 @@ def parse_arguments(arguments_parser):
         arguments_parser.error('invalid month: %s (1..12)' % month)
     if not ((year < 2100) and (year > 2000)):
         arguments_parser.error('invalid year: %s (2000..2100)' % year)
-    return year, month, options.dry_run
+    return year, month, options.dry_run, options.debug
 
 
 if __name__ == '__main__':
     parser = OptionParser('%prog [options] {year}{month}')
     parser.add_option('-d', '--dry', dest='dry_run', action='store_true',
                       help='just print what would be done')
+    parser.add_option( '--debug', dest='debug', action='store_true',
+                      help='enable debug log')
+
 
     main(parser)
