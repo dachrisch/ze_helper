@@ -5,7 +5,7 @@ from logging import getLogger
 
 import requests
 
-from clockodo.entity import ClockodoDay
+from clockodo.mapper import MappedClockodoDay
 from clockodo.service import ClockodoService
 from shared.persistence import PersistenceMapping
 
@@ -20,9 +20,8 @@ class ClockodoEntryService(ClockodoService):
         for entry in current_entries:
             self._delete(entry)
 
-    def enter_calendar_events(self, clockodo_days: [ClockodoDay]):
-        for clockodo_day in clockodo_days:
-            self._enter(clockodo_day)
+    def enter_calendar_events(self, mapped_clockodo_days: [MappedClockodoDay]):
+        return tuple(map(lambda clockodo_day: self._enter(clockodo_day), mapped_clockodo_days))
 
     def _current_entries(self, first_day, last_day) -> dict:
         current_entries = requests.get(self.base_url + '/entries', auth=self._get_auth(),
@@ -40,7 +39,8 @@ class ClockodoEntryService(ClockodoService):
     def _entry_fields_to_string(entry) -> str:
         return f"{entry['services_name']}(from='{entry['time_since']}', to='{entry['time_until']}', text='{entry['text']}')"
 
-    def _enter(self, clockodo_day: ClockodoDay):
+    def _enter(self, mapped_clockodo_day: MappedClockodoDay)->MappedClockodoDay:
+        clockodo_day=mapped_clockodo_day.clockodo_day
         getLogger(self.__class__.__name__).info(f'inserting entry [{clockodo_day}]...')
         response = requests.post(self.base_url + '/entries', auth=self._get_auth(),
                                  params={'customers_id': clockodo_day.customer_id,
@@ -53,12 +53,12 @@ class ClockodoEntryService(ClockodoService):
 
         getLogger(self.__class__.__name__).debug(response.json())
         assert 'error' not in response.json()
-        return self._extract_persistence_info(clockodo_day, response.json())
+        return self._extract_persistence_info(mapped_clockodo_day, response.json())
 
     @staticmethod
-    def _extract_persistence_info(clockodo_day: ClockodoDay, json_response: dict):
+    def _extract_persistence_info(mapped_clockodo_day: MappedClockodoDay, json_response: dict):
         assert 'id' in json_response, json_response
-        persistent_clockodo_day = deepcopy(clockodo_day)
-        persistent_clockodo_day.update_persistence_mapping(PersistenceMapping(json_response['id']))
+        persistent_mapped_clockodo_day = deepcopy(mapped_clockodo_day)
+        persistent_mapped_clockodo_day.clockodo_day.update_persistence_mapping(PersistenceMapping(json_response['id']))
 
-        return persistent_clockodo_day
+        return persistent_mapped_clockodo_day

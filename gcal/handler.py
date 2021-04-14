@@ -3,7 +3,7 @@ from datetime import datetime, date, time
 
 import pytz
 
-from gcal.entity import CalendarEvent
+from gcal.entity import CalendarEvent, PrivateProperties
 from shared.persistence import PersistenceMapping
 
 
@@ -11,12 +11,12 @@ class GCalHandlingException(Exception):
     pass
 
 
-class MappingInfoEventHandlerMixin(object):
-    def has_persistence_mapping(self, json_entry: dict) -> bool:
+class ExtendedPropertiesHandlerMixin(object):
+    def has_private_properties(self, json_entry: dict) -> bool:
         return 'clockodo_id' in json_entry.get('extendedProperties', {}).get('private', {})
 
-    def extract_persistence_mapping(self, json_entry: dict) -> PersistenceMapping:
-        return PersistenceMapping(json_entry['id'])
+    def extract_private_properties(self, json_entry: dict) -> PrivateProperties:
+        return PrivateProperties(json_entry['extendedProperties']['private'])
 
 
 class CalendarEventHandler(ABC):
@@ -36,7 +36,7 @@ class FailingCalendarEventHandler(CalendarEventHandler):
         return True
 
 
-class HourlyCalendarEventHandler(CalendarEventHandler, MappingInfoEventHandlerMixin):
+class HourlyCalendarEventHandler(CalendarEventHandler, ExtendedPropertiesHandlerMixin):
     def accept(self, json_entry: dict) -> bool:
         return 'dateTime' in json_entry.get('start') and 'dateTime' in json_entry.get(
             'end') and json_entry.get('summary')
@@ -48,8 +48,9 @@ class HourlyCalendarEventHandler(CalendarEventHandler, MappingInfoEventHandlerMi
         entry.summary = json_entry['summary']
         entry.color_id = int(json_entry.get('colorId', 0))
         entry.description = json_entry.get('description', '')
-        if self.has_persistence_mapping(json_entry):
-            entry.update_persistence_mapping(self.extract_persistence_mapping(json_entry))
+        entry.update_persistence_mapping(PersistenceMapping(json_entry['id']))
+        if self.has_private_properties(json_entry):
+            entry.private_properties =self.extract_private_properties(json_entry)
         return entry
 
 
@@ -58,7 +59,7 @@ class MultiCalendarEventHandler(CalendarEventHandler):
         return 'date' in json_entry.get('start') and json_entry.get('summary')
 
     def process(self, json_entry: dict) -> CalendarEvent:
-        entry = CalendarEvent()
+        entry = CalendarEvent(json_entry['id'])
         local_timezone = pytz.timezone('Europe/Berlin')
         entry.start = local_timezone.localize(
             datetime.combine(date.fromisoformat(json_entry['start']['date']), time(0, 0)))

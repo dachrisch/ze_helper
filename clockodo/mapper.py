@@ -1,14 +1,20 @@
 from clockodo.entity import ClockodoDay
 from clockodo.resolution import ClockodoResolutionService
 from gcal.entity import CalendarEvent
+from shared.compare import ComparableMixin
 
+
+class MappedClockodoDay(ComparableMixin):
+    def __init__(self,calendar_event: CalendarEvent, clockodo_day:ClockodoDay):
+        self.calendar_event = calendar_event
+        self.clockodo_day = clockodo_day
 
 class ClockodoDayMapper(object):
 
     def __init__(self, resolution_service: ClockodoResolutionService):
         self.resolution_service = resolution_service
 
-    def to_clockodo_day(self, calendar_event: CalendarEvent) -> ClockodoDay:
+    def to_clockodo_day(self, calendar_event: CalendarEvent) -> MappedClockodoDay:
 
         if calendar_event.color_id == 4:  # Flamingo
             mapping = self.resolution_service.resolve_for('HDI',
@@ -31,7 +37,7 @@ class ClockodoDayMapper(object):
             mapping.billable = 0
         else:
             mapping = self.resolution_service.resolve_for('it-agile GmbH', 'Vertrieb', 'Interne Arbeitszeit')
-        return ClockodoDay(calendar_event.start, calendar_event.end, calendar_event.summary, mapping)
+        return MappedClockodoDay(calendar_event, ClockodoDay(calendar_event.start, calendar_event.end, calendar_event.summary, mapping))
 
-    def to_clockodo_days(self, calendar_events:[CalendarEvent])-> [ClockodoDay]:
+    def to_clockodo_days(self, calendar_events:[CalendarEvent])-> [MappedClockodoDay]:
         return tuple(map(lambda calendar_event: self.to_clockodo_day(calendar_event), calendar_events))

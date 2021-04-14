@@ -4,7 +4,8 @@ from unittest import mock
 
 from clockodo.entity import ClockodoDay, ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
-from clockodo.mapper import ClockodoDayMapper
+from clockodo.mapper import ClockodoDayMapper, MappedClockodoDay
+from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
@@ -35,9 +36,10 @@ class TestEntry(unittest.TestCase):
 
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_entry_returns_persistence_mapping(self, post_mock):
+        calendar_event = CalendarEvent(1)
         clockodo_day = ClockodoDay(datetime.now(), datetime.now(), 'Test', ClockodoIdMapping(1, 2, 3))
         self.assertEqual(PersistenceMapping(2),
-                         ClockodoEntryService('test@here', 'None')._enter(clockodo_day).persistence_mapping)
+                         ClockodoEntryService('test@here', 'None')._enter(MappedClockodoDay(calendar_event, clockodo_day)).clockodo_day.persistence_mapping)
 
 
 class TestEntryService(unittest.TestCase):

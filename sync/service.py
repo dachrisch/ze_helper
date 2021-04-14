@@ -31,4 +31,4 @@ class CalendarSyncService(object):
         return self.clockodo_mapper.to_clockodo_days(calendar_events)
 
     def _insert(self, clockodo_days: [ClockodoDay]):
-        self.clockodo_service.enter_calendar_events(clockodo_days)
+        return self.clockodo_service.enter_calendar_events(clockodo_days)
