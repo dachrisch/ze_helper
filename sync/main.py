@@ -1,17 +1,15 @@
 import logging
 from configparser import ConfigParser
-from functools import partial
 from logging import basicConfig
 from optparse import OptionParser
-from unittest.mock import patch
 
-from clockodo.dry import post_logger, delete_logger
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
 from clockodo.resolution import ClockodoResolutionService
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService, GoogleCalendarServiceBuilder
+from sync.dry import delete_logger, enter_logger, silent
 from sync.service import CalendarSyncService, GoogleCalendarEventUpdaterService
 
 
@@ -25,8 +23,7 @@ def build_service(email: str, api_key: str) -> CalendarSyncService:
 
 
 def main(arguments_parser: OptionParser):
-
-    year, month, dry_run,debug = parse_arguments(arguments_parser)
+    year, month, dry_run, debug = parse_arguments(arguments_parser)
     if debug:
         basicConfig(level=logging.DEBUG)
     else:
@@ -35,11 +32,11 @@ def main(arguments_parser: OptionParser):
     entry_service = build_service(email, api_key)
 
     if dry_run:
-        with patch(f'{ClockodoEntryService.__module__}.requests.delete',
-                   side_effect=partial(delete_logger, method='delete')):
-            with patch(f'{ClockodoEntryService.__module__}.requests.post',
-                       side_effect=partial(post_logger, method='post')):
-                entry_service.sync_month(year, month)
+
+        entry_service.clockodo_service._delete = delete_logger
+        entry_service.clockodo_service.enter = enter_logger
+        entry_service.google_calendar_event_updater.store_clockodo_link = silent
+        entry_service.sync_month(year, month)
 
     else:
         entry_service.sync_month(year, month)
@@ -70,8 +67,7 @@ if __name__ == '__main__':
     parser = OptionParser('%prog [options] {year}{month}')
     parser.add_option('-d', '--dry', dest='dry_run', action='store_true',
                       help='just print what would be done')
-    parser.add_option( '--debug', dest='debug', action='store_true',
+    parser.add_option('--debug', dest='debug', action='store_true',
                       help='enable debug log')
-
 
     main(parser)

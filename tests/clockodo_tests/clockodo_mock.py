@@ -52,6 +52,13 @@ def mocked_requests_get(*args, **kwargs):
     fixtures = {
         'users': {
             'users': ({'id': 1, 'email': 'test@here'},), },
+        'customers': {
+            'customers': ({'name': 'HDI', 'id': 'test_customer_id', 'billable_default': True,
+                           'projects': ({'name': 'Design Sprint Bestellung 4500200459', 'id': 'test_project_id'},)},)
+        },
+        'services': {
+            'services': ({'name': 'Workshop-Durchführung', 'id':'test_service_id'},)
+        },
         'entries': {
             'entries': ({'services_name': 'Test Service',
                          'time_since': 1,

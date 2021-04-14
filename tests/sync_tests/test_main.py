@@ -1,3 +1,4 @@
+import json
 import unittest
 from optparse import OptionParser
 from unittest import TestCase, mock
@@ -5,8 +6,11 @@ from unittest.mock import patch
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 
+from clockodo.entry import ClockodoEntryService
+from gcal.service import GoogleCalendarServiceBuilder
 from sync.main import build_service, parse_arguments, main
 from sync.service import CalendarSyncService
+from tests.clockodo_tests.clockodo_mock import mocked_requests_get
 
 
 class SysExitAssertionError(AssertionError):
@@ -71,6 +75,46 @@ class TestMainParse(TestCase):
         self.assertRegex(context.exception.message, f'error: {expected_error}')
 
 
+class Dispatch(object):
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    def events(self):
+        return Catch()
+
+
+class Catch(object):
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    def list(self, *args, **kwargs):
+        return self
+
+    def patch(self,*args,**kwargs):
+        raise AssertionError('should be mocked in dry run')
+
+    def execute(self):
+        return {'items': (json.loads("""{
+            "kind": "calendar#event",
+            "id": "c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z",
+            "summary": "\\"Online-Meeting-Moderation\\"-Aufbau vom 03. - 07. August 2020",
+            "colorId": "4",
+            "start": {
+              "dateTime": "2020-08-03T09:45:00+02:00"
+            },
+            "end": {
+              "dateTime": "2020-08-03T11:45:00+02:00"
+            },
+            "description": "mapping information",
+            "organizer": {
+              "displayName": "Christian Dähn"
+            }
+          }
+        """),)}
+
+
 class TestMainExecute(TestCase):
 
     @mock.patch(f'{main.__module__}.basicConfig')
@@ -81,6 +125,21 @@ class TestMainExecute(TestCase):
         main(FailingOptionsParser(['202008']))
         self.assertEqual('().sync_month', build_service_mock.mock_calls[1][0])
         self.assertEqual((2020, 8), build_service_mock.mock_calls[1][1])
+
+    @mock.patch(f'{GoogleCalendarServiceBuilder.__module__}.build', side_effect=Dispatch)
+    @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
+    @mock.patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
+    @mock.patch(f'{main.__module__}.basicConfig')
+    @mock.patch(f'{main.__module__}.get_credentials')
+    def test_main_performs_dry_run(self, credentials_mock, logger_mock, flow_mock, get_mock, build_mock):
+        credentials_mock.return_value = ('test@here', 'None')
+        main(FailingOptionsParser(['-d', '202008']))
+
+        self.assertEqual(True, credentials_mock.called)
+        self.assertEqual(True, logger_mock.called)
+        self.assertEqual(True, flow_mock.called)
+        self.assertEqual(True, get_mock.called)
+        self.assertEqual(True, build_mock.called)
 
 
 if __name__ == '__main__':
