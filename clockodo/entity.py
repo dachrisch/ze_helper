@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from shared.compare import ComparableMixin
-from shared.persistence import NO_MAPPING, PersistenceMappingMixin
+from shared.persistence import PersistenceMappingMixin
 
 
 class ClockodoIdMapping(ComparableMixin):
@@ -16,7 +16,7 @@ class ClockodoDay(ComparableMixin, PersistenceMappingMixin):
     def __init__(self, start_date: datetime, end_date: datetime, comment: str, id_mapping: ClockodoIdMapping):
         super().__init__()
         self.comment = comment
-        self.id_mapping=id_mapping
+        self.id_mapping = id_mapping
         self.end_date_str = end_date.strftime('%Y-%m-%d %H:%M:%S')
         self.start_date_str = start_date.strftime('%Y-%m-%d %H:%M:%S')
 

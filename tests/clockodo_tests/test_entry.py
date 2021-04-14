@@ -2,9 +2,9 @@ import unittest
 from datetime import datetime
 from unittest import mock
 
-from clockodo.entity import ClockodoDay, ClockodoIdMapping
+from clockodo.entity import ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
-from clockodo.mapper import ClockodoDayMapper, MappedClockodoDay
+from clockodo.mapper import ClockodoDayMapper, ClockodoDay
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
@@ -39,7 +39,7 @@ class TestEntry(unittest.TestCase):
         calendar_event = CalendarEvent(1)
         clockodo_day = ClockodoDay(datetime.now(), datetime.now(), 'Test', ClockodoIdMapping(1, 2, 3))
         self.assertEqual(PersistenceMapping(2),
-                         ClockodoEntryService('test@here', 'None')._enter(MappedClockodoDay(calendar_event, clockodo_day)).clockodo_day.persistence_mapping)
+                         ClockodoEntryService('test@here', 'None').enter(clockodo_day).persistence_mapping)
 
 
 class TestEntryService(unittest.TestCase):

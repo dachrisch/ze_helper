@@ -12,14 +12,16 @@ from clockodo.resolution import ClockodoResolutionService
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService, GoogleCalendarServiceBuilder
-from sync.service import CalendarSyncService
+from sync.service import CalendarSyncService, GoogleCalendarEventUpdaterService
 
 
 def build_service(email: str, api_key: str) -> CalendarSyncService:
+    calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilder())
     return CalendarSyncService(GoogleCalendarEventProcessor(
-        GoogleCalendarService(GoogleCalendarServiceBuilder()), CalendarEventMapper(),
+        calendar_service, CalendarEventMapper(),
         WholeMonthProcessor()), ClockodoEntryService(email, api_key),
-        ClockodoDayMapper(ClockodoResolutionService(email, api_key)))
+        ClockodoDayMapper(ClockodoResolutionService(email, api_key)),
+        GoogleCalendarEventUpdaterService(calendar_service))
 
 
 def main(arguments_parser: OptionParser):
@@ -61,7 +63,6 @@ def parse_arguments(arguments_parser):
 
 
 if __name__ == '__main__':
-
     parser = OptionParser('%prog [options] {year}{month}')
     parser.add_option('-d', '--dry', dest='dry_run', action='store_true',
                       help='just print what would be done')

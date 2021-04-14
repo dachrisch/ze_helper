@@ -5,18 +5,20 @@ from os import path
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from gcal.entity import CalendarEvent
+from gcal.entity import CalendarEvent, PrivateProperties
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
+from shared.persistence import PersistenceMapping
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+RO_SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+RW_SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 class GoogleCalendarServiceBuilder(object):
     @classmethod
-    def build(cls):
+    def build(cls, scopes=RO_SCOPES):
         flow = InstalledAppFlow.from_client_secrets_file(
-            path.join(path.join(path.expanduser('~'), '.credentials'), 'client_secret.json'),scopes=SCOPES)
+            path.join(path.join(path.expanduser('~'), '.credentials'), 'client_secret.json'), scopes=scopes)
 
         credentials = flow.run_local_server()
         return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
@@ -24,13 +26,18 @@ class GoogleCalendarServiceBuilder(object):
 
 class GoogleCalendarService(object):
     def __init__(self, service_builder: GoogleCalendarServiceBuilder):
-        self.service = service_builder.build()
+        self.service = service_builder.build(RW_SCOPES)
 
     def fetch_events_from_service(self, from_date: datetime, to_date: datetime) -> dict:
         events = self.service.events().list(calendarId='primary', timeMin=from_date.isoformat() + 'Z',
                                             timeMax=to_date.isoformat() + 'Z', singleEvents=True,
                                             orderBy='startTime').execute().get('items', [])
         return events
+
+    def update_private_properties(self, update_entity: PersistenceMapping, private_properties: PrivateProperties):
+        event = self.service.events().get(calendarId='primary', eventId=update_entity.source_id).execute()
+        event['extendedProperties'] = private_properties.to_json()
+        self.service.events().update(calendarId='primary', eventId=update_entity.source_id, body=event).execute()
 
 
 class GoogleCalendarEventProcessor(object):

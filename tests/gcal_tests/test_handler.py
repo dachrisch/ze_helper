@@ -2,10 +2,9 @@ import json
 import unittest
 from datetime import datetime, timezone, timedelta
 
-from shared.persistence import PersistenceMapping
+from gcal.entity import PrivateProperties
 from gcal.handler import HourlyCalendarEventHandler, MultiCalendarEventHandler, GCalHandlingException, \
     ExtendedPropertiesHandlerMixin
-from gcal.entity import PrivateProperties
 from gcal.mapper import CalendarEventMapper
 
 
@@ -100,12 +99,13 @@ class TestDayEntryHandler(unittest.TestCase):
 
         self.assertEqual(True, ExtendedPropertiesHandlerMixin().has_private_properties(persistence_mapping))
         self.assertEqual(False, ExtendedPropertiesHandlerMixin().has_private_properties({}))
-        self.assertEqual(False, ExtendedPropertiesHandlerMixin().has_private_properties({'extendedProperties': {'shared': {}}}))
+        self.assertEqual(False, ExtendedPropertiesHandlerMixin().has_private_properties(
+            {'extendedProperties': {'shared': {}}}))
         self.assertEqual(False,
                          ExtendedPropertiesHandlerMixin().has_private_properties(
                              {'extendedProperties': {'private': {'other': 'key'}}}))
 
-        self.assertEqual(PrivateProperties({'clockodo_id':'123456789'}),
+        self.assertEqual(PrivateProperties({'clockodo_id': '123456789'}),
                          ExtendedPropertiesHandlerMixin().extract_private_properties(persistence_mapping))
 
     def test_handle_hourly_entry_with_persistence_mapping(self):
@@ -113,4 +113,4 @@ class TestDayEntryHandler(unittest.TestCase):
 
         calendar_event = HourlyCalendarEventHandler().process(self.hourly_json_entry)
         self.assertEqual(self.hourly_json_entry['id'], calendar_event.persistence_mapping.source_id)
-        self.assertEqual(PrivateProperties({'clockodo_id':'123456789'}), calendar_event.private_properties)
+        self.assertEqual(PrivateProperties({'clockodo_id': '123456789'}), calendar_event.private_properties)

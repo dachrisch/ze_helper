@@ -5,17 +5,12 @@ from importlib import resources
 from gcal.service import GoogleCalendarServiceBuilder
 
 
-class CalendarServiceMock(object):
-    def __init__(self, calendar_events):
+class CalendarServiceListMock(object):
+
+    def __init__(self, calendar_events, timeMin, timeMax):
+        self.timeMax = timeMax
+        self.timeMin = timeMin
         self.calendar_events = calendar_events
-
-    def events(self):
-        return self
-
-    def list(self, calendarId, timeMin, timeMax, singleEvents, orderBy):
-        self.timeMin = datetime.fromisoformat(timeMin[0:-1]).timestamp()
-        self.timeMax = datetime.fromisoformat(timeMax[0:-1]).timestamp()
-        return self
 
     def execute(self):
         return self
@@ -35,10 +30,45 @@ class CalendarServiceMock(object):
             event['end']['date']).timestamp() <= self.timeMax
 
 
+class CalendarServiceGetMock:
+    def __init__(self, event):
+        self.event = event
+
+    def execute(self):
+        return self.event
+
+
+class CalendarServiceUpdateMock:
+    def __init__(self, eventId, body):
+        self.body = body
+        self.eventId = eventId
+
+    def execute(self):
+        pass
+
+
+class CalendarServiceMock(object):
+    def __init__(self, calendar_events):
+        self.calendar_events = calendar_events
+
+    def events(self):
+        return self
+
+    def list(self, calendarId, timeMin, timeMax, singleEvents, orderBy):
+        return CalendarServiceListMock(self.calendar_events, datetime.fromisoformat(timeMin[0:-1]).timestamp(),
+                                       datetime.fromisoformat(timeMax[0:-1]).timestamp())
+
+    def get(self, calendarId, eventId):
+        return CalendarServiceGetMock(next(filter(lambda event: event['id'] == eventId, self.calendar_events), {}))
+
+    def update(self, calendarId, eventId, body):
+        return CalendarServiceUpdateMock(eventId, body)
+
+
 class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
     def __init__(self):
         with resources.open_text('tests', 'calendar_fixture.json5') as events:
             self.calendar_events = json.load(events)
 
-    def build(self):
+    def build(self, scopes):
         return CalendarServiceMock(self.calendar_events)

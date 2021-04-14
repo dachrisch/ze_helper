@@ -35,7 +35,8 @@ class MockResponse(object):
 
 def mocked_requests_post(*args, **kwargs):
     if args[0].startswith('https://my.clockodo.com/api/entries'):
-        return MockResponse('entries', {'entries': {'item': kwargs, 'id':2}})
+        kwargs['id'] = 2
+        return MockResponse('entries', {'entries': {'entry': kwargs}})
     else:
         raise ValueError(f'unknown url {args[0]}')
 

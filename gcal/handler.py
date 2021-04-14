@@ -13,7 +13,7 @@ class GCalHandlingException(Exception):
 
 class ExtendedPropertiesHandlerMixin(object):
     def has_private_properties(self, json_entry: dict) -> bool:
-        return 'clockodo_id' in json_entry.get('extendedProperties', {}).get('private', {})
+        return PrivateProperties.CLOCKODO_ID in json_entry.get('extendedProperties', {}).get('private', {})
 
     def extract_private_properties(self, json_entry: dict) -> PrivateProperties:
         return PrivateProperties(json_entry['extendedProperties']['private'])
@@ -50,7 +50,7 @@ class HourlyCalendarEventHandler(CalendarEventHandler, ExtendedPropertiesHandler
         entry.description = json_entry.get('description', '')
         entry.update_persistence_mapping(PersistenceMapping(json_entry['id']))
         if self.has_private_properties(json_entry):
-            entry.private_properties =self.extract_private_properties(json_entry)
+            entry.private_properties = self.extract_private_properties(json_entry)
         return entry
 
 
