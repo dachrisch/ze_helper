@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class DayEntry(object):
+class CalendarEvent(object):
 
     def __init__(self, start=datetime.now(), end=datetime.now(), summary="", description="", color_id=0):
         self.start = start

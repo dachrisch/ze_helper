@@ -1,12 +1,12 @@
-from gcal.entity import DayEntry
-from gcal.handler import HourlyDayEntryHandler, MultiDayEntryHandler, FailingDayEntryHandler
+from gcal.entity import CalendarEvent
+from gcal.handler import HourlyCalendarEventHandler, MultiCalendarEventHandler, FailingCalendarEventHandler
 
 
-class GoogleCalendarMapper(object):
+class CalendarEventMapper(object):
     def __init__(self):
-        self.handlers = (HourlyDayEntryHandler(), MultiDayEntryHandler(), FailingDayEntryHandler())
+        self.handlers = (HourlyCalendarEventHandler(), MultiCalendarEventHandler(), FailingCalendarEventHandler())
 
-    def to_day_entry(self, json_entry: dict) -> DayEntry:
+    def to_calendar_event(self, json_entry: dict) -> CalendarEvent:
         entry = None
         for handler in self.handlers:
             if handler.accept(json_entry):
@@ -15,5 +15,5 @@ class GoogleCalendarMapper(object):
         assert entry
         return entry
 
-    def to_day_entries(self, json_entries: [dict]) -> [DayEntry]:
-        return tuple(map(lambda entry: self.to_day_entry(entry), json_entries))
+    def to_calendar_events(self, json_entries: [dict]) -> [CalendarEvent]:
+        return tuple(map(lambda entry: self.to_calendar_event(entry), json_entries))

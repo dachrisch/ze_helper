@@ -21,3 +21,45 @@ class ClockodoResolutionServiceMock(ClockodoResolutionService):
                          },)
         }
         return endpoint_map[endpoint]
+
+
+class MockResponse(object):
+
+    def __init__(self, endpoint, return_json):
+        self.endpoint = endpoint
+        self.return_json = return_json
+
+    def json(self):
+        return self.return_json[self.endpoint]
+
+
+def mocked_requests_post(*args, **kwargs):
+    if args[0].startswith('https://my.clockodo.com/api/entries'):
+        return MockResponse('entries', {'entries': {'item': kwargs}})
+    else:
+        raise ValueError(f'unknow url {args[0]}')
+
+
+def mocked_requests_delete(*args, **kwargs):
+    if args[0].startswith('https://my.clockodo.com/api/'):
+        return MockResponse('/'.join(args[0].split('/')[-2:]), {'entries/1': 'success'})
+    else:
+        raise ValueError(f'unknow url {args[0]}')
+
+
+def mocked_requests_get(*args, **kwargs):
+    fixtures = {
+        'users': {
+            'users': ({'id': 1, 'email': 'test@here'},), },
+        'entries': {
+            'entries': ({'services_name': 'Test Service',
+                         'time_since': 1,
+                         'time_until': 2,
+                         'duration_time': 1,
+                         'text': 'test',
+                         'id': 1},), }
+    }
+    if args[0].startswith('https://my.clockodo.com/api/'):
+        return MockResponse(args[0].split('/')[-1], fixtures)
+    else:
+        raise ValueError(f'unknow url {args[0]}')

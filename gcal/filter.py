@@ -1,24 +1,24 @@
 from abc import ABC
 
-from gcal.entity import DayEntry
+from gcal.entity import CalendarEvent
 
 
-class DayEntryFilter(ABC):
-    def filter(self, day_entries: [DayEntry]) -> [DayEntry]:
+class CalendarEventFilter(ABC):
+    def filter(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
         raise NotImplementedError
 
 
-class SummaryDayEntryFilter(DayEntryFilter, ABC):
-    def filter_summary(self, filter_value, day_entries: [DayEntry]) -> [DayEntry]:
-        return tuple(filter(lambda day_entry: day_entry.summary != filter_value, day_entries))
+class SummaryCalendarEventFilter(CalendarEventFilter, ABC):
+    def filter_summary(self, filter_value, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
+        return tuple(filter(lambda calendar_event: calendar_event.summary != filter_value, calendar_events))
 
 
-class VacationDayEntryFilter(SummaryDayEntryFilter):
-    def filter(self, day_entries: [DayEntry]) -> [DayEntry]:
-        return self.filter_summary('Urlaub', day_entries)
+class VacationCalendarEventFilter(SummaryCalendarEventFilter):
+    def filter(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
+        return self.filter_summary('Urlaub', calendar_events)
 
 
-class BreakDayEntryFilter(SummaryDayEntryFilter):
+class BreakCalendarEventFilter(SummaryCalendarEventFilter):
 
-    def filter(self, day_entries: [DayEntry]) -> [DayEntry]:
-        return self.filter_summary('Pause', day_entries)
+    def filter(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
+        return self.filter_summary('Pause', calendar_events)

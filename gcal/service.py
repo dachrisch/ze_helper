@@ -5,8 +5,8 @@ from os import path
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-from gcal.entity import DayEntry
-from gcal.mapper import GoogleCalendarMapper
+from gcal.entity import CalendarEvent
+from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -33,15 +33,15 @@ class GoogleCalendarService(object):
         return events
 
 
-class GoogleDayEntryService(object):
-    def __init__(self, google_service: GoogleCalendarService, mapper: GoogleCalendarMapper,
+class GoogleCalendarEventProcessor(object):
+    def __init__(self, google_service: GoogleCalendarService, mapper: CalendarEventMapper,
                  processor: WholeMonthProcessor):
         self.mapper = mapper
         self.processor = processor
         self.google_service = google_service
 
-    def day_entries_in_month(self, year: int, month: int) -> [DayEntry]:
+    def calendar_events_in_month(self, year: int, month: int) -> [CalendarEvent]:
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, monthrange(year, month)[1], 23, 59, 59)
         return self.processor.process(
-            self.mapper.to_day_entries(self.google_service.fetch_events_from_service(first_day, last_day)))
+            self.mapper.to_calendar_events(self.google_service.fetch_events_from_service(first_day, last_day)))

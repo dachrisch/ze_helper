@@ -3,52 +3,26 @@ from unittest import mock
 
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
-from gcal.mapper import GoogleCalendarMapper
-from gcal.processor import WholeMonthProcessor
-from gcal.service import GoogleDayEntryService, GoogleCalendarService
+from gcal.mapper import CalendarEventMapper
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
-from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock
+from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mocked_requests_post, \
+    mocked_requests_delete, mocked_requests_get
 
 
-class MockResponse(object):
-
-    def __init__(self, endpoint, return_json):
-        self.endpoint = endpoint
-        self.return_json = return_json
-
-    def json(self):
-        return self.return_json[self.endpoint]
-
-
-def mocked_requests_post(*args, **kwargs):
-    if args[0].startswith('https://my.clockodo.com/api/entries'):
-        return MockResponse('entries', {'entries': {'item': kwargs}})
-    else:
-        raise ValueError(f'unknow url {args[0]}')
-
-
-def mocked_requests_delete(*args, **kwargs):
-    if args[0].startswith('https://my.clockodo.com/api/'):
-        return MockResponse('/'.join(args[0].split('/')[-2:]), {'entries/1': 'success'})
-    else:
-        raise ValueError(f'unknow url {args[0]}')
-
-
-def mocked_requests_get(*args, **kwargs):
-    fixtures = {
-        'users': {
-            'users': ({'id': 1, 'email': 'test@here'},), },
-        'entries': {
-            'entries': ({'services_name': 'Test Service',
-                         'time_since': 1,
-                         'duration_time': 1,
-                         'text': 'test',
-                         'id': 1},), }
-    }
-    if args[0].startswith('https://my.clockodo.com/api/'):
-        return MockResponse(args[0].split('/')[-1], fixtures)
-    else:
-        raise ValueError(f'unknow url {args[0]}')
+class TestEntry(unittest.TestCase):
+    def test_entry_logging(self):
+        self.assertEqual("Coaching(from='2021-04-29 13:00:00', to='2021-04-29 14:00:00', text='WG: AG Agile Weekly')", ClockodoEntryService('test@here', 'None')._entry_fields_to_string(
+            {'id': 45971948, 'users_id': 148220, 'projects_id': 1244898, 'customers_id': 1438790, 'services_id': 549399,
+             'hourly_rate': 162.5, 'billable': 1, 'time_insert': '2021-04-14 16:15:59',
+             'time_since': '2021-04-29 13:00:00', 'time_until': '2021-04-29 14:00:00', 'offset': 0, 'duration': 3600,
+             'clocked': False, 'lumpSum': None, 'time_last_change': '2021-04-14 16:15:59',
+             'time_last_change_work_time': '2021-04-14 16:15:59', 'lumpSums_id': None, 'time_clocked_since': None,
+             'offline': False, 'revenue': 162.5, 'budget_is_hours': False, 'budget_is_not_strict': False,
+             'customers_name': 'AOK Systems GmbH', 'projects_name': 'Coach the Coaches PO 10528/10721',
+             'services_name': 'Coaching', 'users_name': 'Christian Dähn', 'lumpSums_price': None, 'lumpSums_unit': None,
+             'lumpSums_name': None, 'lumpSums_amount': None, 'billed': False, 'texts_id': 15966637,
+             'text': 'WG: AG Agile Weekly', 'duration_time': '01:00:00', 'offset_time': '00:00:00',
+             'is_clocking': False, 'budget': 0}))
 
 
 class TestEntryService(unittest.TestCase):
@@ -56,11 +30,7 @@ class TestEntryService(unittest.TestCase):
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.delete', side_effect=mocked_requests_delete)
     def test_delete_one_entry(self, delete_mock, get_mock):
-        entry_service = ClockodoEntryService('test@here', "None", GoogleDayEntryService(
-            GoogleCalendarService(GoogleCalendarServiceBuilderMock()),
-            GoogleCalendarMapper(),
-            WholeMonthProcessor()),
-                                             ClockodoDayMapper(ClockodoResolutionServiceMock()))
+        entry_service = ClockodoEntryService('test@here', 'None')
         entry_service.delete_entries(2020, 8)
 
         self.assertTrue(get_mock.called)
@@ -71,12 +41,12 @@ class TestEntryService(unittest.TestCase):
 
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_enter_entries(self, post_mock):
-        entry_service = ClockodoEntryService('test@here', "None", GoogleDayEntryService(
-            GoogleCalendarService(GoogleCalendarServiceBuilderMock()),
-            GoogleCalendarMapper(),
-            WholeMonthProcessor()),
-                                             ClockodoDayMapper(ClockodoResolutionServiceMock()))
-        entry_service.enter_events_from_gcal(2020, 8)
+        entry_service = ClockodoEntryService('test@here', 'None')
+
+        clockodo_days = ClockodoDayMapper(ClockodoResolutionServiceMock()).to_clockodo_days(
+            CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock().calendar_events))
+
+        entry_service.enter_calendar_events(clockodo_days)
 
         self.assertTrue(post_mock.called)
         self.assertEqual(23, post_mock.call_count)
