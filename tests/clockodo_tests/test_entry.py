@@ -1,9 +1,12 @@
 import unittest
+from datetime import datetime
 from unittest import mock
 
+from clockodo.entity import ClockodoDay, ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
 from gcal.mapper import CalendarEventMapper
+from shared.persistence import PersistenceMapping
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
 from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mocked_requests_post, \
     mocked_requests_delete, mocked_requests_get
@@ -11,18 +14,30 @@ from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mo
 
 class TestEntry(unittest.TestCase):
     def test_entry_logging(self):
-        self.assertEqual("Coaching(from='2021-04-29 13:00:00', to='2021-04-29 14:00:00', text='WG: AG Agile Weekly')", ClockodoEntryService('test@here', 'None')._entry_fields_to_string(
-            {'id': 45971948, 'users_id': 148220, 'projects_id': 1244898, 'customers_id': 1438790, 'services_id': 549399,
-             'hourly_rate': 162.5, 'billable': 1, 'time_insert': '2021-04-14 16:15:59',
-             'time_since': '2021-04-29 13:00:00', 'time_until': '2021-04-29 14:00:00', 'offset': 0, 'duration': 3600,
-             'clocked': False, 'lumpSum': None, 'time_last_change': '2021-04-14 16:15:59',
-             'time_last_change_work_time': '2021-04-14 16:15:59', 'lumpSums_id': None, 'time_clocked_since': None,
-             'offline': False, 'revenue': 162.5, 'budget_is_hours': False, 'budget_is_not_strict': False,
-             'customers_name': 'AOK Systems GmbH', 'projects_name': 'Coach the Coaches PO 10528/10721',
-             'services_name': 'Coaching', 'users_name': 'Christian Dähn', 'lumpSums_price': None, 'lumpSums_unit': None,
-             'lumpSums_name': None, 'lumpSums_amount': None, 'billed': False, 'texts_id': 15966637,
-             'text': 'WG: AG Agile Weekly', 'duration_time': '01:00:00', 'offset_time': '00:00:00',
-             'is_clocking': False, 'budget': 0}))
+        self.assertEqual("Coaching(from='2021-04-29 13:00:00', to='2021-04-29 14:00:00', text='WG: AG Agile Weekly')",
+                         ClockodoEntryService('test@here', 'None')._entry_fields_to_string(
+                             {'id': 45971948, 'users_id': 148220, 'projects_id': 1244898, 'customers_id': 1438790,
+                              'services_id': 549399,
+                              'hourly_rate': 162.5, 'billable': 1, 'time_insert': '2021-04-14 16:15:59',
+                              'time_since': '2021-04-29 13:00:00', 'time_until': '2021-04-29 14:00:00', 'offset': 0,
+                              'duration': 3600,
+                              'clocked': False, 'lumpSum': None, 'time_last_change': '2021-04-14 16:15:59',
+                              'time_last_change_work_time': '2021-04-14 16:15:59', 'lumpSums_id': None,
+                              'time_clocked_since': None,
+                              'offline': False, 'revenue': 162.5, 'budget_is_hours': False,
+                              'budget_is_not_strict': False,
+                              'customers_name': 'AOK Systems GmbH', 'projects_name': 'Coach the Coaches PO 10528/10721',
+                              'services_name': 'Coaching', 'users_name': 'Christian Dähn', 'lumpSums_price': None,
+                              'lumpSums_unit': None,
+                              'lumpSums_name': None, 'lumpSums_amount': None, 'billed': False, 'texts_id': 15966637,
+                              'text': 'WG: AG Agile Weekly', 'duration_time': '01:00:00', 'offset_time': '00:00:00',
+                              'is_clocking': False, 'budget': 0}))
+
+    @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
+    def test_entry_returns_persistence_mapping(self, post_mock):
+        clockodo_day = ClockodoDay(datetime.now(), datetime.now(), 'Test', ClockodoIdMapping(1, 2, 3))
+        self.assertEqual(PersistenceMapping(2),
+                         ClockodoEntryService('test@here', 'None')._enter(clockodo_day).persistence_mapping)
 
 
 class TestEntryService(unittest.TestCase):

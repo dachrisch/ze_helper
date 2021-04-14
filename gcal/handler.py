@@ -3,7 +3,8 @@ from datetime import datetime, date, time
 
 import pytz
 
-from gcal.entity import CalendarEvent, MappingInfo
+from gcal.entity import CalendarEvent
+from shared.persistence import PersistenceMapping
 
 
 class GCalHandlingException(Exception):
@@ -11,11 +12,11 @@ class GCalHandlingException(Exception):
 
 
 class MappingInfoEventHandlerMixin(object):
-    def has_mapping_info(self, json_entry: dict) -> bool:
+    def has_persistence_mapping(self, json_entry: dict) -> bool:
         return 'clockodo_id' in json_entry.get('extendedProperties', {}).get('private', {})
 
-    def extract_mapping_info(self, json_entry: dict) -> MappingInfo:
-        return MappingInfo(json_entry['id'], json_entry['extendedProperties']['private']['clockodo_id'])
+    def extract_persistence_mapping(self, json_entry: dict) -> PersistenceMapping:
+        return PersistenceMapping(json_entry['id'])
 
 
 class CalendarEventHandler(ABC):
@@ -47,8 +48,8 @@ class HourlyCalendarEventHandler(CalendarEventHandler, MappingInfoEventHandlerMi
         entry.summary = json_entry['summary']
         entry.color_id = int(json_entry.get('colorId', 0))
         entry.description = json_entry.get('description', '')
-        if self.has_mapping_info(json_entry):
-            entry.update_mapping_info(self.extract_mapping_info(json_entry))
+        if self.has_persistence_mapping(json_entry):
+            entry.update_persistence_mapping(self.extract_persistence_mapping(json_entry))
         return entry
 
 

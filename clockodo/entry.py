@@ -1,4 +1,5 @@
 import calendar
+from copy import deepcopy
 from datetime import datetime
 from logging import getLogger
 
@@ -6,6 +7,7 @@ import requests
 
 from clockodo.entity import ClockodoDay
 from clockodo.service import ClockodoService
+from shared.persistence import PersistenceMapping
 
 
 class ClockodoEntryService(ClockodoService):
@@ -22,7 +24,7 @@ class ClockodoEntryService(ClockodoService):
         for clockodo_day in clockodo_days:
             self._enter(clockodo_day)
 
-    def _current_entries(self, first_day, last_day)->dict:
+    def _current_entries(self, first_day, last_day) -> dict:
         current_entries = requests.get(self.base_url + '/entries', auth=self._get_auth(),
                                        params={'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
                                                'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S'),
@@ -35,7 +37,7 @@ class ClockodoEntryService(ClockodoService):
         assert 'success' in response.json(), response.json()
 
     @staticmethod
-    def _entry_fields_to_string(entry)->str:
+    def _entry_fields_to_string(entry) -> str:
         return f"{entry['services_name']}(from='{entry['time_since']}', to='{entry['time_until']}', text='{entry['text']}')"
 
     def _enter(self, clockodo_day: ClockodoDay):
@@ -50,5 +52,13 @@ class ClockodoEntryService(ClockodoService):
                                          'text': clockodo_day.comment})
 
         getLogger(self.__class__.__name__).debug(response.json())
-        if 'error' in response.json():
-            getLogger(self.__class__.__name__).error(f'error inserting {clockodo_day}: {response.json()["error"]}')
+        assert 'error' not in response.json()
+        return self._extract_persistence_info(clockodo_day, response.json())
+
+    @staticmethod
+    def _extract_persistence_info(clockodo_day: ClockodoDay, json_response: dict):
+        assert 'id' in json_response, json_response
+        persistent_clockodo_day = deepcopy(clockodo_day)
+        persistent_clockodo_day.update_persistence_mapping(PersistenceMapping(json_response['id']))
+
+        return persistent_clockodo_day

@@ -35,16 +35,16 @@ class MockResponse(object):
 
 def mocked_requests_post(*args, **kwargs):
     if args[0].startswith('https://my.clockodo.com/api/entries'):
-        return MockResponse('entries', {'entries': {'item': kwargs}})
+        return MockResponse('entries', {'entries': {'item': kwargs, 'id':2}})
     else:
-        raise ValueError(f'unknow url {args[0]}')
+        raise ValueError(f'unknown url {args[0]}')
 
 
 def mocked_requests_delete(*args, **kwargs):
     if args[0].startswith('https://my.clockodo.com/api/'):
         return MockResponse('/'.join(args[0].split('/')[-2:]), {'entries/1': 'success'})
     else:
-        raise ValueError(f'unknow url {args[0]}')
+        raise ValueError(f'unknown url {args[0]}')
 
 
 def mocked_requests_get(*args, **kwargs):
@@ -62,4 +62,4 @@ def mocked_requests_get(*args, **kwargs):
     if args[0].startswith('https://my.clockodo.com/api/'):
         return MockResponse(args[0].split('/')[-1], fixtures)
     else:
-        raise ValueError(f'unknow url {args[0]}')
+        raise ValueError(f'unknown url {args[0]}')

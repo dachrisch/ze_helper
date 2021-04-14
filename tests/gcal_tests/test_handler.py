@@ -2,7 +2,7 @@ import json
 import unittest
 from datetime import datetime, timezone, timedelta
 
-from gcal.entity import MappingInfo
+from shared.persistence import PersistenceMapping
 from gcal.handler import HourlyCalendarEventHandler, MultiCalendarEventHandler, GCalHandlingException, \
     MappingInfoEventHandlerMixin
 from gcal.mapper import CalendarEventMapper
@@ -85,8 +85,8 @@ class TestDayEntryHandler(unittest.TestCase):
         with self.assertRaises(GCalHandlingException) as e:
             CalendarEventMapper().to_calendar_event(self.failing_json_entry)
 
-    def test_handle_entry_with_mapping_info(self):
-        mapping_info = json.loads("""{
+    def test_handle_entry_with_persistence_mapping(self):
+        persistence_mapping = json.loads("""{
                     "id": "c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z",
                     "extendedProperties": {
                       "private": {
@@ -96,17 +96,17 @@ class TestDayEntryHandler(unittest.TestCase):
                   }
                 """)
 
-        self.assertEqual(True, MappingInfoEventHandlerMixin().has_mapping_info(mapping_info))
-        self.assertEqual(False, MappingInfoEventHandlerMixin().has_mapping_info({}))
-        self.assertEqual(False, MappingInfoEventHandlerMixin().has_mapping_info({'extendedProperties': {'shared': {}}}))
+        self.assertEqual(True, MappingInfoEventHandlerMixin().has_persistence_mapping(persistence_mapping))
+        self.assertEqual(False, MappingInfoEventHandlerMixin().has_persistence_mapping({}))
+        self.assertEqual(False, MappingInfoEventHandlerMixin().has_persistence_mapping({'extendedProperties': {'shared': {}}}))
         self.assertEqual(False,
-                         MappingInfoEventHandlerMixin().has_mapping_info(
+                         MappingInfoEventHandlerMixin().has_persistence_mapping(
                              {'extendedProperties': {'private': {'other': 'key'}}}))
 
-        self.assertEqual(MappingInfo('c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z', '123456789'),
-                         MappingInfoEventHandlerMixin().extract_mapping_info(mapping_info))
+        self.assertEqual(PersistenceMapping('c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z'),
+                         MappingInfoEventHandlerMixin().extract_persistence_mapping(persistence_mapping))
 
-    def test_handle_hourly_entry_with_mapping_info(self):
+    def test_handle_hourly_entry_with_persistence_mapping(self):
         self.hourly_json_entry['extendedProperties'] = {'private': {'clockodo_id': '123456789'}}
         calendar_event = HourlyCalendarEventHandler().process(self.hourly_json_entry)
-        self.assertEqual(True, calendar_event.has_mapping_info())
+        self.assertEqual(True, calendar_event.has_persistence_mapping())
