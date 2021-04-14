@@ -1,4 +1,2 @@
-mechanize
 google-api-python-client
-oauth2client
-httpie
+google-auth-oauthlib

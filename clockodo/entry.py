@@ -22,7 +22,7 @@ class ClockodoEntryService(ClockodoService):
         for clockodo_day in clockodo_days:
             self._enter(clockodo_day)
 
-    def _current_entries(self, first_day, last_day):
+    def _current_entries(self, first_day, last_day)->dict:
         current_entries = requests.get(self.base_url + '/entries', auth=self._get_auth(),
                                        params={'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
                                                'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S'),
@@ -35,7 +35,7 @@ class ClockodoEntryService(ClockodoService):
         assert 'success' in response.json(), response.json()
 
     @staticmethod
-    def _entry_fields_to_string(entry):
+    def _entry_fields_to_string(entry)->str:
         return f"{entry['services_name']}(from='{entry['time_since']}', to='{entry['time_until']}', text='{entry['text']}')"
 
     def _enter(self, clockodo_day: ClockodoDay):

@@ -2,23 +2,23 @@ from calendar import monthrange
 from datetime import datetime
 from os import path
 
-from google.oauth2 import service_account
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 class GoogleCalendarServiceBuilder(object):
     @classmethod
     def build(cls):
-        credentials = service_account.Credentials.from_service_account_file(
-            path.join(path.join(path.expanduser('~'), '.credentials'), 'suedsterne-1328.json'),
-            scopes=SCOPES).with_subject('cd@it-agile.de')
+        flow = InstalledAppFlow.from_client_secrets_file(
+            path.join(path.join(path.expanduser('~'), '.credentials'), 'client_secret.json'),scopes=SCOPES)
 
+        credentials = flow.run_local_server()
         return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
 
 

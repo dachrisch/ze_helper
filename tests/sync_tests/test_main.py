@@ -1,6 +1,9 @@
 import unittest
 from optparse import OptionParser
 from unittest import TestCase, mock
+from unittest.mock import patch
+
+from google_auth_oauthlib.flow import InstalledAppFlow
 
 from sync.main import build_service, parse_arguments, main
 from sync.service import CalendarSyncService
@@ -29,7 +32,8 @@ class FailingOptionsParser(OptionParser):
 
 
 class TestMainParse(TestCase):
-    def test_build_service(self):
+    @patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
+    def test_build_service(self, flow_mock):
         self.assertIsInstance(build_service('test@here', 'None'), CalendarSyncService)
 
     def test_parse_fails_on_empty_arguments(self):
