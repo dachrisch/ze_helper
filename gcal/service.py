@@ -1,8 +1,10 @@
+import io
 from calendar import monthrange
 from datetime import datetime
 from logging import getLogger
 from os import path
 
+from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
@@ -11,23 +13,29 @@ from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from shared.persistence import PersistenceMapping
 
-RO_SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 RW_SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 class GoogleCalendarServiceBuilder(object):
     @classmethod
-    def build(cls, scopes=RO_SCOPES):
-        flow = InstalledAppFlow.from_client_secrets_file(
-            path.join(path.join(path.expanduser('~'), '.credentials'), 'client_secret.json'), scopes=scopes)
+    def build(cls):
+        credentials_dir = path.join(path.expanduser('~'), '.credentials')
+        client_secret_file = path.join(credentials_dir, 'client_secret.json')
+        flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes=RW_SCOPES)
+        credentials_store = path.join(credentials_dir, 'store.json')
 
-        credentials = flow.run_local_server()
+        if path.isfile(credentials_store):
+            credentials = Credentials.from_authorized_user_file(credentials_store)
+        else:
+            credentials = flow.run_local_server()
+            with io.open(credentials_store, 'w', encoding="utf-8") as json_file:
+                json_file.write(credentials.to_json())
         return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
 
 
 class GoogleCalendarService(object):
     def __init__(self, service_builder: GoogleCalendarServiceBuilder):
-        self.service = service_builder.build(RW_SCOPES)
+        self.service = service_builder.build()
 
     def fetch_events_from_service(self, from_date: datetime, to_date: datetime) -> dict:
         events = self.service.events().list(calendarId='primary', timeMin=from_date.isoformat() + 'Z',

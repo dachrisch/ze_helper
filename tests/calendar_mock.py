@@ -71,5 +71,5 @@ class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
         with resources.open_text('tests', 'calendar_fixture.json5') as events:
             self.calendar_events = json.load(events)
 
-    def build(self, scopes):
+    def build(self):
         return CalendarServiceMock(self.calendar_events)
