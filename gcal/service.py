@@ -29,7 +29,7 @@ class GoogleCalendarServiceBuilder(object):
         else:
             credentials = flow.run_local_server()
             with io.open(credentials_store, 'w', encoding="utf-8") as json_file:
-                json_file.write(credentials.to_json())
+                json_file.write(credentials.to_json_str())
         return build('calendar', 'v3', credentials=credentials, cache_discovery=False)
 
 
