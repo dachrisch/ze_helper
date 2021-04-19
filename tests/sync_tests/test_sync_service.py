@@ -17,7 +17,7 @@ class TestCalendarSyncService(unittest.TestCase):
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.delete', side_effect=mocked_requests_delete)
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_sync_month(self, post_mock, delete_mock, get_mock):
-        calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilderMock())
+        calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilderMock.from_fixture())
         CalendarSyncService(GoogleCalendarEventProcessor(
             calendar_service, CalendarEventMapper(),
             WholeMonthProcessor()), ClockodoEntryService('test@here', 'None'),

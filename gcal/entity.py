@@ -11,7 +11,7 @@ class PrivateProperties(ComparableMixin):
         self.clockodo_id = private_properties.get(self.CLOCKODO_ID)
 
     def to_json(self):
-        return {'private': {self.CLOCKODO_ID: self.clockodo_id}}
+        return {'private': {'clockodo_mapping':{'direct': {self.CLOCKODO_ID: self.clockodo_id}}}}
 
     @classmethod
     def from_mapping(cls, persistence_mapping: PersistenceMapping):

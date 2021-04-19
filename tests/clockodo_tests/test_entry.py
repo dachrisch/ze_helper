@@ -61,7 +61,7 @@ class TestEntryService(unittest.TestCase):
         entry_service = ClockodoEntryService('test@here', 'None')
 
         clockodo_days = ClockodoDayMapper(ClockodoResolutionServiceMock()).to_clockodo_days(
-            CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock().calendar_events))
+            CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock.from_fixture().calendar_events))
 
         entry_service.enter_calendar_events(clockodo_days)
 

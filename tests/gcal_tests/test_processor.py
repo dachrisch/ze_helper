@@ -54,7 +54,7 @@ class TestProcessWholeMonth(unittest.TestCase):
 
     def test_processes_complete_month(self):
         source_calendar_events = CalendarEventMapper().to_calendar_events(
-            GoogleCalendarServiceBuilderMock().calendar_events)
+            GoogleCalendarServiceBuilderMock.from_fixture().calendar_events)
         self.assertEqual(23, len(source_calendar_events))
         working_days = list(VacationCalendarEventFilter().filter(source_calendar_events))
         self.assertEqual(22, len(working_days))

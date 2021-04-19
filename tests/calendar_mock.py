@@ -67,9 +67,14 @@ class CalendarServiceMock(object):
 
 
 class GoogleCalendarServiceBuilderMock(GoogleCalendarServiceBuilder):
-    def __init__(self):
-        with resources.open_text('tests', 'calendar_fixture.json5') as events:
-            self.calendar_events = json.load(events)
+    @classmethod
+    def from_fixture(cls, fixture='calendar_fixture.json5'):
+        with resources.open_text('tests', fixture) as events:
+            calendar_events = json.load(events)
+        return cls(calendar_events)
+
+    def __init__(self, calendar_events):
+        self.calendar_events = calendar_events
 
     def build(self):
         return CalendarServiceMock(self.calendar_events)
