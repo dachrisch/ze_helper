@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from shared.compare import ComparableMixin
+from shared.compare import HashableMixin
 from shared.persistence import PersistenceMappingMixin
 
 
-class ClockodoIdMapping(ComparableMixin):
+class ClockodoIdMapping(HashableMixin):
     def __init__(self, customer_id: int, project_id: int, service_id: int, billable: int = 1):
         self.billable = billable
         self.service_id = service_id
@@ -12,13 +12,15 @@ class ClockodoIdMapping(ComparableMixin):
         self.customer_id = customer_id
 
 
-class ClockodoDay(ComparableMixin, PersistenceMappingMixin):
+class ClockodoDay(HashableMixin, PersistenceMappingMixin):
+    DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
     def __init__(self, start_date: datetime, end_date: datetime, comment: str, id_mapping: ClockodoIdMapping):
         super().__init__()
         self.comment = comment
         self.id_mapping = id_mapping
-        self.end_date_str = end_date.strftime('%Y-%m-%d %H:%M:%S')
-        self.start_date_str = start_date.strftime('%Y-%m-%d %H:%M:%S')
+        self.end_date_str = end_date.strftime(self.DATE_FORMAT)
+        self.start_date_str = start_date.strftime(self.DATE_FORMAT)
 
     @property
     def billable(self):

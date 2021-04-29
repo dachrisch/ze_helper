@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from shared.compare import ComparableMixin
+from shared.compare import ComparableMixin, HashableMixin
 from shared.persistence import PersistenceMappingMixin, PersistenceMapping, NO_MAPPING
 
 
-class PrivateProperties(ComparableMixin):
+class PrivateProperties(HashableMixin):
     CLOCKODO_ID = 'clockodo_id'
 
     def __init__(self, private_properties: dict = {}):
@@ -21,7 +21,7 @@ class PrivateProperties(ComparableMixin):
 NO_PRIVATE_PROPERTIES = PrivateProperties()
 
 
-class CalendarEvent(ComparableMixin, PersistenceMappingMixin):
+class CalendarEvent(HashableMixin, PersistenceMappingMixin):
 
     def __init__(self, start=datetime.now(), end=datetime.now(), summary='', description='', color_id=0,
                  private_properties=NO_PRIVATE_PROPERTIES, persistence_mapping=NO_MAPPING):

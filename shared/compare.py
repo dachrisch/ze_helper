@@ -8,3 +8,9 @@ class ComparableMixin(object):
         if type(other) is type(self):
             return self.__dict__ == other.__dict__
         return False
+
+
+class HashableMixin(ComparableMixin):
+
+    def __hash__(self):
+        return hash(tuple(map(lambda item: (item[0], item[1]), self.__dict__.items())))

@@ -4,10 +4,10 @@ import json
 
 import smaz as smaz
 
-from shared.compare import ComparableMixin
+from shared.compare import ComparableMixin, HashableMixin
 
 
-class PersistenceMapping(ComparableMixin):
+class PersistenceMapping(HashableMixin):
     def __init__(self, source_id):
         self.source_id = source_id
 

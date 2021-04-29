@@ -100,7 +100,7 @@ class Catch(object):
             "kind": "calendar#event",
             "id": "c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z",
             "summary": "\\"Online-Meeting-Moderation\\"-Aufbau vom 03. - 07. August 2020",
-            "colorId": "4",
+            "colorId": "7",
             "start": {
               "dateTime": "2020-08-03T09:45:00+02:00"
             },

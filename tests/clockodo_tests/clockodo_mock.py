@@ -12,7 +12,7 @@ class ClockodoResolutionServiceMock(ClockodoResolutionService):
                     'name': 'it-agile GmbH',
                     'id': 1,
                     'billable_default': 0,
-                    'projects': ({'name': 'Vertrieb', 'id': 1},)
+                    'projects': ({'name': 'Interne Struktur und Organisation', 'id': 1},)
                 },
             ),
             'services': ({
@@ -53,11 +53,11 @@ def mocked_requests_get(*args, **kwargs):
         'users': {
             'users': ({'id': 1, 'email': 'test@here'},), },
         'customers': {
-            'customers': ({'name': 'HDI', 'id': 'test_customer_id', 'billable_default': True,
-                           'projects': ({'name': 'Design Sprint Bestellung 4500200459', 'id': 'test_project_id'},)},)
+            'customers': ({'name': 'it-agile GmbH', 'id': 'test_customer_id', 'billable_default': False,
+                           'projects': ({'name': 'Interne Struktur und Organisation', 'id': 'test_project_id'},)},)
         },
         'services': {
-            'services': ({'name': 'Workshop-Durchführung', 'id':'test_service_id'},)
+            'services': ({'name': 'Interne Arbeitszeit', 'id':'test_service_id'},)
         },
         'entries': {
             'entries': ({'services_name': 'Test Service',
