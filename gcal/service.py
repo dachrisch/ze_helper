@@ -21,13 +21,13 @@ class GoogleCalendarServiceBuilder(object):
     @classmethod
     def build(cls):
         credentials_dir = path.join(path.expanduser('~'), '.credentials')
-        client_secret_file = path.join(credentials_dir, 'client_secret.json')
-        flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes=RW_SCOPES)
         credentials_store = path.join(credentials_dir, 'store.json')
 
         if path.isfile(credentials_store):
             credentials = Credentials.from_authorized_user_file(credentials_store)
         else:
+            client_secret_file = path.join(credentials_dir, 'client_secret.json')
+            flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes=RW_SCOPES)
             credentials = flow.run_local_server()
             with io.open(credentials_store, 'w', encoding="utf-8") as json_file:
                 json_file.write(credentials.to_json_str())

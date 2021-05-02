@@ -37,8 +37,10 @@ class FailingOptionsParser(OptionParser):
 
 
 class TestMainParse(TestCase):
+    @mock.patch('os.path.isfile', return_value=False)
+    @mock.patch('io.open')
     @patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
-    def test_build_service(self, flow_mock):
+    def test_build_service(self, flow_mock, io_mock, isfile_mock):
         self.assertIsInstance(build_service('test@here', 'None'), CalendarSyncService)
 
     def test_parse_fails_on_empty_arguments(self):
@@ -126,12 +128,14 @@ class TestMainExecute(TestCase):
         self.assertEqual('().sync_month', build_service_mock.mock_calls[1][0])
         self.assertEqual((2020, 8), build_service_mock.mock_calls[1][1])
 
+    @mock.patch('os.path.isfile', return_value=False)
+    @mock.patch('io.open')
     @mock.patch(f'{GoogleCalendarServiceBuilder.__module__}.build', side_effect=Dispatch)
     @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
     @mock.patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
     @mock.patch(f'{main.__module__}.basicConfig')
     @mock.patch(f'{main.__module__}.get_credentials')
-    def test_main_performs_dry_run(self, credentials_mock, logger_mock, flow_mock, get_mock, build_mock):
+    def test_main_performs_dry_run(self, credentials_mock, logger_mock, flow_mock, get_mock, build_mock, io_mock, isfile_mock):
         credentials_mock.return_value = ('test@here', 'None')
         main(FailingOptionsParser(['-d', '202008']))
 
@@ -140,6 +144,8 @@ class TestMainExecute(TestCase):
         self.assertEqual(True, flow_mock.called)
         self.assertEqual(True, get_mock.called)
         self.assertEqual(True, build_mock.called)
+        self.assertEqual(True, io_mock.called)
+        self.assertEqual(True, isfile_mock.called)
 
 
 if __name__ == '__main__':
