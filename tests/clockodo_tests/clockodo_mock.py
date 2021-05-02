@@ -61,8 +61,12 @@ def mocked_requests_get(*args, **kwargs):
         },
         'entries': {
             'entries': ({'services_name': 'Test Service',
-                         'time_since': 1,
-                         'time_until': 2,
+                         'time_since': '2021-02-01 10:30:00',
+                         'time_until': '2021-02-01 13:00:00',
+                         'customers_id': 'test_customer_id',
+                         'projects_id': 'test_project_id',
+                         'services_id': 'test_services_id',
+                         'billable' : 1,
                          'duration_time': 1,
                          'text': 'test',
                          'id': 1},), }

@@ -9,8 +9,8 @@ from clockodo.resolution import ClockodoResolutionService
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService, GoogleCalendarServiceBuilder
-from sync.dry import delete_logger, enter_logger, silent
-from sync.service import CalendarSyncService, GoogleCalendarEventUpdaterService
+from sync.dry import delete_logger, enter_logger
+from sync.service import CalendarSyncService
 
 
 def build_service(email: str, api_key: str) -> CalendarSyncService:
@@ -18,8 +18,7 @@ def build_service(email: str, api_key: str) -> CalendarSyncService:
     return CalendarSyncService(GoogleCalendarEventProcessor(
         calendar_service, CalendarEventMapper(),
         WholeMonthProcessor()), ClockodoEntryService(email, api_key),
-        ClockodoDayMapper(ClockodoResolutionService(email, api_key)),
-        GoogleCalendarEventUpdaterService(calendar_service))
+        ClockodoDayMapper(ClockodoResolutionService(email, api_key)))
 
 
 def main(arguments_parser: OptionParser):
@@ -35,7 +34,6 @@ def main(arguments_parser: OptionParser):
 
         entry_service.clockodo_service._delete = delete_logger
         entry_service.clockodo_service.enter = enter_logger
-        entry_service.google_calendar_event_updater.store_clockodo_link = silent
         entry_service.sync_month(year, month)
 
     else:

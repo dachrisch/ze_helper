@@ -75,11 +75,11 @@ class TestProcessWholeMonth(unittest.TestCase):
                                   CalendarEvent(datetime(2021, 2, 1, 15), datetime(2021, 2, 1, 16), 'Fourth Arbeit'),
                                   )
         expected_calendar_events = (
-        CalendarEvent(datetime(2021, 2, 1, 8, 30), datetime(2021, 2, 1, 9, 30), 'First Arbeit'),
-        CalendarEvent(datetime(2021, 2, 1, 9, 30), datetime(2021, 2, 1, 12, 30), 'Second Arbeit'),
-        CalendarEvent(datetime(2021, 2, 1, 13), datetime(2021, 2, 1, 15), 'Third Arbeit'),
-        CalendarEvent(datetime(2021, 2, 1, 15), datetime(2021, 2, 1, 16), 'Fourth Arbeit'),
-        CalendarEvent(datetime(2021, 2, 1, 16), datetime(2021, 2, 1, 17), 'First Arbeit'),
+            CalendarEvent(datetime(2021, 2, 1, 8, 30), datetime(2021, 2, 1, 9, 30), 'First Arbeit'),
+            CalendarEvent(datetime(2021, 2, 1, 9, 30), datetime(2021, 2, 1, 12, 30), 'Second Arbeit'),
+            CalendarEvent(datetime(2021, 2, 1, 13), datetime(2021, 2, 1, 15), 'Third Arbeit'),
+            CalendarEvent(datetime(2021, 2, 1, 15), datetime(2021, 2, 1, 16), 'Fourth Arbeit'),
+            CalendarEvent(datetime(2021, 2, 1, 16), datetime(2021, 2, 1, 17), 'First Arbeit'),
         )
 
         self.assertEqual(expected_calendar_events, WholeMonthProcessor().process(source_calendar_events))

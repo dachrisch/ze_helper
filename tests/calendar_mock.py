@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from importlib import resources
+from typing import Dict
 
 from gcal.service import GoogleCalendarServiceBuilder
 
@@ -19,12 +20,12 @@ class CalendarServiceListMock(object):
         return list(filter(lambda event: self.event_with_time_in_range(event) or self.event_with_date_in_range(event),
                            self.calendar_events))
 
-    def event_with_time_in_range(self, event: dict):
+    def event_with_time_in_range(self, event: Dict):
         return 'dateTime' in event['start'] and self.timeMin <= datetime.fromisoformat(
             event['start']['dateTime']).timestamp() and datetime.fromisoformat(
             event['end']['dateTime']).timestamp() <= self.timeMax
 
-    def event_with_date_in_range(self, event: dict):
+    def event_with_date_in_range(self, event: Dict):
         return 'date' in event['start'] and self.timeMin <= datetime.fromisoformat(
             event['start']['date']).timestamp() and datetime.fromisoformat(
             event['end']['date']).timestamp() <= self.timeMax
@@ -39,7 +40,7 @@ class CalendarServiceGetMock:
 
 
 class CalendarServiceUpdateMock:
-    def __init__(self, event:dict, body:dict):
+    def __init__(self, event:Dict, body:Dict):
         self.body = body
         self.event = event
 

@@ -6,7 +6,7 @@ from clockodo.mapper import ClockodoDayMapper
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService
-from sync.service import CalendarSyncService, GoogleCalendarEventUpdaterService
+from sync.service import CalendarSyncService
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
 from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mocked_requests_get, \
     mocked_requests_delete, mocked_requests_post
@@ -21,8 +21,7 @@ class TestCalendarSyncService(unittest.TestCase):
         CalendarSyncService(GoogleCalendarEventProcessor(
             calendar_service, CalendarEventMapper(),
             WholeMonthProcessor()), ClockodoEntryService('test@here', 'None'),
-            ClockodoDayMapper(ClockodoResolutionServiceMock()),
-            GoogleCalendarEventUpdaterService(calendar_service)).sync_month(2020, 8)
+            ClockodoDayMapper(ClockodoResolutionServiceMock())).sync_month(2020, 8)
 
         self.assertTrue(get_mock.called)
         self.assertEqual('https://my.clockodo.com/api/users', get_mock.call_args_list[0].args[0])
