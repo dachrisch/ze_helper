@@ -52,6 +52,19 @@ class TestProcessWholeMonth(unittest.TestCase):
 
         self.assertEqual(expected_calendar_events, WholeMonthProcessor().process(source_calendar_events))
 
+    def test_processes_free_busy(self):
+        source_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 16), 'First Arbeit'),
+                                  CalendarEvent(datetime(2021, 2, 1, 11), datetime(2021, 2, 1, 12), 'Pause'),
+                                  CalendarEvent(datetime(2021, 2, 1, 12), datetime(2021, 2, 1, 13), 'free', busy=False),
+                                  CalendarEvent(datetime(2021, 2, 2), datetime(2021, 2, 3), 'busy day', busy=True),
+                                  )
+        expected_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 11), 'First Arbeit'),
+                                    CalendarEvent(datetime(2021, 2, 1, 12), datetime(2021, 2, 1, 16), 'First Arbeit'),
+                                    CalendarEvent(datetime(2021, 2, 2), datetime(2021, 2, 3), 'busy day'),
+                                    )
+
+        self.assertEqual(expected_calendar_events, WholeMonthProcessor().process(source_calendar_events))
+
     def test_processes_complete_month(self):
         source_calendar_events = CalendarEventMapper().to_calendar_events(
             GoogleCalendarServiceBuilderMock.from_fixture().calendar_events)
