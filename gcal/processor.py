@@ -1,10 +1,12 @@
 from gcal.entity import CalendarEvent
-from gcal.filter import VacationCalendarEventFilter, BreakCalendarEventFilter
+from gcal.filter import VacationCalendarEventFilter, BreakCalendarEventFilter, CalendarEventFilterChain, \
+    BusyCalendarEventFilter
 from gcal.splitter import MultipleEntriesOverlappingSplitter
 
 
 class WholeMonthProcessor(object):
-    def __init__(self, pre_filter=VacationCalendarEventFilter(), day_splitter=MultipleEntriesOverlappingSplitter(),
+    def __init__(self, pre_filter=CalendarEventFilterChain((VacationCalendarEventFilter(), BusyCalendarEventFilter())),
+                 day_splitter=MultipleEntriesOverlappingSplitter(),
                  post_filter=BreakCalendarEventFilter()):
         self.pre_filter = pre_filter
         self.post_filter = post_filter
