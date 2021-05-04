@@ -6,9 +6,8 @@ from gcal.handler import HourlyCalendarEventHandler, MultiCalendarEventHandler, 
 from gcal.mapper import CalendarEventMapper
 
 
-class TestDayEntryHandler(unittest.TestCase):
-
-    def setUp(self) -> None:
+class CalendarJsonEntryFixtures(object):
+    def __init__(self):
         self.hourly_json_entry = json.loads("""{
             "kind": "calendar#event",
             "id": "c1cq8kmuvisglepf374hkc1dfg_20200803T074500Z",
@@ -57,9 +56,15 @@ class TestDayEntryHandler(unittest.TestCase):
               }
             """)
 
+
+class TestDayEntryHandler(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.fixtures = CalendarJsonEntryFixtures()
+
     def test_handle_single_hour_entry(self):
-        self.assertTrue(HourlyCalendarEventHandler().accept(self.hourly_json_entry))
-        calendar_event = HourlyCalendarEventHandler().process(self.hourly_json_entry)
+        self.assertTrue(HourlyCalendarEventHandler().accept(self.fixtures.hourly_json_entry))
+        calendar_event = HourlyCalendarEventHandler().process(self.fixtures.hourly_json_entry)
         self.assertEqual(datetime(2020, 8, 3, 9, 45, tzinfo=timezone(timedelta(hours=2))), calendar_event.start)
         self.assertEqual(datetime(2020, 8, 3, 11, 45, tzinfo=timezone(timedelta(hours=2))), calendar_event.end)
         self.assertEqual('"Online-Meeting-Moderation"-Aufbau vom 03. - 07. August 2020', calendar_event.summary)
@@ -67,20 +72,32 @@ class TestDayEntryHandler(unittest.TestCase):
         self.assertEqual("mapping information", calendar_event.description)
 
     def test_handle_multi_calendar_event(self):
-        self.assertTrue(MultiCalendarEventHandler().accept(self.day_json_entry))
-        calendar_event = MultiCalendarEventHandler().process(self.day_json_entry)
+        self.assertTrue(MultiCalendarEventHandler().accept(self.fixtures.day_json_entry))
+        calendar_event = MultiCalendarEventHandler().process(self.fixtures.day_json_entry)
         self.assertEqual(datetime(2020, 8, 3, 0, 0, tzinfo=timezone(timedelta(hours=2))), calendar_event.start)
         self.assertEqual(datetime(2020, 8, 5, 23, 59, tzinfo=timezone(timedelta(hours=2))), calendar_event.end)
         self.assertEqual('Urlaub', calendar_event.summary)
 
+    def test_handle_free_event(self):
+        free_day_event = self.fixtures.day_json_entry
+        free_day_event['transparency'] = 'transparent'
+        calendar_event = MultiCalendarEventHandler().process(free_day_event)
+        self.assertEqual(calendar_event.busy, False)
+
+
+class TestCalendarEventMapper(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.fixtures = CalendarJsonEntryFixtures()
+
     def test_can_map_hourly(self):
-        self.assertEqual(HourlyCalendarEventHandler().process(self.hourly_json_entry),
-                         CalendarEventMapper().to_calendar_event(self.hourly_json_entry))
+        self.assertEqual(HourlyCalendarEventHandler().process(self.fixtures.hourly_json_entry),
+                         CalendarEventMapper().to_calendar_event(self.fixtures.hourly_json_entry))
 
     def test_can_map_daily(self):
-        self.assertEqual(MultiCalendarEventHandler().process(self.day_json_entry),
-                         CalendarEventMapper().to_calendar_event(self.day_json_entry))
+        self.assertEqual(MultiCalendarEventHandler().process(self.fixtures.day_json_entry),
+                         CalendarEventMapper().to_calendar_event(self.fixtures.day_json_entry))
 
     def test_map_will_fail_on_everything_else(self):
         with self.assertRaises(GCalHandlingException) as e:
-            CalendarEventMapper().to_calendar_event(self.failing_json_entry)
+            CalendarEventMapper().to_calendar_event(self.fixtures.failing_json_entry)

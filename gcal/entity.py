@@ -1,24 +1,23 @@
 from datetime import datetime
-from typing import Dict
 
-from shared.compare import ComparableMixin, HashableMixin
-from shared.persistence import PersistenceMappingMixin, PersistenceMapping, NO_MAPPING
-
+from shared.compare import HashableMixin
+from shared.persistence import PersistenceMappingMixin, NO_MAPPING
 
 
 class CalendarEvent(HashableMixin, PersistenceMappingMixin):
 
     def __init__(self, start=datetime.now(), end=datetime.now(), summary='', description='', color_id=0,
-                 persistence_mapping=NO_MAPPING):
+                 persistence_mapping=NO_MAPPING, busy=True):
         super().__init__(persistence_mapping)
+        self.busy = busy
         self.start = start
         self.end = end
         self.summary = summary
         self._description = description
         self.color_id = color_id
 
-    def replace(self, start=None, end=None, summary=None, description=None, color_id=None, private_properties=None,
-                persistence_mapping=None):
+    def replace(self, start=None, end=None, summary=None, description=None, color_id=None, persistence_mapping=None,
+                busy=None):
         if start is None:
             start = self.start
         if end is None:
@@ -31,8 +30,10 @@ class CalendarEvent(HashableMixin, PersistenceMappingMixin):
             color_id = self.color_id
         if persistence_mapping is None:
             persistence_mapping = self.persistence_mapping
+        if busy is None:
+            busy = self.busy
 
-        return type(self)(start, end, summary, description, color_id, persistence_mapping)
+        return type(self)(start, end, summary, description, color_id, persistence_mapping, busy)
 
     @property
     def description(self):

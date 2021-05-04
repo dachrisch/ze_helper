@@ -58,4 +58,5 @@ class MultiCalendarEventHandler(CalendarEventHandler):
         entry.end = local_timezone.localize(
             datetime.combine(date.fromisoformat(json_entry['end']['date']), time(23, 59)))
         entry.summary = json_entry['summary']
+        entry.busy = json_entry.get('transparency', 'opaque') == 'opaque'
         return entry
