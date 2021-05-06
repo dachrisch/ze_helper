@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 
 from gcal.entity import CalendarEvent
-from gcal.filter import VacationCalendarEventFilter, BreakCalendarEventFilter
+from gcal.filter import VacationCalendarEventFilter, BreakCalendarEventFilter, BusyCalendarEventFilter
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
@@ -71,6 +71,8 @@ class TestProcessWholeMonth(unittest.TestCase):
         self.assertEqual(23, len(source_calendar_events))
         working_days = list(VacationCalendarEventFilter().filter(source_calendar_events))
         self.assertEqual(22, len(working_days))
+        working_days = list(BusyCalendarEventFilter().filter(source_calendar_events))
+        self.assertEqual(20, len(working_days))
         self.assertEqual(23, len(BreakCalendarEventFilter().filter(source_calendar_events)))
         processed_calendar_events = WholeMonthProcessor().process(source_calendar_events)
         assert working_days[-2].end.hour == 16

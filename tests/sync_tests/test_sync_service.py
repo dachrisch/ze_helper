@@ -29,6 +29,6 @@ class TestCalendarSyncService(unittest.TestCase):
         self.assertTrue(delete_mock.called)
         self.assertEqual('https://my.clockodo.com/api/entries/1', delete_mock.call_args.args[0])
         self.assertTrue(post_mock.called)
-        self.assertEqual(23, post_mock.call_count)
+        self.assertEqual(21, post_mock.call_count)
         self.assertTrue(
             all([call.args[0] == 'https://my.clockodo.com/api/entries' for call in post_mock.call_args_list]))

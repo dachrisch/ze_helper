@@ -10,7 +10,7 @@ from tests.calendar_mock import GoogleCalendarServiceBuilderMock
 
 class TestGoogleDayEntryService(unittest.TestCase):
     def test_processing_events_from_gcal(self):
-        self.assertEqual(23, len(GoogleCalendarEventProcessor(
+        self.assertEqual(21, len(GoogleCalendarEventProcessor(
             GoogleCalendarService(GoogleCalendarServiceBuilderMock.from_fixture()), CalendarEventMapper(),
             WholeMonthProcessor()).calendar_events_in_month(2020, 8)))
 

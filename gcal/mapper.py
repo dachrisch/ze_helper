@@ -1,12 +1,12 @@
 from typing import Dict
 
 from gcal.entity import CalendarEvent
-from gcal.handler import HourlyCalendarEventHandler, MultiCalendarEventHandler, FailingCalendarEventHandler
+from gcal.handler import HourlyCalendarEventHandler, DailyCalendarEventHandler, FailingCalendarEventHandler
 
 
 class CalendarEventMapper(object):
     def __init__(self):
-        self.handlers = (HourlyCalendarEventHandler(), MultiCalendarEventHandler(), FailingCalendarEventHandler())
+        self.handlers = (HourlyCalendarEventHandler(), DailyCalendarEventHandler(), FailingCalendarEventHandler())
 
     def to_calendar_event(self, json_entry: Dict) -> CalendarEvent:
         entry = None
