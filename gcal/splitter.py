@@ -64,11 +64,33 @@ class SameStartOverlappingSplitter(OverlappingSplitter):
         return new_first, new_last
 
 
+class SameEndOverlappingSplitter(OverlappingSplitter):
+    def accept(self, calendar_events: [CalendarEvent]) -> bool:
+        if len(calendar_events) != 2:
+            return False
+        else:
+            (first, last) = calendar_events
+            return first.start != last.start and first.end == last.end
+
+    def split(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
+        (first, last) = deepcopy(calendar_events)
+        if first.start > last.start:
+            new_first = last
+            new_last = first
+        else:
+            new_first = first
+            new_last = last
+
+        new_first.end = new_last.start
+        return new_first, new_last
+
+
 class MultipleEntriesOverlappingSplitter(OverlappingSplitter):
 
     def __init__(self):
         self.splitters = (
-            MiddleEntryOverlappingSplitter(), EndEntryOverlappingSplitter(), SameStartOverlappingSplitter())
+            MiddleEntryOverlappingSplitter(), EndEntryOverlappingSplitter(), SameStartOverlappingSplitter(),
+            SameEndOverlappingSplitter())
 
     def split(self, calendar_events: [CalendarEvent]) -> [CalendarEvent]:
         entries_stack = list(deepcopy(calendar_events))

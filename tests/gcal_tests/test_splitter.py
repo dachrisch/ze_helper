@@ -3,7 +3,7 @@ from datetime import datetime
 
 from gcal.entity import CalendarEvent
 from gcal.splitter import MiddleEntryOverlappingSplitter, EndEntryOverlappingSplitter, \
-    MultipleEntriesOverlappingSplitter, SameStartOverlappingSplitter
+    MultipleEntriesOverlappingSplitter, SameStartOverlappingSplitter, SameEndOverlappingSplitter
 from shared.persistence import PersistenceMapping
 
 
@@ -18,6 +18,7 @@ class TestSplitDayEntries(unittest.TestCase):
 
         self.assertTrue(MiddleEntryOverlappingSplitter().accept(source_calendar_events))
         self.assertEqual(expected_calendar_events, MiddleEntryOverlappingSplitter().split(source_calendar_events))
+        self.assertEqual(expected_calendar_events, MultipleEntriesOverlappingSplitter().split(source_calendar_events))
 
     def test_split_overlapping_end(self):
         source_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 16), 'First Arbeit'),
@@ -27,6 +28,7 @@ class TestSplitDayEntries(unittest.TestCase):
 
         self.assertTrue(EndEntryOverlappingSplitter().accept(source_calendar_events))
         self.assertEqual(expected_calendar_events, EndEntryOverlappingSplitter().split(source_calendar_events))
+        self.assertEqual(expected_calendar_events, MultipleEntriesOverlappingSplitter().split(source_calendar_events))
 
     def test_split_overlapping_middle_and_end(self):
         source_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 16), 'First Arbeit'),
@@ -54,6 +56,16 @@ class TestSplitDayEntries(unittest.TestCase):
                                     CalendarEvent(datetime(2021, 2, 1, 12), datetime(2021, 2, 1, 16), 'First Arbeit'))
         self.assertTrue(SameStartOverlappingSplitter().accept(source_calendar_events))
         self.assertEqual(expected_calendar_events, SameStartOverlappingSplitter().split(source_calendar_events))
+        self.assertEqual(expected_calendar_events, MultipleEntriesOverlappingSplitter().split(source_calendar_events))
+
+    def test_split_same_end_overlapping(self):
+        source_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 16), 'First Arbeit'),
+                                  CalendarEvent(datetime(2021, 2, 1, 15), datetime(2021, 2, 1, 16), 'Second Arbeit'))
+        expected_calendar_events = (CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 15), 'First Arbeit'),
+                                    CalendarEvent(datetime(2021, 2, 1, 15), datetime(2021, 2, 1, 16), 'Second Arbeit'))
+        self.assertTrue(SameEndOverlappingSplitter().accept(source_calendar_events))
+        self.assertEqual(expected_calendar_events, SameEndOverlappingSplitter().split(source_calendar_events))
+        self.assertEqual(expected_calendar_events, MultipleEntriesOverlappingSplitter().split(source_calendar_events))
 
     def test_split_retains_persistence_mapping(self):
         one = CalendarEvent(datetime(2021, 2, 1, 10), datetime(2021, 2, 1, 16), 'Big Arbeit',
