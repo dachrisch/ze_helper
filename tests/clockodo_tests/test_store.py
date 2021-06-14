@@ -1,14 +1,11 @@
 import unittest
 from datetime import datetime
-from typing import List, Dict
-from unittest import mock
 
 from clockodo.entity import ClockodoDay, ClockodoIdMapping
-from clockodo.entry import ClockodoEntryService
+from clockodo.mapper import ClockodoDayFromJsonMapper
 from gcal.entity import CalendarEvent
 from shared.persistence import PersistenceMapping
 from shared.store import ClockodoDayStoreService
-from tests.clockodo_tests.clockodo_mock import mocked_requests_get
 
 
 class TestClockodoDayStoreService(unittest.TestCase):
@@ -51,29 +48,23 @@ class TestClockodoDayStoreService(unittest.TestCase):
 
         self.assertEqual(ClockodoDayStoreService.NOT_FOUND, store_service.retrieve(calendar_event))
 
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
-    def txest_filter_stored_with_current_events(self, get_mock):
+    def test_stored_day_same_as_mapped_day(self):
         calendar_event, clockodo_day = self._create_both_days(datetime(2021, 8, 1, 10), datetime(2021, 8, 2, 11),
                                                               'Test day')
 
         store_service = ClockodoDayStoreService()
         store_service.store(clockodo_day, calendar_event)
 
-        class ClockodoDayMapper:
-            def from_json(self, json_entry:Dict):
-                start_date = datetime.fromisoformat(json_entry['time_since'])
-                end_date = datetime.fromisoformat(json_entry['time_until'])
-                return ClockodoDay(start_date, end_date, json_entry['text'], self._id_mapping_from_json(json_entry))
-
-            def from_json_list(self, json_entries:List[Dict]):
-                return (self.from_json(entry) for entry in json_entries)
-
-            def _id_mapping_from_json(self, json_entry:Dict):
-                return ClockodoIdMapping(json_entry['customers_id'],json_entry['projects_id'],json_entry['services_id'],json_entry['billable'])
-
-        current_entries = ClockodoEntryService('test@here', 'None').current_entries(2021, 8)
-        self.assertEqual({store_service.retrieve(calendar_event)},
-                         set(ClockodoDayMapper().from_json_list(current_entries)))
+        self.assertEqual(store_service.retrieve(calendar_event),
+                         ClockodoDayFromJsonMapper().from_json({
+                             'time_since': calendar_event.start.isoformat(),
+                             'time_until': calendar_event.end.isoformat(),
+                             'customers_id': clockodo_day.id_mapping.customer_id,
+                             'projects_id': clockodo_day.id_mapping.project_id,
+                             'services_id': clockodo_day.id_mapping.service_id,
+                             'billable': clockodo_day.billable,
+                             'text': clockodo_day.comment,
+                             'id': clockodo_day.persistence_mapping.source_id}))
 
     def _create_both_days(self, start_date, end_date, comment):
         clockodo_day = ClockodoDay(start_date, end_date, comment, ClockodoIdMapping(2, 3, 4))

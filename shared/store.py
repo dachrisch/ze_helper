@@ -20,7 +20,7 @@ class CalendarEventClockodoDayComparator(object):
 
 
 class ClockodoDayStoreService(object):
-    NOT_FOUND = ClockodoDay(datetime(1900, 1, 1), datetime(1900, 1, 1), '', ClockodoIdMapping(-1, -1, -1))
+    NOT_FOUND = ClockodoDay(datetime(1900, 1, 1), datetime(1900, 1, 1), 'not found', ClockodoIdMapping(-1, -1, -1))
 
     def __init__(self):
         self.calendar_id_to_clockodo: Dict[PersistenceMapping, List[ClockodoDay]] = {}

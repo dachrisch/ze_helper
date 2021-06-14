@@ -57,7 +57,7 @@ def mocked_requests_get(*args, **kwargs):
                            'projects': ({'name': 'Interne Struktur und Organisation', 'id': 'test_project_id'},)},)
         },
         'services': {
-            'services': ({'name': 'Interne Arbeitszeit', 'id':'test_service_id'},)
+            'services': ({'name': 'Interne Arbeitszeit', 'id': 'test_service_id'},)
         },
         'entries': {
             'entries': ({'services_name': 'Test Service',
@@ -66,7 +66,7 @@ def mocked_requests_get(*args, **kwargs):
                          'customers_id': 'test_customer_id',
                          'projects_id': 'test_project_id',
                          'services_id': 'test_services_id',
-                         'billable' : 1,
+                         'billable': 1,
                          'duration_time': 1,
                          'text': 'test',
                          'id': 1},), }
