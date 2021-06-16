@@ -4,7 +4,8 @@ from unittest import mock
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
 from clockodo.connector import ClockodoApiConnector
-from clockodo.resolution import ClockodoColorIdResolutionService
+from clockodo.resolution import ClockodoColorIdResolutionService, ClockodoResolutionChain, ClockodoUrlResolutionService, \
+    ClockodoDefaultResolutionService
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService
@@ -24,7 +25,7 @@ class TestCalendarSyncService(unittest.TestCase):
         CalendarSyncService(GoogleCalendarEventProcessor(
             calendar_service, CalendarEventMapper(),
             WholeMonthProcessor()), ClockodoEntryService(api_connector),
-            ClockodoDayMapper(ClockodoColorIdResolutionService(api_connector))).sync_month(2020, 8)
+            ClockodoDayMapper(ClockodoResolutionChain(api_connector))).sync_month(2020, 8)
 
         self.assertTrue(get_mock.called)
         self.assertEqual('https://my.clockodo.com/api/users', get_mock.call_args_list[0].args[0])

@@ -6,7 +6,7 @@ from clockodo.entity import ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper, ClockodoDay
 from clockodo.connector import ClockodoApiConnector
-from clockodo.resolution import ClockodoColorIdResolutionService
+from clockodo.resolution import ClockodoColorIdResolutionService, ClockodoDefaultResolutionService
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
@@ -63,7 +63,7 @@ class TestEntryService(unittest.TestCase):
         api_connector = ClockodoApiConnectorMock()
         entry_service = ClockodoEntryService(api_connector)
 
-        clockodo_days = ClockodoDayMapper(ClockodoColorIdResolutionService(api_connector)).to_clockodo_days(
+        clockodo_days = ClockodoDayMapper(ClockodoDefaultResolutionService(api_connector)).to_clockodo_days(
             CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock.from_fixture().calendar_events))
 
         entry_service.enter_calendar_events(clockodo_days)

@@ -41,7 +41,7 @@ class CalendarEvent(HashableMixin, PersistenceMappingMixin):
 
     @description.setter
     def description(self, value):
-        self._description = value[:20]
+        self._description = value[:2000]
 
     @property
     def duration(self):

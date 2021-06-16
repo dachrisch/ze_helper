@@ -6,7 +6,7 @@ from shared.persistence import PersistenceMappingMixin
 
 class ClockodoIdMapping(HashableMixin):
     def __init__(self, customer_id: int, project_id: int, service_id: int, billable: int = 1):
-        self.billable = billable
+        self.billable = int(billable)
         self.service_id = service_id
         self.project_id = project_id
         self.customer_id = customer_id

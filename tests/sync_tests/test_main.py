@@ -7,7 +7,6 @@ from unittest.mock import patch
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from clockodo.connector import ClockodoApiConnector
-from clockodo.entry import ClockodoEntryService
 from gcal.service import GoogleCalendarServiceBuilder
 from sync.main import build_service, parse_arguments, main
 from sync.service import CalendarSyncService
@@ -95,7 +94,7 @@ class Catch(object):
     def list(self, *args, **kwargs):
         return self
 
-    def patch(self,*args,**kwargs):
+    def patch(self, *args, **kwargs):
         raise AssertionError('should be mocked in dry run')
 
     def execute(self):
@@ -136,7 +135,8 @@ class TestMainExecute(TestCase):
     @mock.patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
     @mock.patch(f'{main.__module__}.basicConfig')
     @mock.patch(f'{main.__module__}.get_credentials')
-    def test_main_performs_dry_run(self, credentials_mock, logger_mock, flow_mock, get_mock, build_mock, io_mock, isfile_mock):
+    def test_main_performs_dry_run(self, credentials_mock, logger_mock, flow_mock, get_mock, build_mock, io_mock,
+                                   isfile_mock):
         credentials_mock.return_value = ('test@here', 'None')
         main(FailingOptionsParser(['-d', '202008']))
 

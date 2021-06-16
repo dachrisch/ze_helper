@@ -13,12 +13,16 @@ class ClockodoApiConnectorMock(ClockodoApiConnector):
                     'id': 1,
                     'billable_default': 0,
                     'projects': ({'name': 'Interne Struktur und Organisation', 'id': 1},)
-                },
+                }, {'name': 'AOK Systems GmbH',
+                    'id': 1462125,
+                    'billable_default': 1,
+                    'projects': ({'name': 'Coach the Coaches PO 10528/10721', 'id': 1325527},)}
             ),
-            'services': ({
-                             'name': 'Interne Arbeitszeit',
-                             'id': 1
-                         },)
+            'services': ({'name': 'Interne Arbeitszeit',
+                          'id': 1},
+                         {'name':'Coaching',
+                          'id':572638}
+                         )
         }
         return endpoint_map[endpoint]
 
@@ -57,7 +61,8 @@ def mocked_requests_get(*args, **kwargs):
                            'projects': ({'name': 'Interne Struktur und Organisation', 'id': 'test_project_id'},)},)
         },
         'services': {
-            'services': ({'name': 'Interne Arbeitszeit', 'id': 'test_service_id'},)
+            'services': ({'name': 'Interne Arbeitszeit', 'id': 'test_service_id'},
+                         {'name': 'AOK Systems GmbH', 'id': 'test_service_id'})
         },
         'entries': {
             'entries': ({'services_name': 'Test Service',

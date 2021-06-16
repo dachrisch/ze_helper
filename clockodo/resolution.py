@@ -1,6 +1,7 @@
 from abc import abstractmethod, ABC
 from urllib import parse
 
+from bs4 import BeautifulSoup
 from urlextract import URLExtract
 
 from clockodo.connector import ClockodoApiConnector, ResolutionError
@@ -9,15 +10,55 @@ from gcal.entity import CalendarEvent
 
 
 class ClockodoResolutionService(ABC):
-    def __init__(self, api_connector: ClockodoApiConnector):
-        self.api_connector = api_connector
+
+    @abstractmethod
+    def accepts(self, calendar_event: CalendarEvent) -> bool:
+        raise NotImplementedError
 
     @abstractmethod
     def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
         raise NotImplementedError
 
 
-class ClockodoColorIdResolutionService(ClockodoResolutionService):
+class ClockodoNamedResourcesResolutionService(ClockodoResolutionService, ABC):
+
+    def __init__(self, api_connector: ClockodoApiConnector):
+        self.api_connector = api_connector
+
+    def _resolve_for(self, customer_name: str, project_name: str, service_name: str) -> ClockodoIdMapping:
+        resolved_customer = next(
+            filter(lambda customer: customer['name'] == customer_name, self.api_connector.api_get_all('customers')),
+            None)
+        if not resolved_customer:
+            raise ResolutionError(f'no mapping found for customer [{customer_name}]')
+        customer_id = resolved_customer['id']
+        billable = 1 if resolved_customer['billable_default'] else 0
+        project_id = next(filter(lambda project: project['name'] == project_name, resolved_customer['projects']),
+                          {'id': 0})['id']
+        if not project_id:
+            raise ResolutionError(f'no mapping found for project [{project_name}]')
+        service_id = \
+            next(filter(lambda service: service['name'] == service_name, self.api_connector.api_get_all('services')),
+                 {'id': 0})['id']
+        if not service_id:
+            raise ResolutionError(f'no mapping found for service [{service_name}]')
+        return ClockodoIdMapping(customer_id, project_id, service_id, billable)
+
+
+class ClockodoDefaultResolutionService(ClockodoNamedResourcesResolutionService):
+
+    def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
+        return self._resolve_for('it-agile GmbH', 'Interne Struktur und Organisation',
+                                 'Interne Arbeitszeit')
+
+    def accepts(self, calendar_event: CalendarEvent) -> bool:
+        return True
+
+
+class ClockodoColorIdResolutionService(ClockodoNamedResourcesResolutionService):
+    def accepts(self, calendar_event: CalendarEvent) -> bool:
+        return calendar_event.color_id in (1, 2, 3, 4, 6, 10)
+
     def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
         return self._resolve_from_color_id(calendar_event.color_id)
 
@@ -47,49 +88,29 @@ class ClockodoColorIdResolutionService(ClockodoResolutionService):
                                         'Zielfindung Transformation Business Unit',
                                         'Coaching')
         else:
-            mapping = self._resolve_for('it-agile GmbH', 'Interne Struktur und Organisation',
-                                        'Interne Arbeitszeit')
+            raise ResolutionError(f'no mapping for color_id [{color_id}]')
         return mapping
-
-    def _resolve_for(self, customer_name: str, project_name: str, service_name: str) -> ClockodoIdMapping:
-        resolved_customer = next(
-            filter(lambda customer: customer['name'] == customer_name, self.api_connector.api_get_all('customers')),
-            None)
-        if not resolved_customer:
-            raise ResolutionError(f'no mapping found for customer [{customer_name}]')
-        customer_id = resolved_customer['id']
-        billable = 1 if resolved_customer['billable_default'] else 0
-        project_id = next(filter(lambda project: project['name'] == project_name, resolved_customer['projects']),
-                          {'id': 0})['id']
-        if not project_id:
-            raise ResolutionError(f'no mapping found for project [{project_name}]')
-        service_id = \
-            next(filter(lambda service: service['name'] == service_name, self.api_connector.api_get_all('services')),
-                 {'id': 0})['id']
-        if not service_id:
-            raise ResolutionError(f'no mapping found for service [{service_name}]')
-        return ClockodoIdMapping(customer_id, project_id, service_id, billable)
 
 
 class ClockodoUrlResolutionService(ClockodoResolutionService):
     project_id_parameter: str = 'restrCstPrj[0]'
     service_id_parameter: str = 'restrService[0]'
 
-    def __init__(self, api_connector: ClockodoApiConnector):
-        super().__init__(api_connector)
+    def __init__(self):
         self.extractor = URLExtract()
 
+    def accepts(self, calendar_event: CalendarEvent) -> bool:
+        return self._find_clockodo_url(calendar_event) is not None
+
     def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
-        if not self.extractor.has_urls(calendar_event.description):
+        if not self.extractor.has_urls(self._html_striped_description(calendar_event)):
             raise ResolutionError(f'no URLs found in description of event[{calendar_event}]')
 
-        clockodo_url = next(filter(lambda url: url.scheme == 'clockodo',
-                                   map(lambda url_string: parse.urlparse(url_string),
-                                       self.extractor.find_urls(calendar_event.description))), None)
+        clockodo_url = self._find_clockodo_url(calendar_event)
 
         if not clockodo_url:
             raise ResolutionError(
-                f'no URL with scheme [clockodo] found, just {self.extractor.find_urls(calendar_event.description)}')
+                f'no URL with scheme [clockodo] found, just {self.extractor.find_urls(self._html_striped_description(calendar_event))}')
 
         parsed_parameters = parse.parse_qs(clockodo_url.query, strict_parsing=True)
         if not (self.project_id_parameter in parsed_parameters and self.service_id_parameter in parsed_parameters):
@@ -104,3 +125,27 @@ class ClockodoUrlResolutionService(ClockodoResolutionService):
         # noinspection PyTypeChecker
         billable = 'billable' not in parsed_parameters or int(parsed_parameters['billable'][0])
         return ClockodoIdMapping(int(customer_id), int(project_id), int(service_id), billable)
+
+    def _find_clockodo_url(self, calendar_event):
+        return next(filter(lambda url: url.scheme == 'clockodo',
+                           map(lambda url_string: parse.urlparse(url_string),
+                               self.extractor.find_urls(self._html_striped_description(calendar_event)))), None)
+
+    def _html_striped_description(self, calendar_event: CalendarEvent):
+        return BeautifulSoup(calendar_event.description.split('</a>')[0], 'html.parser').getText()
+
+
+class ClockodoResolutionChain(ClockodoResolutionService):
+    def accepts(self, calendar_event: CalendarEvent) -> bool:
+        return any(self._filter_accepting(calendar_event))
+
+    def __init__(self, clockodo_api_connector: ClockodoApiConnector):
+        self.resolvers = (ClockodoUrlResolutionService(), ClockodoColorIdResolutionService(clockodo_api_connector))
+        self.default_resolver = ClockodoDefaultResolutionService(clockodo_api_connector)
+
+    def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
+        accepting_resolver = next(self._filter_accepting(calendar_event), self.default_resolver)
+        return accepting_resolver.resolve_from_event(calendar_event)
+
+    def _filter_accepting(self, calendar_event: CalendarEvent):
+        return filter(lambda resolver: resolver.accepts(calendar_event), self.resolvers)
