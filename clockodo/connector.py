@@ -22,15 +22,17 @@ class ClockodoApiConnector(object):
         return HTTPBasicAuth(self.email, self.api_key)
 
     def _get_user_id(self) -> str:
-        users = requests.get(self.base_url + '/users', auth=self._get_auth()).json()['users']
-        user_id = list(filter(lambda x: x['email'] == self.email, users))[0]['id']
+        user_id = list(filter(lambda x: x['email'] == self.email, self.api_get_all('users')))[0]['id']
         return user_id
 
     @lru_cache(128)
-    def retrieve(self, endpoint):
-        return requests.get(self.base_url + f'/{endpoint}', auth=self._get_auth()).json()[endpoint]
+    def api_get_all(self, endpoint: str):
+        return requests.get(posixpath.join(self.base_url, endpoint), auth=self._get_auth()).json()[endpoint]
 
-    def api_get(self, endpoint: str, params: Dict):
+    def api_get(self, endpoint: str, resource_id: int):
+        return requests.get(posixpath.join(self.base_url, endpoint, str(resource_id)), auth=self._get_auth()).json()
+
+    def api_find(self, endpoint: str, params: Dict):
         params_copy = params.copy()
         params_copy['filter[users_id]'] = self._get_user_id()
         return requests.get(posixpath.join(self.base_url, endpoint), auth=self._get_auth(), params=params_copy).json()[
@@ -41,7 +43,7 @@ class ClockodoApiConnector(object):
         getLogger(self.__class__.__name__).debug(response.json())
         assert 'success' in response.json(), response.json()
 
-    def api_post_entry(self, params: Dict[str,Any]):
+    def api_post_entry(self, params: Dict[str, Any]):
         response = requests.post(posixpath.join(self.base_url, 'entries'), auth=self._get_auth(),
                                  params={'customers_id': params['customers_id'],
                                          'projects_id': params['projects_id'],

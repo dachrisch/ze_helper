@@ -23,7 +23,7 @@ class ClockodoEntryService(object):
     def current_entries(self, year: int, month: int) -> List[Dict]:
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
-        current_entries = self.api_connector.api_get('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
+        current_entries = self.api_connector.api_find('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
                                                                  'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S')})
         return current_entries
 

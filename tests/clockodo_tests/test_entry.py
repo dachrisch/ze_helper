@@ -6,12 +6,13 @@ from clockodo.entity import ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper, ClockodoDay
 from clockodo.connector import ClockodoApiConnector
+from clockodo.resolution import ClockodoColorIdResolutionService
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
-from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mocked_requests_post, \
-    mocked_requests_delete, mocked_requests_get
+from tests.clockodo_tests.clockodo_mock import mocked_requests_post, \
+    mocked_requests_delete, mocked_requests_get, ClockodoApiConnectorMock
 
 
 class TestEntry(unittest.TestCase):
@@ -59,9 +60,10 @@ class TestEntryService(unittest.TestCase):
 
     @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_enter_entries(self, post_mock):
-        entry_service = ClockodoEntryService(ClockodoApiConnector('test@here', 'None'))
+        api_connector = ClockodoApiConnectorMock()
+        entry_service = ClockodoEntryService(api_connector)
 
-        clockodo_days = ClockodoDayMapper(ClockodoResolutionServiceMock()).to_clockodo_days(
+        clockodo_days = ClockodoDayMapper(ClockodoColorIdResolutionService(api_connector)).to_clockodo_days(
             CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock.from_fixture().calendar_events))
 
         entry_service.enter_calendar_events(clockodo_days)

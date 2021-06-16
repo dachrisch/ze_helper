@@ -1,14 +1,11 @@
-from clockodo.entity import ClockodoIdMapping
-from clockodo.resolution import ClockodoResolutionService, ClockodoColorIdResolutionService
 from clockodo.connector import ClockodoApiConnector
 
 
-class ClockodoResolutionServiceMock(ClockodoColorIdResolutionService):
-    def __init__(self):
-        super().__init__(ClockodoApiConnectorMock('None','None'))
-
 class ClockodoApiConnectorMock(ClockodoApiConnector):
-    def retrieve(self, endpoint):
+    def __init__(self):
+        super().__init__('test@here', 'none')
+
+    def api_get_all(self, endpoint):
         endpoint_map = {
             'customers': (
                 {
@@ -72,7 +69,9 @@ def mocked_requests_get(*args, **kwargs):
                          'billable': 1,
                          'duration_time': 1,
                          'text': 'test',
-                         'id': 1},), }
+                         'id': 1},), },
+        'project': {},
+        '1462125': {'project': {'id': 1462125, 'customers_id': 1345, 'name': 'Test Project'}}
     }
     if args[0].startswith('https://my.clockodo.com/api/'):
         return MockResponse(args[0].split('/')[-1], fixtures)

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from shared.compare import HashableMixin
+from shared.compare import HashableMixin, ComparableMixin
 from shared.persistence import PersistenceMappingMixin
 
 
