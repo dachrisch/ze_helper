@@ -5,7 +5,8 @@ from optparse import OptionParser
 
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
-from clockodo.resolution import ClockodoResolutionService
+from clockodo.resolution import ClockodoResolutionService, ClockodoColorIdResolutionService
+from clockodo.connector import ClockodoApiConnector
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService, GoogleCalendarServiceBuilder
@@ -15,10 +16,11 @@ from sync.service import CalendarSyncService
 
 def build_service(email: str, api_key: str) -> CalendarSyncService:
     calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilder())
+    clockodo_api_connector = ClockodoApiConnector(email, api_key)
     return CalendarSyncService(GoogleCalendarEventProcessor(
         calendar_service, CalendarEventMapper(),
-        WholeMonthProcessor()), ClockodoEntryService(email, api_key),
-        ClockodoDayMapper(ClockodoResolutionService(email, api_key)))
+        WholeMonthProcessor()), ClockodoEntryService(clockodo_api_connector),
+        ClockodoDayMapper(ClockodoColorIdResolutionService(clockodo_api_connector)))
 
 
 def main(arguments_parser: OptionParser):

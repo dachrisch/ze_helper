@@ -4,14 +4,14 @@ from datetime import datetime
 from logging import getLogger
 from typing import Dict, List
 
-import requests
-
+from clockodo.connector import ClockodoApiConnector
 from clockodo.entity import ClockodoDay
-from clockodo.service import ClockodoService
 from shared.persistence import PersistenceMapping
 
 
-class ClockodoEntryService(ClockodoService):
+class ClockodoEntryService(object):
+    def __init__(self, api_connector: ClockodoApiConnector):
+        self.api_connector = api_connector
 
     def delete_entries(self, year: int, month: int):
         for entry in self.current_entries(year, month):
@@ -23,16 +23,13 @@ class ClockodoEntryService(ClockodoService):
     def current_entries(self, year: int, month: int) -> List[Dict]:
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
-        current_entries = requests.get(self.base_url + '/entries', auth=self._get_auth(),
-                                       params={'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
-                                               'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S'),
-                                               'filter[users_id]': self._get_user_id()}).json()['entries']
+        current_entries = self.api_connector.api_get('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
+                                                                 'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S')})
         return current_entries
 
     def _delete(self, entry: Dict):
         getLogger(self.__class__.__name__).info(f'deleting entry [{self._entry_fields_to_string(entry)}]...')
-        response = requests.delete(self.base_url + '/entries/%s' % entry['id'], auth=self._get_auth())
-        assert 'success' in response.json(), response.json()
+        self.api_connector.api_delete('entries', entry['id'])
 
     @staticmethod
     def _entry_fields_to_string(entry) -> str:
@@ -40,23 +37,16 @@ class ClockodoEntryService(ClockodoService):
 
     def enter(self, clockodo_day: ClockodoDay) -> ClockodoDay:
         getLogger(self.__class__.__name__).info(f'inserting entry [{clockodo_day}]...')
-        response = requests.post(self.base_url + '/entries', auth=self._get_auth(),
-                                 params={'customers_id': clockodo_day.customer_id,
-                                         'projects_id': clockodo_day.project_id,
-                                         'billable': clockodo_day.billable,
-                                         'services_id': clockodo_day.service_id,
-                                         'time_since': clockodo_day.start_date_str,
-                                         'time_until': clockodo_day.end_date_str,
-                                         'text': clockodo_day.comment})
+        posted_entry = self.api_connector.api_post_entry({'customers_id': clockodo_day.customer_id,
+                                           'projects_id': clockodo_day.project_id,
+                                           'billable': clockodo_day.billable,
+                                           'services_id': clockodo_day.service_id,
+                                           'time_since': clockodo_day.start_date_str,
+                                           'time_until': clockodo_day.end_date_str,
+                                           'text': clockodo_day.comment})
 
-        getLogger(self.__class__.__name__).debug(response.json())
-        assert 'entry' in response.json(), response.json()
-        return self._extract_persistence_info(clockodo_day, response.json()['entry'])
-
-    @staticmethod
-    def _extract_persistence_info(clockodo_day: ClockodoDay, json_response: Dict):
-        assert 'id' in json_response, json_response
+        assert 'id' in posted_entry, posted_entry
         persistent_clockodo_day = deepcopy(clockodo_day)
-        persistent_clockodo_day.update_persistence_mapping(PersistenceMapping(json_response['id']))
+        persistent_clockodo_day.update_persistence_mapping(PersistenceMapping(posted_entry['id']))
 
         return persistent_clockodo_day

@@ -3,6 +3,7 @@ from unittest import mock
 
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
+from clockodo.connector import ClockodoApiConnector
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService
@@ -13,14 +14,14 @@ from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mo
 
 
 class TestCalendarSyncService(unittest.TestCase):
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.delete', side_effect=mocked_requests_delete)
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.get', side_effect=mocked_requests_get)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.delete', side_effect=mocked_requests_delete)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_sync_month(self, post_mock, delete_mock, get_mock):
         calendar_service = GoogleCalendarService(GoogleCalendarServiceBuilderMock.from_fixture())
         CalendarSyncService(GoogleCalendarEventProcessor(
             calendar_service, CalendarEventMapper(),
-            WholeMonthProcessor()), ClockodoEntryService('test@here', 'None'),
+            WholeMonthProcessor()), ClockodoEntryService(ClockodoApiConnector('test@here', 'None')),
             ClockodoDayMapper(ClockodoResolutionServiceMock())).sync_month(2020, 8)
 
         self.assertTrue(get_mock.called)

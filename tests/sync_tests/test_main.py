@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 
+from clockodo.connector import ClockodoApiConnector
 from clockodo.entry import ClockodoEntryService
 from gcal.service import GoogleCalendarServiceBuilder
 from sync.main import build_service, parse_arguments, main
@@ -131,7 +132,7 @@ class TestMainExecute(TestCase):
     @mock.patch('os.path.isfile', return_value=False)
     @mock.patch('io.open')
     @mock.patch(f'{GoogleCalendarServiceBuilder.__module__}.build', side_effect=Dispatch)
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.get', side_effect=mocked_requests_get)
     @mock.patch(f'{InstalledAppFlow.__module__}.{InstalledAppFlow.__name__}.from_client_secrets_file')
     @mock.patch(f'{main.__module__}.basicConfig')
     @mock.patch(f'{main.__module__}.get_credentials')

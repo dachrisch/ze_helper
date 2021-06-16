@@ -1,11 +1,14 @@
-from clockodo.resolution import ClockodoResolutionService
+from clockodo.entity import ClockodoIdMapping
+from clockodo.resolution import ClockodoResolutionService, ClockodoColorIdResolutionService
+from clockodo.connector import ClockodoApiConnector
 
 
-class ClockodoResolutionServiceMock(ClockodoResolutionService):
+class ClockodoResolutionServiceMock(ClockodoColorIdResolutionService):
     def __init__(self):
-        super().__init__("None", "None")
+        super().__init__(ClockodoApiConnectorMock('None','None'))
 
-    def _retrieve(self, endpoint):
+class ClockodoApiConnectorMock(ClockodoApiConnector):
+    def retrieve(self, endpoint):
         endpoint_map = {
             'customers': (
                 {

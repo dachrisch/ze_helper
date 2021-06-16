@@ -5,6 +5,7 @@ from unittest import mock
 from clockodo.entity import ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper, ClockodoDay
+from clockodo.connector import ClockodoApiConnector
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
@@ -16,7 +17,7 @@ from tests.clockodo_tests.clockodo_mock import ClockodoResolutionServiceMock, mo
 class TestEntry(unittest.TestCase):
     def test_entry_logging(self):
         self.assertEqual("Coaching(from='2021-04-29 13:00:00', to='2021-04-29 14:00:00', text='WG: AG Agile Weekly')",
-                         ClockodoEntryService('test@here', 'None')._entry_fields_to_string(
+                         ClockodoEntryService(None)._entry_fields_to_string(
                              {'id': 45971948, 'users_id': 148220, 'projects_id': 1244898, 'customers_id': 1438790,
                               'services_id': 549399,
                               'hourly_rate': 162.5, 'billable': 1, 'time_insert': '2021-04-14 16:15:59',
@@ -34,20 +35,20 @@ class TestEntry(unittest.TestCase):
                               'text': 'WG: AG Agile Weekly', 'duration_time': '01:00:00', 'offset_time': '00:00:00',
                               'is_clocking': False, 'budget': 0}))
 
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_entry_returns_persistence_mapping(self, post_mock):
-        calendar_event = CalendarEvent(1)
         clockodo_day = ClockodoDay(datetime.now(), datetime.now(), 'Test', ClockodoIdMapping(1, 2, 3))
+
         self.assertEqual(PersistenceMapping(2),
-                         ClockodoEntryService('test@here', 'None').enter(clockodo_day).persistence_mapping)
+                         ClockodoEntryService(ClockodoApiConnector('test@here','None')).enter(clockodo_day).persistence_mapping)
 
 
 class TestEntryService(unittest.TestCase):
 
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.get', side_effect=mocked_requests_get)
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.delete', side_effect=mocked_requests_delete)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.get', side_effect=mocked_requests_get)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.delete', side_effect=mocked_requests_delete)
     def test_delete_one_entry(self, delete_mock, get_mock):
-        entry_service = ClockodoEntryService('test@here', 'None')
+        entry_service = ClockodoEntryService(ClockodoApiConnector('test@here', 'None'))
         entry_service.delete_entries(2020, 8)
 
         self.assertTrue(get_mock.called)
@@ -56,9 +57,9 @@ class TestEntryService(unittest.TestCase):
         self.assertTrue(delete_mock.called)
         self.assertEqual('https://my.clockodo.com/api/entries/1', delete_mock.call_args.args[0])
 
-    @mock.patch(f'{ClockodoEntryService.__module__}.requests.post', side_effect=mocked_requests_post)
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_enter_entries(self, post_mock):
-        entry_service = ClockodoEntryService('test@here', 'None')
+        entry_service = ClockodoEntryService(ClockodoApiConnector('test@here', 'None'))
 
         clockodo_days = ClockodoDayMapper(ClockodoResolutionServiceMock()).to_clockodo_days(
             CalendarEventMapper().to_calendar_events(GoogleCalendarServiceBuilderMock.from_fixture().calendar_events))
