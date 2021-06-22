@@ -1,3 +1,4 @@
+import re
 from abc import abstractmethod, ABC
 from urllib import parse
 
@@ -100,17 +101,10 @@ class ClockodoUrlResolutionService(ClockodoResolutionService):
         self.extractor = URLExtract()
 
     def accepts(self, calendar_event: CalendarEvent) -> bool:
-        return self._find_clockodo_url(calendar_event) is not None
+        return self._find_clockodo_url(calendar_event) != ''
 
     def resolve_from_event(self, calendar_event: CalendarEvent) -> ClockodoIdMapping:
-        if not self.extractor.has_urls(self._html_striped_description(calendar_event)):
-            raise ResolutionError(f'no URLs found in description of event[{calendar_event}]')
-
-        clockodo_url = self._find_clockodo_url(calendar_event)
-
-        if not clockodo_url:
-            raise ResolutionError(
-                f'no URL with scheme [clockodo] found, just {self.extractor.find_urls(self._html_striped_description(calendar_event))}')
+        clockodo_url = self._extract_clockodo_url(calendar_event)
 
         parsed_parameters = parse.parse_qs(clockodo_url.query, strict_parsing=True)
         if not (self.project_id_parameter in parsed_parameters and self.service_id_parameter in parsed_parameters):
@@ -127,12 +121,24 @@ class ClockodoUrlResolutionService(ClockodoResolutionService):
         return ClockodoIdMapping(int(customer_id), int(project_id), int(service_id), billable)
 
     def _find_clockodo_url(self, calendar_event):
-        return next(filter(lambda url: url.scheme == 'clockodo',
-                           map(lambda url_string: parse.urlparse(url_string),
-                               self.extractor.find_urls(self._html_striped_description(calendar_event)))), None)
+        match = ''
+        matched_urls = re.findall(r'(clockodo://my.clockodo.com/de/reports/[^ <]+)', calendar_event.description)
+        if matched_urls:
+            match = matched_urls[0]
+        else:
+            matched_urls = re.findall(r'clockodo://<a href="http://(my.clockodo.com/de/reports/[^"]+")',
+                                      calendar_event.description)
+            if matched_urls:
+                clockodo_url = BeautifulSoup(calendar_event.description, 'html.parser').findAll('a')[0].text
+                match = f'clockodo://{clockodo_url}'
+        return match
 
-    def _html_striped_description(self, calendar_event: CalendarEvent):
-        return BeautifulSoup(calendar_event.description.split('</a>')[0], 'html.parser').getText()
+    def _extract_clockodo_url(self, calendar_event):
+        url_part = self._find_clockodo_url(calendar_event).replace('&amp;', '&')
+        url = parse.urlparse(url_part)
+        if url.scheme != 'clockodo':
+            raise ResolutionError(f'no URL with scheme [clockodo] found, just {url}')
+        return url
 
 
 class ClockodoResolutionChain(ClockodoResolutionService):

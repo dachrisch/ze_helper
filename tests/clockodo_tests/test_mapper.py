@@ -49,6 +49,14 @@ class TestClockodoMapping(unittest.TestCase):
         self.assertEqual(ClockodoIdMapping(1462125, 1325527, 572638, 1),
                          self.mapper.to_clockodo_day(entry).id_mapping)
 
+    def test_maps_from_mixed_description(self):
+
+        entry = CalendarEvent(
+            description='clockodo://my.clockodo.com/de/reports/?since=2021-06-01&amp;until=2021-06-30&amp;order=services&amp;sort=alph-asc&amp;restrCstPrj%5B0%5D=1361511-1231089&amp;restrService%5B0%5D=549394<br><br>1. Wie laufen Deine Einsätze?<br>Was sollte ich über die Kunden wissen?<br>2. Da bist Du gerade angeboten.<br>3. Welches Feedback hast Du für den Vertrieb?<br>4. Wann sprechen wir uns wieder (&lt;30 Tage)?<br>5. Wie ist aktuell Deine Auslastung')
+
+        self.assertEqual(ClockodoIdMapping(1361511, 1231089, 549394, 1),
+                         self.mapper.to_clockodo_day(entry).id_mapping)
+
     def test_maps_from_color_id(self):
         entry = CalendarEvent(color_id=1)
         self.assertEqual(ClockodoIdMapping(1462125, 1325527, 572638, 0),
@@ -77,7 +85,7 @@ class TestClockodoUrlResolution(unittest.TestCase):
         with self.assertRaisesRegex(ResolutionError,
                                     r'failed to find restrCstPrj\[0\] and restrService\[0\] parameter in url, just .*'):
             self.resolver.resolve_from_event(
-                CalendarEvent(description='clockodo://somewhere.here/with/params?false_param=124&false_other=578'))
+                CalendarEvent(description='clockodo://my.clockodo.com/de/reports/with/params?false_param=124&false_other=578'))
 
     def test_decode_mapping_from_url_default_billable(self):
         entry = CalendarEvent(
