@@ -58,6 +58,12 @@ class TestEntryService(unittest.TestCase):
         self.assertTrue(delete_mock.called)
         self.assertEqual('https://my.clockodo.com/api/entries/1', delete_mock.call_args.args[0])
 
+    @mock.patch(f'{ClockodoApiConnector.__module__}.requests.get', side_effect=mocked_requests_get)
+    def test_current_entries_without_lumpSum(self, get_mock):
+        entry_service = ClockodoEntryService(ClockodoApiConnector('test@here', 'None'))
+        current_entries=entry_service.current_entries(2020,8)
+        self.assertEqual(1, len(current_entries))
+
     @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)
     def test_enter_entries(self, post_mock):
         api_connector = ClockodoApiConnectorMock()

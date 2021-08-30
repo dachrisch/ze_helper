@@ -23,14 +23,13 @@ class ClockodoEntryService(object):
     def current_entries(self, year: int, month: int) -> List[Dict]:
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
-        current_entries = self.entries_billable_filtered(first_day, last_day, 0)
-        current_entries.extend(self.entries_billable_filtered(first_day, last_day, 1))
+        all_entries = self.api_connector.api_find('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
+                                                              'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S')})
+        current_entries = self.filter_no_lumpsum(all_entries)
         return current_entries
 
-    def entries_billable_filtered(self, first_day: datetime, last_day: datetime, billable: int) -> List[Dict]:
-        return self.api_connector.api_find('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
-                                                       'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S'),
-                                                       'filter[billable]': billable})
+    def filter_no_lumpsum(self, entries:List[Dict]) -> List[Dict]:
+        return list(filter(lambda entry: entry['lumpSum'] == None, entries))
 
     def _delete(self, entry: Dict):
         getLogger(self.__class__.__name__).info(f'deleting entry [{self._entry_fields_to_string(entry)}]...')

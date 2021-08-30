@@ -74,7 +74,20 @@ def mocked_requests_get(*args, **kwargs):
                          'billable': 1,
                          'duration_time': 1,
                          'text': 'test',
-                         'id': 1},], },
+                         'lumpSum':None,
+                         'id': 1},
+                        {'services_name': 'Test Service',
+                         'time_since': '2021-02-01 10:30:00',
+                         'time_until': '2021-02-01 13:00:00',
+                         'customers_id': 'test_customer_id',
+                         'projects_id': 'test_project_id',
+                         'services_id': 'test_services_id',
+                         'billable': 1,
+                         'duration_time': 1,
+                         'text': 'test',
+                         'lumpSum': 2000,
+                         'id': 1}
+                        ], },
         'project': {},
         '1462125': {'project': {'id': 1462125, 'customers_id': 1345, 'name': 'Test Project'}}
     }
