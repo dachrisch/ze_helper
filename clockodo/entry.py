@@ -23,9 +23,14 @@ class ClockodoEntryService(object):
     def current_entries(self, year: int, month: int) -> List[Dict]:
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
-        current_entries = self.api_connector.api_find('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
-                                                                 'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S')})
+        current_entries = self.entries_billable_filtered(first_day, last_day, 0)
+        current_entries.extend(self.entries_billable_filtered(first_day, last_day, 1))
         return current_entries
+
+    def entries_billable_filtered(self, first_day: datetime, last_day: datetime, billable: int) -> List[Dict]:
+        return self.api_connector.api_find('entries', {'time_since': first_day.strftime('%Y-%m-%d %H:%M:%S'),
+                                                       'time_until': last_day.strftime('%Y-%m-%d %H:%M:%S'),
+                                                       'filter[billable]': billable})
 
     def _delete(self, entry: Dict):
         getLogger(self.__class__.__name__).info(f'deleting entry [{self._entry_fields_to_string(entry)}]...')
@@ -38,12 +43,12 @@ class ClockodoEntryService(object):
     def enter(self, clockodo_day: ClockodoDay) -> ClockodoDay:
         getLogger(self.__class__.__name__).info(f'inserting entry [{clockodo_day}]...')
         posted_entry = self.api_connector.api_post_entry({'customers_id': clockodo_day.customer_id,
-                                           'projects_id': clockodo_day.project_id,
-                                           'billable': clockodo_day.billable,
-                                           'services_id': clockodo_day.service_id,
-                                           'time_since': clockodo_day.start_date_str,
-                                           'time_until': clockodo_day.end_date_str,
-                                           'text': clockodo_day.comment})
+                                                          'projects_id': clockodo_day.project_id,
+                                                          'billable': clockodo_day.billable,
+                                                          'services_id': clockodo_day.service_id,
+                                                          'time_since': clockodo_day.start_date_str,
+                                                          'time_until': clockodo_day.end_date_str,
+                                                          'text': clockodo_day.comment})
 
         assert 'id' in posted_entry, posted_entry
         persistent_clockodo_day = deepcopy(clockodo_day)

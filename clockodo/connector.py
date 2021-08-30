@@ -1,7 +1,7 @@
 import posixpath
 from functools import lru_cache
 from logging import getLogger
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -32,7 +32,7 @@ class ClockodoApiConnector(object):
     def api_get(self, endpoint: str, resource_id: int):
         return requests.get(posixpath.join(self.base_url, endpoint, str(resource_id)), auth=self._get_auth()).json()
 
-    def api_find(self, endpoint: str, params: Dict):
+    def api_find(self, endpoint: str, params: Dict)->List[Dict]:
         params_copy = params.copy()
         params_copy['filter[users_id]'] = self._get_user_id()
         return requests.get(posixpath.join(self.base_url, endpoint), auth=self._get_auth(), params=params_copy).json()[
