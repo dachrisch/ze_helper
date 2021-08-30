@@ -4,7 +4,7 @@ from clockodo.connector import ResolutionError
 from clockodo.entity import ClockodoIdMapping
 from clockodo.mapper import ClockodoDayMapper, ClockodoDay
 from clockodo.resolution import ClockodoUrlResolutionService, ClockodoDefaultResolutionService, \
-    ClockodoColorIdResolutionService, ClockodoResolutionChain
+    ClockodoResolutionChain
 from gcal.entity import CalendarEvent
 from shared.persistence import PersistenceMapping
 from tests.clockodo_tests.clockodo_mock import ClockodoApiConnectorMock
@@ -36,6 +36,7 @@ class TestClockodoMapping(unittest.TestCase):
             description='clockodo://my.clockodo.com/de/reports/?restrCstPrj%5B0%5D=1462125-1325527&restrService%5B0%5D=572638')
         self.assertEqual(ClockodoIdMapping(1462125, 1325527, 572638, 1),
                          self.mapper.to_clockodo_day(entry).id_mapping)
+
     def test_maps_from_url_with_link(self):
         entry = CalendarEvent(
             description='clockodo://<a href="http://my.clockodo.com/de/reports/?since=2021-05-01&until=2021-05-31&order=services&sort=alph-asc&?restrCstPrj%5B0%5D=1462125-1325527&restrService%5B0%5D=572638" id="ow4894" __is_owner="true">my.clockodo.com/de/reports/?since=2021-05-01&amp;until=2021-05-31&amp;order=services&amp;sort=alph-asc&amp;restrCstPrj%5B0%5D=1462125-1325527&amp;restrService%5B0%5D=572638</a>')
@@ -50,7 +51,6 @@ class TestClockodoMapping(unittest.TestCase):
                          self.mapper.to_clockodo_day(entry).id_mapping)
 
     def test_maps_from_mixed_description(self):
-
         entry = CalendarEvent(
             description='clockodo://my.clockodo.com/de/reports/?since=2021-06-01&amp;until=2021-06-30&amp;order=services&amp;sort=alph-asc&amp;restrCstPrj%5B0%5D=1361511-1231089&amp;restrService%5B0%5D=549394<br><br>1. Wie laufen Deine Einsätze?<br>Was sollte ich über die Kunden wissen?<br>2. Da bist Du gerade angeboten.<br>3. Welches Feedback hast Du für den Vertrieb?<br>4. Wann sprechen wir uns wieder (&lt;30 Tage)?<br>5. Wie ist aktuell Deine Auslastung')
 
@@ -85,7 +85,8 @@ class TestClockodoUrlResolution(unittest.TestCase):
         with self.assertRaisesRegex(ResolutionError,
                                     r'failed to find restrCstPrj\[0\] and restrService\[0\] parameter in url, just .*'):
             self.resolver.resolve_from_event(
-                CalendarEvent(description='clockodo://my.clockodo.com/de/reports/with/params?false_param=124&false_other=578'))
+                CalendarEvent(
+                    description='clockodo://my.clockodo.com/de/reports/with/params?false_param=124&false_other=578'))
 
     def test_decode_mapping_from_url_default_billable(self):
         entry = CalendarEvent(

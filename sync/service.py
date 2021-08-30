@@ -1,8 +1,6 @@
-from clockodo.entity import ClockodoDay
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
-from gcal.entity import CalendarEvent
-from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService
+from gcal.service import GoogleCalendarEventProcessor
 from shared.store import ClockodoDayStoreService
 
 
@@ -23,7 +21,6 @@ class CalendarSyncService(object):
         self.clockodo_service.delete_entries(year, month)
 
     def _insert_or_update_entries(self, year: int, month: int):
-
         for calendar_event in self.google_calendar_event_processor.calendar_events_in_month(year, month):
             clockodo_day = self.clockodo_mapper.to_clockodo_day(calendar_event)
             inserted_clockodo_day = self.clockodo_service.enter(clockodo_day)

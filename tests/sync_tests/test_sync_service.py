@@ -1,17 +1,16 @@
 import unittest
 from unittest import mock
 
+from clockodo.connector import ClockodoApiConnector
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper
-from clockodo.connector import ClockodoApiConnector
-from clockodo.resolution import ClockodoColorIdResolutionService, ClockodoResolutionChain, ClockodoUrlResolutionService, \
-    ClockodoDefaultResolutionService
+from clockodo.resolution import ClockodoResolutionChain
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
 from gcal.service import GoogleCalendarEventProcessor, GoogleCalendarService
 from sync.service import CalendarSyncService
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
-from tests.clockodo_tests.clockodo_mock import  mocked_requests_get, \
+from tests.clockodo_tests.clockodo_mock import mocked_requests_get, \
     mocked_requests_delete, mocked_requests_post
 
 

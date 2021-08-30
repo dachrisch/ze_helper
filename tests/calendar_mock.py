@@ -40,7 +40,7 @@ class CalendarServiceGetMock:
 
 
 class CalendarServiceUpdateMock:
-    def __init__(self, event:Dict, body:Dict):
+    def __init__(self, event: Dict, body: Dict):
         self.body = body
         self.event = event
 
@@ -58,7 +58,6 @@ class CalendarServiceMock(object):
     def list(self, calendarId, timeMin, timeMax, singleEvents, orderBy):
         return CalendarServiceListMock(self.calendar_events, datetime.fromisoformat(timeMin[0:-1]).timestamp(),
                                        datetime.fromisoformat(timeMax[0:-1]).timestamp())
-
 
     def _event_by_id(self, eventId):
         return next(filter(lambda event: event['id'] == eventId, self.calendar_events), {})

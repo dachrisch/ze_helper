@@ -2,12 +2,11 @@ import unittest
 from datetime import datetime
 from unittest import mock
 
+from clockodo.connector import ClockodoApiConnector
 from clockodo.entity import ClockodoIdMapping
 from clockodo.entry import ClockodoEntryService
 from clockodo.mapper import ClockodoDayMapper, ClockodoDay
-from clockodo.connector import ClockodoApiConnector
-from clockodo.resolution import ClockodoColorIdResolutionService, ClockodoDefaultResolutionService
-from gcal.entity import CalendarEvent
+from clockodo.resolution import ClockodoDefaultResolutionService
 from gcal.mapper import CalendarEventMapper
 from shared.persistence import PersistenceMapping
 from tests.calendar_mock import GoogleCalendarServiceBuilderMock
@@ -41,7 +40,8 @@ class TestEntry(unittest.TestCase):
         clockodo_day = ClockodoDay(datetime.now(), datetime.now(), 'Test', ClockodoIdMapping(1, 2, 3))
 
         self.assertEqual(PersistenceMapping(2),
-                         ClockodoEntryService(ClockodoApiConnector('test@here','None')).enter(clockodo_day).persistence_mapping)
+                         ClockodoEntryService(ClockodoApiConnector('test@here', 'None')).enter(
+                             clockodo_day).persistence_mapping)
 
 
 class TestEntryService(unittest.TestCase):

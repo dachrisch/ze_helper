@@ -1,7 +1,6 @@
 import io
 from calendar import monthrange
 from datetime import datetime
-from logging import getLogger
 from os import path
 from typing import Dict
 
@@ -12,7 +11,6 @@ from googleapiclient.discovery import build
 from gcal.entity import CalendarEvent
 from gcal.mapper import CalendarEventMapper
 from gcal.processor import WholeMonthProcessor
-from shared.persistence import PersistenceMapping
 
 RW_SCOPES = ['https://www.googleapis.com/auth/calendar']
 

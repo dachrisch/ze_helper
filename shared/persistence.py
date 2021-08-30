@@ -1,10 +1,6 @@
-import base64
-import hashlib
 import json
 
-import smaz as smaz
-
-from shared.compare import ComparableMixin, HashableMixin
+from shared.compare import HashableMixin
 
 
 class PersistenceMapping(HashableMixin):
@@ -27,4 +23,3 @@ class PersistenceMappingMixin(object):
 
     def update_persistence_mapping(self, persistence_mapping: PersistenceMapping):
         self.persistence_mapping = persistence_mapping
-

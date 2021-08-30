@@ -20,8 +20,8 @@ class ClockodoApiConnectorMock(ClockodoApiConnector):
             ),
             'services': ({'name': 'Interne Arbeitszeit',
                           'id': 1},
-                         {'name':'Coaching',
-                          'id':572638}
+                         {'name': 'Coaching',
+                          'id': 572638}
                          )
         }
         return endpoint_map[endpoint]

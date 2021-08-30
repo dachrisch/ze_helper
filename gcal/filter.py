@@ -17,7 +17,7 @@ class CalendarEventFilterChain(CalendarEventFilter):
 
         return filtered
 
-    def __init__(self, filters: Tuple[CalendarEventFilter,...]):
+    def __init__(self, filters: Tuple[CalendarEventFilter, ...]):
         self.filters = filters
 
 
