@@ -65,7 +65,7 @@ def mocked_requests_get(*args, **kwargs):
                          {'name': 'AOK Systems GmbH', 'id': 'test_service_id'})
         },
         'entries': {
-            'entries': ({'services_name': 'Test Service',
+            'entries': [{'services_name': 'Test Service',
                          'time_since': '2021-02-01 10:30:00',
                          'time_until': '2021-02-01 13:00:00',
                          'customers_id': 'test_customer_id',
@@ -74,7 +74,7 @@ def mocked_requests_get(*args, **kwargs):
                          'billable': 1,
                          'duration_time': 1,
                          'text': 'test',
-                         'id': 1},), },
+                         'id': 1},], },
         'project': {},
         '1462125': {'project': {'id': 1462125, 'customers_id': 1345, 'name': 'Test Project'}}
     }
