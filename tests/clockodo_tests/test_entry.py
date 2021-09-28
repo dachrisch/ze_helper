@@ -61,7 +61,7 @@ class TestEntryService(unittest.TestCase):
     @mock.patch(f'{ClockodoApiConnector.__module__}.requests.get', side_effect=mocked_requests_get)
     def test_current_entries_without_lumpSum(self, get_mock):
         entry_service = ClockodoEntryService(ClockodoApiConnector('test@here', 'None'))
-        current_entries=entry_service.current_entries(2020,8)
+        current_entries = entry_service.current_entries(2020, 8)
         self.assertEqual(1, len(current_entries))
 
     @mock.patch(f'{ClockodoApiConnector.__module__}.requests.post', side_effect=mocked_requests_post)

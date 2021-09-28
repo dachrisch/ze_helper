@@ -74,7 +74,7 @@ def mocked_requests_get(*args, **kwargs):
                          'billable': 1,
                          'duration_time': 1,
                          'text': 'test',
-                         'lumpSum':None,
+                         'lumpSum': None,
                          'id': 1},
                         {'services_name': 'Test Service',
                          'time_since': '2021-02-01 10:30:00',

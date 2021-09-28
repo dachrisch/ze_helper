@@ -28,7 +28,7 @@ class ClockodoEntryService(object):
         current_entries = self.filter_no_lumpsum(all_entries)
         return current_entries
 
-    def filter_no_lumpsum(self, entries:List[Dict]) -> List[Dict]:
+    def filter_no_lumpsum(self, entries: List[Dict]) -> List[Dict]:
         return list(filter(lambda entry: entry['lumpSum'] == None, entries))
 
     def _delete(self, entry: Dict):

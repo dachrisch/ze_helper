@@ -2,7 +2,6 @@ import posixpath
 import time
 from functools import lru_cache
 from logging import getLogger
-from threading import Thread
 from typing import Dict, Any, List
 
 import requests
@@ -41,7 +40,7 @@ class ClockodoApiConnector(object):
             endpoint]
 
     def api_delete(self, endpoint: str, resource_id: int):
-        for wait_time in (1, 5 , 10):
+        for wait_time in (1, 5, 10):
             response = requests.delete(posixpath.join(self.base_url, endpoint, str(resource_id)), auth=self._get_auth())
             if response:
                 break
